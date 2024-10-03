@@ -4,6 +4,9 @@ import { ReactNode } from 'react';
 import { ROUTES } from 'src/components/primitives/Link';
 
 import GithubIcon from '/public/icons/github.svg';
+// import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 
 import { MarketDataType } from '../marketsConfig';
 
@@ -47,6 +50,16 @@ const moreMenuItems: MoreMenuItem[] = [
     link: 'https://github.com/Plenty-network/plend-core-contracts',
     title: t`Github`,
     icon: <GithubIcon />,
+  },
+  {
+    link: 'https://www.etherlinkbridge.com/bridge',
+    title: t`Bridge to Etherlink`,
+    icon: <CompareArrowsIcon />,
+  },
+  {
+    link: 'https://www.iguanadex.com/swap?chain=etherlink',
+    title: t`Trade on Etherlink`,
+    icon: <CurrencyExchangeIcon />,
   },
 ];
 
