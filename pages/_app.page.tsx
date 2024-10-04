@@ -65,9 +65,9 @@ export default function MyApp(props: MyAppProps) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <Meta
-        title={'Etherlink-Powered Lending Market'}
-        description={'Superlend'}
-        imageUrl="https://asset.cloudinary.com/dbogvpefw/07d39cb3701b76bca4dbeacfb5b9e927"
+        title={'Etherlink Powered Lending Protocol'}
+        description={'Superlend Etherlink Markets are money market protocol on top of Etherlink. Supply assets, borrow USDC, USDT & other assets seamlessly'}
+        imageUrl="/superlend_banner.png"
       />
       <LanguageProvider>
         <BlockVPN>

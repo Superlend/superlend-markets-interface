@@ -30,7 +30,7 @@ export function Meta({ title, description, imageUrl, timestamp }: MetaProps) {
       <meta
         name="keywords"
         key="keywords"
-        content="Decentralized Finance, DeFi, lending, borrowing, stablecoins, Ethereum, assets, erc-20, smart contracts, open finance, trustless"
+        content="Superlend Markets, Etherlink, USDC Borrow, USDC earn, DeFi Earn, DeFi lend borrow ETH"
       />
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -38,6 +38,7 @@ export function Meta({ title, description, imageUrl, timestamp }: MetaProps) {
       <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
       <meta name="msapplication-TileColor" content="#171715" />
       <meta name="theme-color" content="#FF5B00" />
+      <link rel="canonical" href="https://markets.superlend.xyz/" />
     </Head>
   );
 }

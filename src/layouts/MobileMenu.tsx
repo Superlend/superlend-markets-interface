@@ -90,7 +90,7 @@ export const MobileMenu = ({ open, setOpen, headerHeight }: MobileMenuProps) => 
               </List>
             </MenuItemsWrapper>
             <MenuItemsWrapper title={<Trans>Links</Trans>}>
-              <List>
+              <List sx={{pb: 10}}>
                 {moreNavigation.map((item, index) => (
                   <ListItem component={Link} href={item.link} sx={{ color: 'text.primary' }} key={index}>
                     <ListItemIcon sx={{ minWidth: 'unset', mr: 3 }}>
