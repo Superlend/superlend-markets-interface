@@ -38,6 +38,7 @@ export function Meta({ title, description, imageUrl, timestamp }: MetaProps) {
       <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
       <meta name="msapplication-TileColor" content="#171715" />
       <meta name="theme-color" content="#FF5B00" />
+      <link rel="canonical" href="https://markets.superlend.xyz/" />
     </Head>
   );
 }

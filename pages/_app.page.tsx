@@ -66,7 +66,7 @@ export default function MyApp(props: MyAppProps) {
       </Head>
       <Meta
         title={'Etherlink Powered Lending Protocol'}
-        description={'Superlend Etherlink Markets are money market protocol on top of Etherlink. Supply assets, borrow USDC, USDT & other assets seamlessly and experience DeFi like never before'}
+        description={'Superlend Etherlink Markets are money market protocol on top of Etherlink. Supply assets, borrow USDC, USDT & other assets seamlessly'}
         imageUrl="/superlend_banner.png"
       />
       <LanguageProvider>
