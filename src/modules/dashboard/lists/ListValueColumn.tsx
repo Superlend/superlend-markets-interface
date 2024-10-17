@@ -28,6 +28,7 @@ const Content = ({
           variant="secondary14"
           sx={{ mb: !withTooltip && !!subValue ? '2px' : 0 }}
           color={disabled ? 'text.disabled' : 'text.main'}
+          symbolsColor='text.white'
           data-cy={`nativeAmount`}
         />
         {capsComponent}
