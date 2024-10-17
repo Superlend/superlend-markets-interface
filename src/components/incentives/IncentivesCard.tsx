@@ -41,7 +41,7 @@ export const IncentivesCard = ({
           variant={variant}
           symbolsVariant={symbolsVariant}
           color={color}
-          symbolsColor={color}
+          symbolsColor={color || 'text.white'}
         />
       ) : (
         <NoData variant={variant} color={color || 'text.secondary'} />

@@ -51,7 +51,7 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
       </ListColumn>
 
       <ListColumn>
-        <FormattedNumber compact value={reserve.totalLiquidity} variant="main16" />
+        <FormattedNumber compact value={reserve.totalLiquidity} variant="main16" symbolsColor='text.white' />
         <ReserveSubheader value={reserve.totalLiquidityUSD} />
       </ListColumn>
 
@@ -71,7 +71,7 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
       <ListColumn>
         {reserve.borrowingEnabled || Number(reserve.totalDebt) > 0 ? (
           <>
-            <FormattedNumber compact value={reserve.totalDebt} variant="main16" />{' '}
+            <FormattedNumber compact value={reserve.totalDebt} variant="main16" symbolsColor='text.white' />{' '}
             <ReserveSubheader value={reserve.totalDebtUSD} />
           </>
         ) : (
