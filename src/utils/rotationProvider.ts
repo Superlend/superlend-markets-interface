@@ -3,6 +3,7 @@ import { logger } from 'ethers';
 
 const DEFAULT_FALL_FORWARD_DELAY = 60000;
 const MAX_RETRIES = 1;
+const RPC_TIMEOUT = 5000; // 5 seconds timeout
 
 interface RotationProviderConfig {
   maxRetries?: number;
@@ -11,6 +12,13 @@ interface RotationProviderConfig {
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// Add new interface for RPC status tracking
+interface RPCStatus {
+  url: string;
+  failureCount: number;
+  lastFailure: number;
 }
 
 /**
@@ -73,13 +81,47 @@ export class RotationProvider extends BaseProvider {
   private fallForwardDelay: number;
 
   private lastError = '';
+  
+  // Add RPC status tracking
+  private rpcStatus: RPCStatus[] = [];
 
   constructor(urls: string[], chainId: number, config?: RotationProviderConfig) {
     super(chainId);
     this.providers = urls.map((url) => new StaticJsonRpcProvider(url, chainId));
+    
+    // Initialize RPC status tracking
+    this.rpcStatus = urls.map(url => ({
+      url,
+      failureCount: 0,
+      lastFailure: 0
+    }));
 
     this.maxRetries = config?.maxRetries || MAX_RETRIES;
     this.fallForwardDelay = config?.fallFowardDelay || DEFAULT_FALL_FORWARD_DELAY;
+  }
+
+  private updateRPCStatus(index: number, failed: boolean) {
+    const status = this.rpcStatus[index];
+    if (failed) {
+      status.failureCount++;
+      status.lastFailure = Date.now();
+    } else {
+      // Reset failure count on successful call
+      status.failureCount = 0;
+    }
+  }
+
+  private shouldTryRPC(index: number): boolean {
+    const status = this.rpcStatus[index];
+    const now = Date.now();
+    
+    // If RPC has failed multiple times, implement exponential backoff
+    if (status.failureCount > 0) {
+      const backoffTime = Math.min(1000 * Math.pow(2, status.failureCount - 1), 30000);
+      return (now - status.lastFailure) >= backoffTime;
+    }
+    
+    return true;
   }
 
   /**
@@ -125,20 +167,47 @@ export class RotationProvider extends BaseProvider {
     return checkNetworks(networks);
   }
 
-  // eslint-disable-next-line
   async perform(method: string, params: any): Promise<any> {
-    const index = this.currentProviderIndex;
-    try {
-      return await this.providers[index].perform(method, params);
-    } catch (e) {
-      console.error(e.message);
-      this.lastError = e.message;
-      this.emit('debug', {
-        action: 'perform',
-        provider: this.providers[index],
-      });
-      await this.rotateUrl(index);
-      return await this.perform(method, params);
+    const startTime = Date.now();
+
+    while (true) {
+      if (!this.shouldTryRPC(this.currentProviderIndex)) {
+        await this.rotateUrl(this.currentProviderIndex);
+        continue;
+      }
+
+      try {
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error(`RPC Timeout after ${RPC_TIMEOUT}ms`)), RPC_TIMEOUT)
+        );
+
+        const rpcPromise = this.providers[this.currentProviderIndex].perform(method, params);
+        const result = await Promise.race([rpcPromise, timeoutPromise]);
+        
+        // Success - update status and return result
+        this.updateRPCStatus(this.currentProviderIndex, false);
+        return result;
+
+      } catch (e) {
+        this.updateRPCStatus(this.currentProviderIndex, true);
+        this.lastError = e.message;
+        
+        console.error(
+          `RPC Error (${this.providers[this.currentProviderIndex].connection.url}):`,
+          e.message,
+          `Attempt ${this.retries + 1}/${this.maxRetries + 1}`
+        );
+
+        // If we've tried all RPCs and exceeded retries, throw error
+        if (this.retries >= this.maxRetries && 
+            this.currentProviderIndex === this.providers.length - 1) {
+          throw new Error(
+            `All RPCs failed after ${Date.now() - startTime}ms. Last error: ${this.lastError}`
+          );
+        }
+
+        await this.rotateUrl(this.currentProviderIndex);
+      }
     }
   }
 }
