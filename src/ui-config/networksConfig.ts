@@ -98,9 +98,9 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
   [ChainId.etherlink]: {
     name: 'Etherlink',
     publicJsonRPCUrl: [
-      'https://rpc.superlend.xyz',
       'https://plend-etherlink-mainnet-djs2w.zeeve.net/TuychDxGCScIED1nCk0m/rpc',
-      'https://node.mainnet.etherlink.com'
+      'https://node.mainnet.etherlink.com',
+      'https://rpc.superlend.xyz',
     ],
     baseUniswapAdapter: '0x0',
     baseAssetSymbol: 'XTZ',
