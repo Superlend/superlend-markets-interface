@@ -199,7 +199,7 @@ export const WalletSelector = () => {
             overflow: 'show',
             fontSize: sm ? '16px' : '14px',
           })}
-          placeholder="Ethereum address or ENS name"
+          placeholder="Enter Ethereum Address"
           fullWidth
           autoFocus
           value={inputMockWalletAddress}
