@@ -9,9 +9,10 @@ import { providers } from 'ethers';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-// import SuperlendMetaImage from '/public/superlendMetaLogo.jpg';
+import { useRouter } from 'next/router';
+import Script from 'next/script';
 import * as React from 'react';
-// import { AddressBlocked } from 'src/components/AddressBlocked';
+import { useEffect } from 'react';
 import { BlockVPN } from 'src/components/BlockVPN';
 import { Meta } from 'src/components/Meta';
 import { BorrowModal } from 'src/components/transactions/Borrow/BorrowModal';
@@ -33,6 +34,7 @@ import { ModalContextProvider } from 'src/hooks/useModal';
 import { PermissionProvider } from 'src/hooks/usePermissions';
 import { Web3ContextProvider } from 'src/libs/web3-data-provider/Web3Provider';
 
+import { GA_TRACKING_ID, pageview } from '../lib/gtag';
 import createEmotionCache from '../src/createEmotionCache';
 import { AppGlobalStyles } from '../src/layouts/AppGlobalStyles';
 import { LanguageProvider } from '../src/libs/LanguageProvider';
@@ -59,6 +61,22 @@ export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const getLayout = Component.getLayout ?? ((page: React.ReactNode) => page);
 
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleRouteChange = (url: string) => {
+      pageview(url);
+    };
+
+    // Track page views on route change
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    // Cleanup
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
+
   return (
     <CacheProvider value={emotionCache}>
       <Head>
@@ -66,7 +84,9 @@ export default function MyApp(props: MyAppProps) {
       </Head>
       <Meta
         title={'Etherlink Powered Lending Protocol'}
-        description={'Superlend Etherlink Markets are money market protocol on top of Etherlink. Supply assets, borrow USDC, USDT & other assets seamlessly'}
+        description={
+          'Superlend Etherlink Markets are money market protocol on top of Etherlink. Supply assets, borrow USDC, USDT & other assets seamlessly'
+        }
         imageUrl="/superlend_banner.png"
       />
       <LanguageProvider>
@@ -80,6 +100,24 @@ export default function MyApp(props: MyAppProps) {
                     <BackgroundDataProvider>
                       <AppDataProvider>
                         <GasStationProvider>
+                          <Script
+                            strategy="afterInteractive"
+                            src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+                          />
+                          <Script
+                            id="gtag-init"
+                            strategy="afterInteractive"
+                            dangerouslySetInnerHTML={{
+                              __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+          `,
+                            }}
+                          />
                           {getLayout(<Component {...pageProps} />)}
                           <SupplyModal />
                           <WithdrawModal />
