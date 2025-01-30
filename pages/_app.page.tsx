@@ -3,24 +3,16 @@ import '/public/fonts/inter/inter.css';
 // import '/public/fonts/space-grotesk/space-grotesk.css';
 import '/src/styles/variables.css';
 
-import * as React from 'react';
-import { useEffect } from 'react';
-import { NextPage } from 'next';
-import { AppProps } from 'next/app';
-import Head from 'next/head';
-import Script from 'next/script';
-import { useRouter } from 'next/router';
-
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { Web3ReactProvider } from '@web3-react/core';
 import { providers } from 'ethers';
-
-import { GA_TRACKING_ID, pageview } from '../lib/gtag';
-import createEmotionCache from '../src/createEmotionCache';
-import { AppGlobalStyles } from '../src/layouts/AppGlobalStyles';
-import { LanguageProvider } from '../src/libs/LanguageProvider';
-import { Web3ContextProvider } from 'src/libs/web3-data-provider/Web3Provider';
-
+import { NextPage } from 'next';
+import { AppProps } from 'next/app';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import Script from 'next/script';
+import * as React from 'react';
+import { useEffect } from 'react';
 import { BlockVPN } from 'src/components/BlockVPN';
 import { Meta } from 'src/components/Meta';
 import { BorrowModal } from 'src/components/transactions/Borrow/BorrowModal';
@@ -36,11 +28,16 @@ import { RepayModal } from 'src/components/transactions/Repay/RepayModal';
 import { SupplyModal } from 'src/components/transactions/Supply/SupplyModal';
 import { SwapModal } from 'src/components/transactions/Swap/SwapModal';
 import { WithdrawModal } from 'src/components/transactions/Withdraw/WithdrawModal';
-
 import { BackgroundDataProvider } from 'src/hooks/app-data-provider/BackgroundDataProvider';
 import { AppDataProvider } from 'src/hooks/app-data-provider/useAppDataProvider';
 import { ModalContextProvider } from 'src/hooks/useModal';
 import { PermissionProvider } from 'src/hooks/usePermissions';
+import { Web3ContextProvider } from 'src/libs/web3-data-provider/Web3Provider';
+
+import { GA_TRACKING_ID, pageview } from '../lib/gtag';
+import createEmotionCache from '../src/createEmotionCache';
+import { AppGlobalStyles } from '../src/layouts/AppGlobalStyles';
+import { LanguageProvider } from '../src/libs/LanguageProvider';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -87,7 +84,9 @@ export default function MyApp(props: MyAppProps) {
       </Head>
       <Meta
         title={'Etherlink Powered Lending Protocol'}
-        description={'Superlend Etherlink Markets are money market protocol on top of Etherlink. Supply assets, borrow USDC, USDT & other assets seamlessly'}
+        description={
+          'Superlend Etherlink Markets are money market protocol on top of Etherlink. Supply assets, borrow USDC, USDT & other assets seamlessly'
+        }
         imageUrl="/superlend_banner.png"
       />
       <LanguageProvider>
