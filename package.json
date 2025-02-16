@@ -32,6 +32,7 @@
   "dependencies": {
     "@aave/contract-helpers": "npm:@marsfoundation/contract-helpers@1.13.7",
     "@aave/math-utils": "^1.13.5",
+    "@amplitude/analytics-browser": "^2.11.12",
     "@bgd-labs/aave-address-book": "^1.13.1",
     "@emotion/cache": "11.10.3",
     "@emotion/react": "11.10.4",

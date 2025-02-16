@@ -38,6 +38,7 @@ import { GA_TRACKING_ID, pageview } from '../lib/gtag';
 import createEmotionCache from '../src/createEmotionCache';
 import { AppGlobalStyles } from '../src/layouts/AppGlobalStyles';
 import { LanguageProvider } from '../src/libs/LanguageProvider';
+import { AnalyticsProvider } from 'context/amplitude-provider';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -89,26 +90,27 @@ export default function MyApp(props: MyAppProps) {
         }
         imageUrl="/superlend_banner.png"
       />
-      <LanguageProvider>
-        <BlockVPN>
-          <Web3ReactProvider getLibrary={getWeb3Library}>
-            <Web3ContextProvider>
-              <AppGlobalStyles>
-                {/* <AddressBlocked> */}
-                <PermissionProvider>
-                  <ModalContextProvider>
-                    <BackgroundDataProvider>
-                      <AppDataProvider>
-                        <GasStationProvider>
-                          <Script
-                            strategy="afterInteractive"
-                            src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
-                          />
-                          <Script
-                            id="gtag-init"
-                            strategy="afterInteractive"
-                            dangerouslySetInnerHTML={{
-                              __html: `
+      <AnalyticsProvider>
+        <LanguageProvider>
+          <BlockVPN>
+            <Web3ReactProvider getLibrary={getWeb3Library}>
+              <Web3ContextProvider>
+                <AppGlobalStyles>
+                  {/* <AddressBlocked> */}
+                  <PermissionProvider>
+                    <ModalContextProvider>
+                      <BackgroundDataProvider>
+                        <AppDataProvider>
+                          <GasStationProvider>
+                            <Script
+                              strategy="afterInteractive"
+                              src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+                            />
+                            <Script
+                              id="gtag-init"
+                              strategy="afterInteractive"
+                              dangerouslySetInnerHTML={{
+                                __html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
@@ -116,32 +118,33 @@ export default function MyApp(props: MyAppProps) {
               page_path: window.location.pathname,
             });
           `,
-                            }}
-                          />
-                          {getLayout(<Component {...pageProps} />)}
-                          <SupplyModal />
-                          <WithdrawModal />
-                          <BorrowModal />
-                          <RepayModal />
-                          <CollateralChangeModal />
-                          <RateSwitchModal />
-                          <ClaimRewardsModal />
-                          <EmodeModal />
-                          <SwapModal />
-                          <FaucetModal />
-                          <PSMSwapModal />
-                          <MigrateV3Modal />
-                        </GasStationProvider>
-                      </AppDataProvider>
-                    </BackgroundDataProvider>
-                  </ModalContextProvider>
-                </PermissionProvider>
-                {/* </AddressBlocked> */}
-              </AppGlobalStyles>
-            </Web3ContextProvider>
-          </Web3ReactProvider>
-        </BlockVPN>
-      </LanguageProvider>
+                              }}
+                            />
+                            {getLayout(<Component {...pageProps} />)}
+                            <SupplyModal />
+                            <WithdrawModal />
+                            <BorrowModal />
+                            <RepayModal />
+                            <CollateralChangeModal />
+                            <RateSwitchModal />
+                            <ClaimRewardsModal />
+                            <EmodeModal />
+                            <SwapModal />
+                            <FaucetModal />
+                            <PSMSwapModal />
+                            <MigrateV3Modal />
+                          </GasStationProvider>
+                        </AppDataProvider>
+                      </BackgroundDataProvider>
+                    </ModalContextProvider>
+                  </PermissionProvider>
+                  {/* </AddressBlocked> */}
+                </AppGlobalStyles>
+              </Web3ContextProvider>
+            </Web3ReactProvider>
+          </BlockVPN>
+        </LanguageProvider>
+      </AnalyticsProvider>
     </CacheProvider>
   );
 }
