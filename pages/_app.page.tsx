@@ -1,3 +1,4 @@
+// Side effect imports
 import '/public/fonts/basier-circle/basier-circle.css';
 import '/public/fonts/inter/inter.css';
 // import '/public/fonts/space-grotesk/space-grotesk.css';
@@ -5,6 +6,7 @@ import '/src/styles/variables.css';
 
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { Web3ReactProvider } from '@web3-react/core';
+import { AnalyticsProvider } from 'context/amplitude-provider';
 import { providers } from 'ethers';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
@@ -32,12 +34,12 @@ import { BackgroundDataProvider } from 'src/hooks/app-data-provider/BackgroundDa
 import { AppDataProvider } from 'src/hooks/app-data-provider/useAppDataProvider';
 import { ModalContextProvider } from 'src/hooks/useModal';
 import { PermissionProvider } from 'src/hooks/usePermissions';
+import { AppGlobalStyles } from 'src/layouts/AppGlobalStyles';
+import { LanguageProvider } from 'src/libs/LanguageProvider';
 import { Web3ContextProvider } from 'src/libs/web3-data-provider/Web3Provider';
 
 import { GA_TRACKING_ID, pageview } from '../lib/gtag';
 import createEmotionCache from '../src/createEmotionCache';
-import { AppGlobalStyles } from '../src/layouts/AppGlobalStyles';
-import { LanguageProvider } from '../src/libs/LanguageProvider';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -89,26 +91,27 @@ export default function MyApp(props: MyAppProps) {
         }
         imageUrl="/superlend_banner.png"
       />
-      <LanguageProvider>
-        <BlockVPN>
-          <Web3ReactProvider getLibrary={getWeb3Library}>
-            <Web3ContextProvider>
-              <AppGlobalStyles>
-                {/* <AddressBlocked> */}
-                <PermissionProvider>
-                  <ModalContextProvider>
-                    <BackgroundDataProvider>
-                      <AppDataProvider>
-                        <GasStationProvider>
-                          <Script
-                            strategy="afterInteractive"
-                            src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
-                          />
-                          <Script
-                            id="gtag-init"
-                            strategy="afterInteractive"
-                            dangerouslySetInnerHTML={{
-                              __html: `
+      <AnalyticsProvider>
+        <LanguageProvider>
+          <BlockVPN>
+            <Web3ReactProvider getLibrary={getWeb3Library}>
+              <Web3ContextProvider>
+                <AppGlobalStyles>
+                  {/* <AddressBlocked> */}
+                  <PermissionProvider>
+                    <ModalContextProvider>
+                      <BackgroundDataProvider>
+                        <AppDataProvider>
+                          <GasStationProvider>
+                            <Script
+                              strategy="afterInteractive"
+                              src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+                            />
+                            <Script
+                              id="gtag-init"
+                              strategy="afterInteractive"
+                              dangerouslySetInnerHTML={{
+                                __html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
@@ -116,32 +119,33 @@ export default function MyApp(props: MyAppProps) {
               page_path: window.location.pathname,
             });
           `,
-                            }}
-                          />
-                          {getLayout(<Component {...pageProps} />)}
-                          <SupplyModal />
-                          <WithdrawModal />
-                          <BorrowModal />
-                          <RepayModal />
-                          <CollateralChangeModal />
-                          <RateSwitchModal />
-                          <ClaimRewardsModal />
-                          <EmodeModal />
-                          <SwapModal />
-                          <FaucetModal />
-                          <PSMSwapModal />
-                          <MigrateV3Modal />
-                        </GasStationProvider>
-                      </AppDataProvider>
-                    </BackgroundDataProvider>
-                  </ModalContextProvider>
-                </PermissionProvider>
-                {/* </AddressBlocked> */}
-              </AppGlobalStyles>
-            </Web3ContextProvider>
-          </Web3ReactProvider>
-        </BlockVPN>
-      </LanguageProvider>
+                              }}
+                            />
+                            {getLayout(<Component {...pageProps} />)}
+                            <SupplyModal />
+                            <WithdrawModal />
+                            <BorrowModal />
+                            <RepayModal />
+                            <CollateralChangeModal />
+                            <RateSwitchModal />
+                            <ClaimRewardsModal />
+                            <EmodeModal />
+                            <SwapModal />
+                            <FaucetModal />
+                            <PSMSwapModal />
+                            <MigrateV3Modal />
+                          </GasStationProvider>
+                        </AppDataProvider>
+                      </BackgroundDataProvider>
+                    </ModalContextProvider>
+                  </PermissionProvider>
+                  {/* </AddressBlocked> */}
+                </AppGlobalStyles>
+              </Web3ContextProvider>
+            </Web3ReactProvider>
+          </BlockVPN>
+        </LanguageProvider>
+      </AnalyticsProvider>
     </CacheProvider>
   );
 }

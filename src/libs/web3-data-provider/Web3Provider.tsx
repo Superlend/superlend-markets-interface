@@ -19,6 +19,7 @@ import { isLedgerDappBrowserProvider } from 'web3-ledgerhq-frame-connector';
 import { Web3Context } from '../hooks/useWeb3Context';
 import { WalletConnectConnector } from './WalletConnectConnector';
 import { getWallet, ReadOnlyModeConnector, WalletType } from './WalletOptions';
+import { logEvent } from '@amplitude/analytics-browser';
 
 export type ERC20TokenType = {
   address: string;
@@ -420,6 +421,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   // inject account into zustand as long as aave itnerface is using old web3 providers
   useEffect(() => {
     setAccount(account?.toLowerCase());
+    logEvent('account_details', { walletAddress: account, provider: provider?.connection.url });
   }, [account]);
 
   return (
