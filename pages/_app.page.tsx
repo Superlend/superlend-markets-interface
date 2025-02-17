@@ -1,3 +1,4 @@
+// Side effect imports
 import '/public/fonts/basier-circle/basier-circle.css';
 import '/public/fonts/inter/inter.css';
 // import '/public/fonts/space-grotesk/space-grotesk.css';
@@ -5,6 +6,7 @@ import '/src/styles/variables.css';
 
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { Web3ReactProvider } from '@web3-react/core';
+import { AnalyticsProvider } from 'context/amplitude-provider';
 import { providers } from 'ethers';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
@@ -32,13 +34,12 @@ import { BackgroundDataProvider } from 'src/hooks/app-data-provider/BackgroundDa
 import { AppDataProvider } from 'src/hooks/app-data-provider/useAppDataProvider';
 import { ModalContextProvider } from 'src/hooks/useModal';
 import { PermissionProvider } from 'src/hooks/usePermissions';
+import { AppGlobalStyles } from 'src/layouts/AppGlobalStyles';
+import { LanguageProvider } from 'src/libs/LanguageProvider';
 import { Web3ContextProvider } from 'src/libs/web3-data-provider/Web3Provider';
 
-import { AnalyticsProvider } from 'context/amplitude-provider';
 import { GA_TRACKING_ID, pageview } from '../lib/gtag';
 import createEmotionCache from '../src/createEmotionCache';
-import { AppGlobalStyles } from '../src/layouts/AppGlobalStyles';
-import { LanguageProvider } from '../src/libs/LanguageProvider';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
