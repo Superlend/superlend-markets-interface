@@ -29,14 +29,14 @@
   - Ledger
 
 ### Folder Structure
-src/
-├── components/ # Reusable UI components
-├── hooks/ # Custom React hooks including Web3 hooks
-├── libs/ # Core libraries and Web3 providers
-├── modules/ # Feature-specific modules (governance, dashboard)
-├── store/ # Zustand store slices
-├── ui-config/ # Network and market configurations
-└── utils/ # Utility functions and helpers
+src/\
+├── components/ # Reusable UI components\
+├── hooks/ # Custom React hooks including Web3 hooks\
+├── libs/ # Core libraries and Web3 providers\
+├── modules/ # Feature-specific modules (governance, dashboard)\
+├── store/ # Zustand store slices\
+├── ui-config/ # Network and market configurations\
+└── utils/ # Utility functions and helpers\
 
 
 ### State Management Architecture
@@ -49,7 +49,7 @@ Main store slices:
 - Stake Slice: Handles staking operations
 
 Example implementation:
-- typescript:src/hooks/governance-data-provider/AaveTokensDataProvider.tsx
+- [src/hooks/governance-data-provider/AaveTokensDataProvider.tsx](src/hooks/governance-data-provider/AaveTokensDataProvider.tsx)
 - startLine: 23
 - endLine: 79
 
@@ -70,29 +70,29 @@ The application supports multiple networks through a configuration-based approac
 - Etherlink Testnet
 
 Network configuration example:
-- typescript:src/ui-config/networksConfig.ts
-- startLine: 63
-- endLine: 113
+  - [src/ui-config/networksConfig.ts](src/ui-config/networksConfig.ts)
+  - startLine: 63
+  - endLine: 113
 
 
 ### Key Features
 
 1. **Governance**
-- Token delegation
-- Proposal voting
-- Power delegation
-- Governance forum integration
+  - Token delegation
+  - Proposal voting
+  - Power delegation
+  - Governance forum integration
 
 2. **Staking**
-- AAVE staking
-- Rewards claiming
-- Cooldown period management
+  - AAVE staking
+  - Rewards claiming
+  - Cooldown period management
 
 3. **Dashboard**
-- Asset overview
-- Transaction history
-- Reward tracking
-- Market statistics
+  - Asset overview
+  - Transaction history
+  - Reward tracking
+  - Market statistics
 
 ### Testing & Development
 
