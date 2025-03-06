@@ -1,6 +1,4 @@
-# Project Handover Documentation
-
-## Architecture & Tech Stack
+# Architecture & Tech Stack
 
 ### Core Technologies
 - **Frontend Framework**: Next.js (v12.1.1)
@@ -30,13 +28,13 @@
 
 ### Folder Structure
 src/\
-├── components/ # Reusable UI components\
-├── hooks/ # Custom React hooks including Web3 hooks\
-├── libs/ # Core libraries and Web3 providers\
-├── modules/ # Feature-specific modules (governance, dashboard)\
-├── store/ # Zustand store slices\
-├── ui-config/ # Network and market configurations\
-└── utils/ # Utility functions and helpers\
+├── components/ Reusable UI components\
+├── hooks/ Custom React hooks including Web3 hooks\
+├── libs/ Core libraries and Web3 providers\
+├── modules/ Feature-specific modules (governance, dashboard)\
+├── store/ Zustand store slices\
+├── ui-config/ Network and market configurations\
+└── utils/ Utility functions and helpers
 
 
 ### State Management Architecture
@@ -77,18 +75,12 @@ Network configuration example:
 
 ### Key Features
 
-1. **Governance**
-  - Token delegation
-  - Proposal voting
-  - Power delegation
-  - Governance forum integration
+1. **Staking**
+  - Supply assets and earn interest
+  - Borrow USDC, USDT & other assets seamlessly
+  - Decentralized money market protocol
 
-2. **Staking**
-  - AAVE staking
-  - Rewards claiming
-  - Cooldown period management
-
-3. **Dashboard**
+2. **Dashboard**
   - Asset overview
   - Transaction history
   - Reward tracking
@@ -122,6 +114,80 @@ localStorage.setItem('forkRPCUrl', <rpcUrl>);
 - IPFS for governance proposals
 - TheGraph for protocol data
 - Multiple RPC providers for redundancy
+
+### Testing
+
+1. **Jest Testing Setup**
+
+The project uses Jest as its primary testing framework. Tests are located in `__tests__` directories throughout the codebase, with the main test files in `src/utils/__tests__/`.
+
+To run tests:
+
+```bash
+# Run all tests
+yarn test
+
+# Run tests in watch mode
+yarn test --watch
+
+# Run tests with coverage
+yarn test --coverage
+
+# Run specific test file
+yarn test RotationProvider.test.ts
+```
+
+2. **Test File Structure**
+
+Tests are organized following the Jest convention:
+- Test files are suffixed with `.test.ts` or `.spec.ts`
+- Tests are grouped in `describe` blocks
+- Individual test cases use `it()` or `test()`
+
+Example test structure:
+```typescript
+import { someFunction } from '../path-to-file';
+
+describe('Component/Function Name', () => {
+  it('should do something specific', () => {
+    // Test setup
+    const result = someFunction();
+    // Assertions
+    expect(result).toBe(expectedValue);
+  });
+});
+```
+
+3. **Current Test Files**
+
+Location: `src/utils/__tests__/`
+- `RotationProvider.test.ts`: Tests for provider rotation functionality
+- `marketsAndNetworkConfig.spec.ts`: Tests for network configuration
+
+4. **Test Results**
+
+When tests are run, you'll see output similar to:
+
+```
+Test Suites: 2 passed, 2 total
+Tests:       4 passed, 4 total
+Snapshots:   0 total
+Time:        5.559 s, estimated 12 s
+```
+
+This indicates:
+- Number of test suites (files) that passed/failed
+- Total number of individual tests passed/failed
+- Snapshot test results (if any)
+- Time taken to run tests
+
+5. **Testing Best Practices**
+
+- Write descriptive test names that explain the expected behavior
+- Use beforeEach/afterEach for test setup and cleanup
+- Mock external dependencies using Jest's mocking capabilities
+- Keep tests focused and isolated
+- Aim for high test coverage of critical functionality
 
 ### Dependencies
 
