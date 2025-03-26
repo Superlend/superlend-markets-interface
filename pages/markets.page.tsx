@@ -1,4 +1,4 @@
-import AppleFarmBanner from '@/components/AppleFarmBanner';
+import AppleFarmBanner from '../src/components/AppleFarmBanner';
 import { Container } from '@mui/material';
 import { ContentContainer } from 'src/components/ContentContainer';
 import { MainLayout } from 'src/layouts/MainLayout';
