@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro';
-import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Container, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import StyledToggleButton from 'src/components/StyledToggleButton';
 import StyledToggleButtonGroup from 'src/components/StyledToggleButtonGroup';
@@ -11,6 +11,7 @@ import { MainLayout } from '../src/layouts/MainLayout';
 import { useWeb3Context } from '../src/libs/hooks/useWeb3Context';
 import { DashboardContentWrapper } from '../src/modules/dashboard/DashboardContentWrapper';
 import { DashboardTopPanel } from '../src/modules/dashboard/DashboardTopPanel';
+import AppleFarmBanner from '@/components/AppleFarmBanner';
 
 export default function Home() {
   const { breakpoints } = useTheme();
@@ -28,8 +29,10 @@ export default function Home() {
 
   return (
     <>
+      <Container style={{ marginTop: '20px' }}>
+        <AppleFarmBanner />
+      </Container>
       <DashboardTopPanel />
-
       <ContentContainer>
         {currentAccount && !isPermissionsLoading && (
           <Box
