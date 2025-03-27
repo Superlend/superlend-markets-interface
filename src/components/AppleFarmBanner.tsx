@@ -159,7 +159,7 @@ export default function AppleFarmBanner() {
                 </RewardItem>
               </RewardsInfoBox>
             )}
-            {/* {!loading && address && totalRewards === 0 && (
+            {!loading && address && totalRewards === 0 && (
               <RewardsInfoBox>
                 <RewardItem sx={{ color: '#4ade80', fontWeight: 600 }}>
                   No rewards found:
@@ -168,7 +168,7 @@ export default function AppleFarmBanner() {
                   Supply to gain rewards
                 </RewardItem>
               </RewardsInfoBox>
-            )} */}
+            )}
           </Box>
         </ContentWrapper>
       </StyledCard>
