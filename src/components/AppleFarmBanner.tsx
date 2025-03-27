@@ -3,6 +3,8 @@ import { Typography, Box, Card as MuiCard } from '@mui/material';
 import ImageWithDefault from '@/components/ImageWithDefault';
 import { ArrowRightIcon } from 'lucide-react';
 import { styled } from '@mui/material/styles';
+import { useMerklUserRewards } from '@/hooks/useMerklUserRewards';
+import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
 
 const StyledCard = styled(MuiCard)(() => ({
   position: 'relative',
@@ -54,7 +56,31 @@ const RewardsText = styled(Box)({
   },
 });
 
+const RewardsInfoBox = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-end',
+  gap: '8px',
+  marginTop: '12px',
+  textTransform: 'capitalize',
+});
+
+const RewardItem = styled(Typography)({
+  fontSize: '0.875rem',
+  color: 'rgba(255, 255, 255, 0.8)',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '4px',
+  fontWeight: 600,
+  textTransform: 'capitalize',
+});
+
 export default function AppleFarmBanner() {
+  const { currentAccount: address } = useWeb3Context();
+  const { userRewards, loading } = useMerklUserRewards(address || '', 42793);
+
+  const totalRewards: number = Number(userRewards?.[0]?.rewards?.[0]?.amount ?? 0) / 1e18
+
   return (
     <a
       href="https://www.applefarm.xyz"
@@ -105,11 +131,12 @@ export default function AppleFarmBanner() {
 
           <Box
             sx={{
-              display: { xs: 'none', md: 'block' },
-              position: 'absolute',
+              display: { xs: 'none', md: 'flex' },
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '12px',
+              position: 'relative',
               right: 24,
-              top: '50%',
-              transform: 'translateY(-50%)',
             }}
           >
             <ImageWithDefault
@@ -119,9 +146,44 @@ export default function AppleFarmBanner() {
               height={45}
               style={{ objectFit: 'contain' }}
             />
+            {loading && (
+              <RewardItem>Loading rewards...</RewardItem>
+            )}
+            {!loading && address && totalRewards > 0 && (
+              <RewardsInfoBox>
+                <RewardItem sx={{ color: '#4ade80', fontWeight: 600 }}>
+                  Your Available Rewards:
+                </RewardItem>
+                <RewardItem>
+                  {formatRewards(totalRewards)}
+                </RewardItem>
+              </RewardsInfoBox>
+            )}
+            {/* {!loading && address && totalRewards === 0 && (
+              <RewardsInfoBox>
+                <RewardItem sx={{ color: '#4ade80', fontWeight: 600 }}>
+                  No rewards found:
+                </RewardItem>
+                <RewardItem>
+                  Supply to gain rewards
+                </RewardItem>
+              </RewardsInfoBox>
+            )} */}
           </Box>
         </ContentWrapper>
       </StyledCard>
     </a>
   );
+}
+
+function formatRewards(rewards: number) {
+  if (rewards > 1000000) {
+    return `${(rewards / 1000000).toFixed(2)}M`
+  } else if (rewards > 1000) {
+    return `${(rewards / 1000).toFixed(2)}K`
+  } else if (rewards > 0 && rewards < 0.01) {
+    return `<0.01`
+  } else {
+    return rewards.toFixed(2)
+  }
 }
