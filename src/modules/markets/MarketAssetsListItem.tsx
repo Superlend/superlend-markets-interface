@@ -22,7 +22,7 @@ import { MerklRewardsIndicator } from '../../components/rewards/MerklRewardsIndi
 export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
   const router = useRouter();
   const { currentMarket } = useProtocolDataContext();
-  const { aprMap } = useMerklAprMap();
+  const { aprMap, isLoading } = useMerklAprMap();
   
   const hasRewards = hasMerklRewards(reserve.symbol);
   // Always show apple rewards in market list (it's always the supply tab)
@@ -30,7 +30,9 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
   
   // If asset has Merkl rewards, use the APR value from Merkl divided by 100
   const displayValue = showAppleReward 
-    ? (aprMap[reserve.symbol as keyof typeof aprMap] / 100)
+    ? isLoading
+      ? reserve.supplyAPY // Show base APY while loading
+      : (Number(aprMap[reserve.symbol as keyof typeof aprMap]) / 100) + Number(reserve.supplyAPY)
     : reserve.supplyAPY;
 
   return (

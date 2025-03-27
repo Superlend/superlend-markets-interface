@@ -1,4 +1,4 @@
-import { Box, Tooltip, Typography, Divider } from '@mui/material';
+import { Box, Tooltip, Typography, Divider, CircularProgress } from '@mui/material';
 import { ReactNode } from 'react';
 import { hasMerklRewards, useMerklAprMap } from '../../hooks/useMerklAprMap';
 
@@ -45,7 +45,7 @@ function getTooltipContentUI({
 }
 
 export const MerklRewardsIndicator = ({ symbol, baseValue, isSupplyTab = false, children }: MerklRewardsIndicatorProps) => {
-  const { aprMap } = useMerklAprMap();
+  const { aprMap, isLoading } = useMerklAprMap();
   const showRewards = hasMerklRewards(symbol) && isSupplyTab;
   const merklApr = showRewards ? (aprMap[symbol as keyof typeof aprMap] || 0) : 0;
 
@@ -53,17 +53,23 @@ export const MerklRewardsIndicator = ({ symbol, baseValue, isSupplyTab = false, 
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
       {children}
       {showRewards && (
-        <Tooltip
-          title={getTooltipContentUI({
-            baseRate: baseValue,
-            apr: merklApr,
-            netApy: merklApr + baseValue,
-          })}
-          arrow
-          placement="top"
-        >
-          <img src={`/logos/apple-green.png`} alt={"Green Apple"} width={18} height={18} />
-        </Tooltip>
+        <>
+          {isLoading ? (
+            <CircularProgress size={18} />
+          ) : (
+            <Tooltip
+              title={getTooltipContentUI({
+                baseRate: baseValue,
+                apr: merklApr,
+                netApy: merklApr + baseValue,
+              })}
+              arrow
+              placement="top"
+            >
+              <img src={`/logos/apple-green.png`} alt={"Green Apple"} width={18} height={18} />
+            </Tooltip>
+          )}
+        </>
       )}
     </Box>
   );
