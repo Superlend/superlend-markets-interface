@@ -4,12 +4,15 @@ import { ReactNode } from 'react';
 
 import { IncentivesCard } from '../../../components/incentives/IncentivesCard';
 import { ListColumn } from '../../../components/lists/ListColumn';
+import { MerklRewardsIndicator } from '../../../components/rewards/MerklRewardsIndicator';
+import { hasMerklRewards, useMerklAprMap } from '../../../hooks/useMerklAprMap';
 
 interface ListAPRColumnProps {
   value: number;
   incentives?: ReserveIncentiveResponse[];
   symbol: string;
   tooltip?: ReactNode;
+  isSupplyTab?: boolean;
   children?: ReactNode;
 }
 
@@ -18,8 +21,18 @@ export const ListAPRColumn = ({
   incentives,
   symbol,
   tooltip,
+  isSupplyTab = false,
   children,
 }: ListAPRColumnProps) => {
+  const { aprMap } = useMerklAprMap();
+  const hasRewards = hasMerklRewards(symbol);
+  const showAppleReward = hasRewards && isSupplyTab;
+  
+  // If asset has Merkl rewards and we're on the supply tab, use the APR value
+  const displayValue = showAppleReward 
+    ? (aprMap[symbol as keyof typeof aprMap] / 100) 
+    : value;
+
   return (
     <ListColumn>
       {tooltip != null ? (
@@ -48,7 +61,7 @@ export const ListAPRColumn = ({
             }}
           >
             <IncentivesCard
-              value={value}
+              value={displayValue}
               incentives={incentives}
               symbol={symbol}
               data-cy={`apyType`}
@@ -57,7 +70,9 @@ export const ListAPRColumn = ({
           </Box>
         </Tooltip>
       ) : (
-        <IncentivesCard value={value} incentives={incentives} symbol={symbol} data-cy={`apyType`} />
+        <MerklRewardsIndicator symbol={symbol} baseValue={value} isSupplyTab={isSupplyTab}>
+          <IncentivesCard value={displayValue} incentives={incentives} symbol={symbol} data-cy={`apyType`} />
+        </MerklRewardsIndicator>
       )}
       {children}
     </ListColumn>

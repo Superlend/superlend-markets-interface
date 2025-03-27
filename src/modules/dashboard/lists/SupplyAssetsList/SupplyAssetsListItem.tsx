@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro';
-import { Button } from '@mui/material';
+import { Box, Button, Tooltip } from '@mui/material';
 import { useAssetCaps } from 'src/hooks/useAssetCaps';
 import { useModalContext } from 'src/hooks/useModal';
 import { useProtocolDataContext } from 'src/hooks/useProtocolDataContext';
@@ -63,7 +63,7 @@ export const SupplyAssetsListItem = ({
         }
       />
 
-      <ListAPRColumn value={Number(supplyAPY)} incentives={aIncentivesData} symbol={symbol}>
+      <ListAPRColumn value={Number(supplyAPY)} incentives={aIncentivesData} symbol={symbol} isSupplyTab>
         {(symbol === 'ETH' || symbol === 'WETH') && <SpkAirdropNoteInline tokenAmount={6} />}
       </ListAPRColumn>
 
