@@ -24,6 +24,9 @@
     "isolatedModules": true,
     "incremental": true,
     "useUnknownInCatchVariables": false,
+    "paths": {
+      "@/*": ["src/*"]
+    },
   },
   "exclude": [
     "dist",
