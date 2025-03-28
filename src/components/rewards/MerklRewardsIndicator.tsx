@@ -29,8 +29,13 @@ function getTooltipContentUI({
       borderRadius: 1,
     })}>
       <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-        <Typography>Score:</Typography>
-        <Typography sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Typography sx={(theme) => ({ color: theme.palette.mode === 'light' ? '#374151' : '#ffffff' })}>Score:</Typography>
+        <Typography sx={(theme) => ({ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: 1,
+          color: theme.palette.mode === 'light' ? '#374151' : '#ffffff'
+        })}>
           {apr.toFixed(2)}
           <img src={`/logos/apple-green.png`} alt={"Green Apple"} width={16} height={16} />
         </Typography>
