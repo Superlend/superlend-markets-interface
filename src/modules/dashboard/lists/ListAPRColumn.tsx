@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 import { IncentivesCard } from '../../../components/incentives/IncentivesCard';
 import { ListColumn } from '../../../components/lists/ListColumn';
 import { MerklRewardsIndicator } from '../../../components/rewards/MerklRewardsIndicator';
-import { hasMerklRewards, useMerklAprMap } from '../../../hooks/useMerklAprMap';
+// import { hasMerklRewards, useMerklAprMap } from '../../../hooks/useMerklAprMap';
 
 interface ListAPRColumnProps {
   value: number;
@@ -24,16 +24,16 @@ export const ListAPRColumn = ({
   isSupplyTab = false,
   children,
 }: ListAPRColumnProps) => {
-  const { aprMap, isLoading } = useMerklAprMap();
-  const hasRewards = hasMerklRewards(symbol);
-  const showAppleReward = hasRewards && isSupplyTab;
+  // const { aprMap, isLoading } = useMerklAprMap();
+  // const hasRewards = hasMerklRewards(symbol);
+  // const showAppleReward = hasRewards && isSupplyTab;
   
   // If asset has Merkl rewards and we're on the supply tab, use the APR value
-  const displayValue = showAppleReward 
-    ? isLoading 
-      ? value // Show base value while loading
-      : ((aprMap[symbol as keyof typeof aprMap]) / 100) + value
-    : value;
+  // const displayValue = showAppleReward 
+  //   ? isLoading 
+  //     ? value // Show base value while loading
+  //     : ((aprMap[symbol as keyof typeof aprMap]) / 100) + value
+  //   : value;
 
   return (
     <ListColumn>
@@ -63,7 +63,7 @@ export const ListAPRColumn = ({
             }}
           >
             <IncentivesCard
-              value={displayValue}
+              value={value}
               incentives={incentives}
               symbol={symbol}
               data-cy={`apyType`}
@@ -72,8 +72,8 @@ export const ListAPRColumn = ({
           </Box>
         </Tooltip>
       ) : (
-        <MerklRewardsIndicator symbol={symbol} baseValue={value} isSupplyTab={isSupplyTab}>
-          <IncentivesCard value={displayValue} incentives={incentives} symbol={symbol} data-cy={`apyType`} />
+        <MerklRewardsIndicator symbol={symbol} isSupplyTab={isSupplyTab}>
+          <IncentivesCard value={value} incentives={incentives} symbol={symbol} data-cy={`apyType`} />
         </MerklRewardsIndicator>
       )}
       {children}

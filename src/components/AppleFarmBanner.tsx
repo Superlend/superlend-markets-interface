@@ -1,23 +1,34 @@
 import React from 'react';
-import { Typography, Box, Card as MuiCard } from '@mui/material';
+import { Typography, Box, Card as MuiCard, useTheme } from '@mui/material';
+import { BigNumber } from '@ethersproject/bignumber';
 import ImageWithDefault from '@/components/ImageWithDefault';
 import { ArrowRightIcon } from 'lucide-react';
 import { styled } from '@mui/material/styles';
 import { useMerklUserRewards } from '@/hooks/useMerklUserRewards';
 import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
 
-const StyledCard = styled(MuiCard)(() => ({
+const StyledCard = styled(MuiCard)(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden',
-  background: 'linear-gradient(to right, rgba(22, 163, 74, 0.1), rgba(22, 163, 74, 0.05))',
-  cursor: 'pointer',
+  background: theme.palette.mode === 'light' 
+    ? 'linear-gradient(to right, rgba(240, 253, 244, 1), rgba(187, 247, 208, 0.3))'
+    : 'linear-gradient(to right, rgba(22, 163, 74, 0.1), rgba(22, 163, 74, 0.05))',
+  // cursor: 'pointer',
   borderRadius: '1.125rem',
   transition: 'all 0.3s ease',
-  border: '1px solid rgba(22, 163, 74, 0.2)',
-  boxShadow: '0 0 10px rgba(22, 163, 74, 0.1)',
+  border: theme.palette.mode === 'light'
+    ? '1px solid rgba(22, 163, 74, 0.15)'
+    : '1px solid rgba(22, 163, 74, 0.2)',
+  boxShadow: theme.palette.mode === 'light'
+    ? '0 0 10px rgba(22, 163, 74, 0.05)'
+    : '0 0 10px rgba(22, 163, 74, 0.1)',
   '&:hover': {
-    boxShadow: '0 0 20px rgba(22, 163, 74, 0.2)',
-    border: '1px solid rgba(22, 163, 74, 0.4)',
+    boxShadow: theme.palette.mode === 'light'
+      ? '0 0 20px rgba(22, 163, 74, 0.1)'
+      : '0 0 20px rgba(22, 163, 74, 0.2)',
+    border: theme.palette.mode === 'light'
+      ? '1px solid rgba(22, 163, 74, 0.25)'
+      : '1px solid rgba(22, 163, 74, 0.4)',
   },
 }));
 
@@ -42,11 +53,11 @@ const TitleWrapper = styled(Box)({
   gap: '12px',
 });
 
-const RewardsText = styled(Box)({
+const RewardsText = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: '8px',
-  color: '#4ade80',
+  color: theme.palette.mode === 'light' ? '#15803d' : '#4ade80',
   fontWeight: 600,
   '& svg': {
     transition: 'transform 0.2s ease',
@@ -54,40 +65,65 @@ const RewardsText = styled(Box)({
   '&:hover svg': {
     transform: 'translateX(4px)',
   },
-});
+}));
 
 const RewardsInfoBox = styled(Box)({
   display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-end',
+  // flexDirection: 'column',
+  // alignItems: 'flex-end',
   gap: '8px',
-  marginTop: '12px',
+  // marginTop: '12px',
   textTransform: 'capitalize',
 });
 
-const RewardItem = styled(Typography)({
+const RewardItem = styled(Typography)(({ theme }) => ({
   fontSize: '0.875rem',
-  color: 'rgba(255, 255, 255, 0.8)',
+  color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)',
   display: 'flex',
   alignItems: 'center',
   gap: '4px',
   fontWeight: 600,
   textTransform: 'capitalize',
-});
+}));
+
+const StyledButton = styled('button')(({ theme }) => ({
+  background: theme.palette.mode === 'light' 
+    ? 'rgba(22, 163, 74, 0.1)'
+    : 'rgba(22, 163, 74, 0.1)',
+  border: theme.palette.mode === 'light'
+    ? '1px solid rgba(22, 163, 74, 0.2)'
+    : '1px solid rgba(22, 163, 74, 0.3)',
+  borderRadius: '0.75rem',
+  padding: '10px 20px',
+  color: theme.palette.mode === 'light' ? '#15803d' : '#4ade80',
+  fontWeight: 600,
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease',
+  textTransform: 'capitalize',
+  '&:hover': {
+    background: theme.palette.mode === 'light'
+      ? 'rgba(22, 163, 74, 0.15)'
+      : 'rgba(22, 163, 74, 0.2)',
+    border: theme.palette.mode === 'light'
+      ? '1px solid rgba(22, 163, 74, 0.3)'
+      : '1px solid rgba(22, 163, 74, 0.5)',
+    transform: 'translateY(-2px)',
+  },
+}));
 
 export default function AppleFarmBanner() {
+  const theme = useTheme();
   const { currentAccount: address } = useWeb3Context();
   const { userRewards, loading } = useMerklUserRewards(address || '', 42793);
 
-  const totalRewards: number = Number(userRewards?.[0]?.rewards?.[0]?.amount ?? 0) / 1e18
+  const totalRewards = BigNumber.from(userRewards?.[0]?.rewards?.[0]?.amount ?? '0').div(BigNumber.from(10).pow(18));
+  const totalRewardsNumber = parseFloat(totalRewards.toString());
 
   return (
-    <a
-      href="https://www.applefarm.xyz"
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ textDecoration: 'none' }}
-    >
+    <div style={{ textDecoration: 'none', marginBottom: '-60px' }}>
       <StyledCard>
         <ContentWrapper>
           <TextContent>
@@ -99,80 +135,70 @@ export default function AppleFarmBanner() {
                 height={36}
                 style={{ objectFit: 'contain' }}
               />
-              <Typography
-                component="h2"
-                sx={{
-                  fontSize: '1.125rem',
-                  lineHeight: 1.75,
-                  fontWeight: 600,
-                  color: '#ffffff',
-                }}
-              >
-                Apple Farm is Live on Etherlink!
-              </Typography>
+              <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', gap: '5px' }}>
+                <Typography
+                  component="h2"
+                  sx={{
+                    fontSize: '1.125rem',
+                    lineHeight: 1.75,
+                    fontWeight: 600,
+                    color: theme.palette.mode === 'light' ? '#166534' : '#ffffff',
+                  }}
+                >
+                  Apple Farm is Live on Etherlink!
+                </Typography>
+                <a href="https://www.applefarm.xyz" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: '#4ade80' }}>
+                  <RewardsText>
+                    Season One Rewards: $3,000,000
+                    <ArrowRightIcon size={16} />
+                  </RewardsText>
+                </a>
+              </Box>
             </TitleWrapper>
-            <Typography
-              component="p"
-              sx={{
-                fontSize: '0.875rem',
-                lineHeight: 1.5,
-                color: 'rgba(255, 255, 255, 0.8)',
-                maxWidth: 600,
-              }}
-            >
-              An onchain incentive platform that rewards users who provide liquidity for key token
-              pairs, supply to lending markets, and trade on selected DeFi protocols.
-            </Typography>
-            <RewardsText>
-              Season One Rewards: $3,000,000
-              <ArrowRightIcon size={16} />
-            </RewardsText>
           </TextContent>
 
           <Box
             sx={{
               display: { xs: 'none', md: 'flex' },
               flexDirection: 'column',
-              alignItems: 'center',
+              alignItems: 'end',
               gap: '12px',
               position: 'relative',
               right: 24,
             }}
           >
-            <ImageWithDefault
-              src="https://www.etherlink.com/logo-desktop.svg"
-              alt="Etherlink"
-              width={160}
-              height={45}
-              style={{ objectFit: 'contain' }}
-            />
             {loading && (
               <RewardItem>Loading rewards...</RewardItem>
             )}
-            {!loading && address && totalRewards > 0 && (
+            {!loading && address && totalRewardsNumber > 0 && (
               <RewardsInfoBox>
-                <RewardItem sx={{ color: '#4ade80', fontWeight: 600 }}>
+                <RewardItem sx={{ 
+                  color: theme.palette.mode === 'light' ? '#15803d' : '#4ade80',
+                  fontWeight: 600 
+                }}>
                   Your Available Rewards:
                 </RewardItem>
                 <RewardItem>
-                  {formatRewards(totalRewards)}
+                  {formatRewards(totalRewardsNumber)}
                 </RewardItem>
               </RewardsInfoBox>
             )}
-            {!loading && address && totalRewards === 0 && (
+            {!loading && address && totalRewardsNumber === 0 && (
               <RewardsInfoBox>
-                <RewardItem sx={{ color: '#4ade80', fontWeight: 600 }}>
-                  No rewards found:
-                </RewardItem>
-                <RewardItem>
-                  Supply to gain rewards
+                <RewardItem sx={{ fontWeight: 600 }}>
+                  No rewards found
                 </RewardItem>
               </RewardsInfoBox>
             )}
+            <a href={(totalRewardsNumber > 0 || !address) ? "https://app.applefarm.xyz/users" : "https://app.applefarm.xyz/opportunities"} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: '#4ade80' }}>
+              <StyledButton>
+                {(totalRewardsNumber > 0 || !address) ? "Claim Rewards" : "Supply to gain rewards"} <ArrowRightIcon size={16} />
+              </StyledButton>
+            </a>
           </Box>
         </ContentWrapper>
       </StyledCard>
-    </a>
+    </div>
   );
 }
 

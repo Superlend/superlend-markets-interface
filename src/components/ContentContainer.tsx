@@ -8,7 +8,7 @@ interface ContentContainerProps {
 export const ContentContainer = ({ children }: ContentContainerProps) => {
   return (
     <Box
-      sx={(theme) => ({
+      sx={() => ({
         display: 'flex',
         flexDirection: 'column',
         flex: 1,
@@ -19,7 +19,7 @@ export const ContentContainer = ({ children }: ContentContainerProps) => {
           position: 'absolute',
           width: '100%',
           height: '100%',
-          background: theme.palette.mode === 'light' ? 'url("backgroundMain.jpg") #ebebeb' : null,
+          background: null,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           zIndex: '-1',
