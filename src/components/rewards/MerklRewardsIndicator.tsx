@@ -87,9 +87,17 @@ export const MerklRewardsIndicator = ({ symbol, baseValue, isSupplyTab = false, 
                     backgroundColor: theme.palette.mode === 'light' ? '#ffffff' : '#1e293b',
                     '& .MuiTooltip-arrow': {
                       color: theme.palette.mode === 'light' ? '#ffffff' : '#1e293b',
+                      '&::before': {
+                        border: theme.palette.mode === 'light'
+                          ? '1px solid rgba(0, 0, 0, 0.15)'
+                          : 'none',
+                      }
                     },
                     boxShadow: theme.palette.mode === 'light'
                       ? '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
+                      : 'none',
+                    border: theme.palette.mode === 'light'
+                      ? '1px solid rgba(0, 0, 0, 0.15)'
                       : 'none',
                     p: 0,
                   })
