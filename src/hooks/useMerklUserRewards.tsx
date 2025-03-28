@@ -46,7 +46,10 @@ export const useMerklUserRewards = (walletAddress: string, chainId: number = 427
 
   useEffect(() => {
     const fetchUserRewards = async () => {
-      if (!walletAddress) return;
+      if (!walletAddress) {
+        setLoading(false);
+        return;
+      };
 
       try {
         const response = await fetch(
