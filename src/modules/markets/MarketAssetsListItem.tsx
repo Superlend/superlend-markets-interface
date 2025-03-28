@@ -72,7 +72,7 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
       <ListColumn>
         <MerklRewardsIndicator symbol={reserve.symbol} baseValue={Number(reserve.supplyAPY)} isSupplyTab={true}>
           <IncentivesCard
-            value={displayValue}
+            value={reserve.supplyAPY}
             incentives={reserve.aIncentivesData || []}
             symbol={reserve.symbol}
             variant="main16"

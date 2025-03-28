@@ -63,7 +63,7 @@ export const ListAPRColumn = ({
             }}
           >
             <IncentivesCard
-              value={displayValue}
+              value={value}
               incentives={incentives}
               symbol={symbol}
               data-cy={`apyType`}
@@ -73,7 +73,7 @@ export const ListAPRColumn = ({
         </Tooltip>
       ) : (
         <MerklRewardsIndicator symbol={symbol} baseValue={value} isSupplyTab={isSupplyTab}>
-          <IncentivesCard value={displayValue} incentives={incentives} symbol={symbol} data-cy={`apyType`} />
+          <IncentivesCard value={value} incentives={incentives} symbol={symbol} data-cy={`apyType`} />
         </MerklRewardsIndicator>
       )}
       {children}
