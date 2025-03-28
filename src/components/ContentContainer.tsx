@@ -8,7 +8,7 @@ interface ContentContainerProps {
 export const ContentContainer = ({ children }: ContentContainerProps) => {
   return (
     <Box
-      sx={(theme) => ({
+      sx={() => ({
         display: 'flex',
         flexDirection: 'column',
         flex: 1,

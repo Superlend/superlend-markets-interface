@@ -1,17 +1,16 @@
-import { Box, Tooltip, Typography, Divider, CircularProgress } from '@mui/material';
+import { Box, Tooltip, Typography, CircularProgress } from '@mui/material';
 import { ReactNode } from 'react';
 import { hasMerklRewards, useMerklAprMap } from '../../hooks/useMerklAprMap';
 
 interface MerklRewardsIndicatorProps {
   symbol: string;
-  baseValue: number;
   isSupplyTab?: boolean;
   children: ReactNode;
 }
 
-function formatLowestValue(value: number) {
-  return (value > 0) && (value < 0.01) ? "<0.01" : value.toFixed(2);
-}
+// function formatLowestValue(value: number) {
+//   return (value > 0) && (value < 0.01) ? "<0.01" : value.toFixed(2);
+// }
 
 function getTooltipContentUI({
   apr,
@@ -62,7 +61,7 @@ function getTooltipContentUI({
   );
 }
 
-export const MerklRewardsIndicator = ({ symbol, baseValue, isSupplyTab = false, children }: MerklRewardsIndicatorProps) => {
+export const MerklRewardsIndicator = ({ symbol, isSupplyTab = false, children }: MerklRewardsIndicatorProps) => {
   const { aprMap, isLoading } = useMerklAprMap();
   const showRewards = hasMerklRewards(symbol) && isSupplyTab;
   const merklApr = showRewards ? (aprMap[symbol as keyof typeof aprMap] || 0) : 0;
