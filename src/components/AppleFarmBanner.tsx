@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Box, Card as MuiCard } from '@mui/material';
+import { Typography, Box, Card as MuiCard, useTheme } from '@mui/material';
 import { BigNumber } from '@ethersproject/bignumber';
 import ImageWithDefault from '@/components/ImageWithDefault';
 import { ArrowRightIcon } from 'lucide-react';
@@ -7,18 +7,28 @@ import { styled } from '@mui/material/styles';
 import { useMerklUserRewards } from '@/hooks/useMerklUserRewards';
 import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
 
-const StyledCard = styled(MuiCard)(() => ({
+const StyledCard = styled(MuiCard)(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden',
-  background: 'linear-gradient(to right, rgba(22, 163, 74, 0.1), rgba(22, 163, 74, 0.05))',
+  background: theme.palette.mode === 'light' 
+    ? 'linear-gradient(to right, rgba(240, 253, 244, 1), rgba(187, 247, 208, 0.3))'
+    : 'linear-gradient(to right, rgba(22, 163, 74, 0.1), rgba(22, 163, 74, 0.05))',
   // cursor: 'pointer',
   borderRadius: '1.125rem',
   transition: 'all 0.3s ease',
-  border: '1px solid rgba(22, 163, 74, 0.2)',
-  boxShadow: '0 0 10px rgba(22, 163, 74, 0.1)',
+  border: theme.palette.mode === 'light'
+    ? '1px solid rgba(22, 163, 74, 0.15)'
+    : '1px solid rgba(22, 163, 74, 0.2)',
+  boxShadow: theme.palette.mode === 'light'
+    ? '0 0 10px rgba(22, 163, 74, 0.05)'
+    : '0 0 10px rgba(22, 163, 74, 0.1)',
   '&:hover': {
-    boxShadow: '0 0 20px rgba(22, 163, 74, 0.2)',
-    border: '1px solid rgba(22, 163, 74, 0.4)',
+    boxShadow: theme.palette.mode === 'light'
+      ? '0 0 20px rgba(22, 163, 74, 0.1)'
+      : '0 0 20px rgba(22, 163, 74, 0.2)',
+    border: theme.palette.mode === 'light'
+      ? '1px solid rgba(22, 163, 74, 0.25)'
+      : '1px solid rgba(22, 163, 74, 0.4)',
   },
 }));
 
@@ -43,11 +53,11 @@ const TitleWrapper = styled(Box)({
   gap: '12px',
 });
 
-const RewardsText = styled(Box)({
+const RewardsText = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: '8px',
-  color: '#4ade80',
+  color: theme.palette.mode === 'light' ? '#15803d' : '#4ade80',
   fontWeight: 600,
   '& svg': {
     transition: 'transform 0.2s ease',
@@ -55,7 +65,7 @@ const RewardsText = styled(Box)({
   '&:hover svg': {
     transform: 'translateX(4px)',
   },
-});
+}));
 
 const RewardsInfoBox = styled(Box)({
   display: 'flex',
@@ -66,22 +76,26 @@ const RewardsInfoBox = styled(Box)({
   textTransform: 'capitalize',
 });
 
-const RewardItem = styled(Typography)({
+const RewardItem = styled(Typography)(({ theme }) => ({
   fontSize: '0.875rem',
-  color: 'rgba(255, 255, 255, 0.8)',
+  color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)',
   display: 'flex',
   alignItems: 'center',
   gap: '4px',
   fontWeight: 600,
   textTransform: 'capitalize',
-});
+}));
 
-const StyledButton = styled('button')(() => ({
-  background: 'rgba(22, 163, 74, 0.1)',
-  border: '1px solid rgba(22, 163, 74, 0.3)',
+const StyledButton = styled('button')(({ theme }) => ({
+  background: theme.palette.mode === 'light' 
+    ? 'rgba(22, 163, 74, 0.1)'
+    : 'rgba(22, 163, 74, 0.1)',
+  border: theme.palette.mode === 'light'
+    ? '1px solid rgba(22, 163, 74, 0.2)'
+    : '1px solid rgba(22, 163, 74, 0.3)',
   borderRadius: '0.75rem',
   padding: '10px 20px',
-  color: '#4ade80',
+  color: theme.palette.mode === 'light' ? '#15803d' : '#4ade80',
   fontWeight: 600,
   display: 'flex',
   alignItems: 'center',
@@ -90,13 +104,18 @@ const StyledButton = styled('button')(() => ({
   transition: 'all 0.3s ease',
   textTransform: 'capitalize',
   '&:hover': {
-    background: 'rgba(22, 163, 74, 0.2)',
-    border: '1px solid rgba(22, 163, 74, 0.5)',
+    background: theme.palette.mode === 'light'
+      ? 'rgba(22, 163, 74, 0.15)'
+      : 'rgba(22, 163, 74, 0.2)',
+    border: theme.palette.mode === 'light'
+      ? '1px solid rgba(22, 163, 74, 0.3)'
+      : '1px solid rgba(22, 163, 74, 0.5)',
     transform: 'translateY(-2px)',
   },
 }));
 
 export default function AppleFarmBanner() {
+  const theme = useTheme();
   const { currentAccount: address } = useWeb3Context();
   const { userRewards, loading } = useMerklUserRewards(address || '', 42793);
 
@@ -123,7 +142,7 @@ export default function AppleFarmBanner() {
                     fontSize: '1.125rem',
                     lineHeight: 1.75,
                     fontWeight: 600,
-                    color: '#ffffff',
+                    color: theme.palette.mode === 'light' ? '#166534' : '#ffffff',
                   }}
                 >
                   Apple Farm is Live on Etherlink!
@@ -153,7 +172,10 @@ export default function AppleFarmBanner() {
             )}
             {!loading && address && totalRewardsNumber > 0 && (
               <RewardsInfoBox>
-                <RewardItem sx={{ color: '#4ade80', fontWeight: 600 }}>
+                <RewardItem sx={{ 
+                  color: theme.palette.mode === 'light' ? '#15803d' : '#4ade80',
+                  fontWeight: 600 
+                }}>
                   Your Available Rewards:
                 </RewardItem>
                 <RewardItem>
