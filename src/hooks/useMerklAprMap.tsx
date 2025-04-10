@@ -21,33 +21,33 @@ export const hasMerklRewards = (symbol: string) => {
  */
 export const useMerklAprMap = () => {
   // Fetch data for all three campaigns
-  const { merklData: merklData1, loading: loading1 } = useMerklRewards(CAMPAIGN_IDS.CAMPAIGN_MTBILL);
-  const { merklData: merklData2, loading: loading2 } = useMerklRewards(CAMPAIGN_IDS.CAMPAIGN_BASIS);
-  const { merklData: merklData3, loading: loading3 } = useMerklRewards(CAMPAIGN_IDS.CAMPAIGN_XTZ);
-  const { merklData: merklData4, loading: loading4 } = useMerklRewards(CAMPAIGN_IDS.CAMPAIGN_WBTC);
-  const { merklData: merklData5, loading: loading5 } = useMerklRewards(CAMPAIGN_IDS.CAMPAIGN_USDC);
-  const { merklData: merklData6, loading: loading6 } = useMerklRewards(CAMPAIGN_IDS.CAMPAIGN_USDT);
+  const { merklData: merklData_mtbill, loading: loading_mtbill } = useMerklRewards(CAMPAIGN_IDS.CAMPAIGN_MTBILL);
+  const { merklData: merklData_basis, loading: loading_basis } = useMerklRewards(CAMPAIGN_IDS.CAMPAIGN_BASIS);
+  const { merklData: merklData_xtz, loading: loading_xtz } = useMerklRewards(CAMPAIGN_IDS.CAMPAIGN_XTZ);
+  const { merklData: merklData_wbtc, loading: loading_wbtc } = useMerklRewards(CAMPAIGN_IDS.CAMPAIGN_WBTC);
+  const { merklData: merklData_usdc, loading: loading_usdc } = useMerklRewards(CAMPAIGN_IDS.CAMPAIGN_USDC);
+  const { merklData: merklData_usdt, loading: loading_usdt } = useMerklRewards(CAMPAIGN_IDS.CAMPAIGN_USDT);
 
   // Extract APR values using the specified signature
-  const apr1 = merklData1?.[0]?.Opportunity?.apr || 0;
-  const apr2 = merklData2?.[0]?.Opportunity?.apr || 0;
-  const apr3 = merklData3?.[0]?.Opportunity?.apr || 0;
-  const apr4 = merklData4?.[0]?.Opportunity?.apr || 0;
-  const apr5 = merklData5?.[0]?.Opportunity?.apr || 0;
-  const apr6 = merklData6?.[0]?.Opportunity?.apr || 0;
+  const apr_mtbill = merklData_mtbill?.[0]?.Opportunity?.apr || 0;
+  const apr_basis = merklData_basis?.[0]?.Opportunity?.apr || 0;
+  const apr_xtz = merklData_xtz?.[0]?.Opportunity?.apr || 0;
+  const apr_wbtc = merklData_wbtc?.[0]?.Opportunity?.apr || 0;
+  const apr_usdc = merklData_usdc?.[0]?.Opportunity?.apr || 0;
+  const apr_usdt = merklData_usdt?.[0]?.Opportunity?.apr || 0;
 
   const aprMap = {
-    'mBASIS': apr1,
-    'mTBILL': apr2,
-    'XTZ': apr3,
-    'WBTC': apr4,
-    'USDC': apr5,
-    'USDT': apr6,
+    'mBASIS': apr_basis,
+    'mTBILL': apr_mtbill,
+    'XTZ': apr_xtz,
+    'WBTC': apr_wbtc,
+    'USDC': apr_usdc,
+    'USDT': apr_usdt,
   };
 
   return {
     aprMap,
-    isLoading: loading1 || loading2 || loading3 || loading4 || loading5 || loading6,
+    isLoading: loading_mtbill || loading_basis || loading_xtz || loading_wbtc || loading_usdc || loading_usdt,
     campaignIds: CAMPAIGN_IDS,
   };
 }; 
