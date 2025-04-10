@@ -7,7 +7,6 @@ export const getMerklCampaignUrl = (campaignId: string) => {
   const params = new URLSearchParams({
     chainId: MERKL_CONFIG.CHAIN_ID.toString(),
     campaignId,
-    point: 'true',
     withOpportunity: 'true',
   });
 
