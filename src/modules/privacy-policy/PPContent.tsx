@@ -53,6 +53,10 @@ const PPContent = (): JSX.Element => {
           know-your-client procedures, the automatic exchange of tax information and legal
           judgments.
         </MarkedListItem>
+        <MarkedListItem>
+          To send you promotional newsletters and marketing communications and other information on products or services that we consider will be of interest to you about Superlend, its affiliates, subsidiaries, joint venture partners and the web3 industry via SMS Messages, Whatsapp, email or any other electronic medium.
+          And to now and again send you offers or information on products or services that we consider will be of interest to you.
+        </MarkedListItem>
       </MarkedList>
       <Typography mb={4}>
         The Foundation is entitled to process your personal data in these ways for the following
