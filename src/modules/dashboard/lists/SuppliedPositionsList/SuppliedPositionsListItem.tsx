@@ -61,6 +61,7 @@ export const SuppliedPositionsListItem = ({
         value={Number(reserve.supplyAPY)}
         incentives={aIncentivesData}
         symbol={reserve.symbol}
+        isSupplyTab={true}
       >
         {reserve.symbol === 'ETH' && <SpkAirdropNoteInline tokenAmount={6} />}
       </ListAPRColumn>
