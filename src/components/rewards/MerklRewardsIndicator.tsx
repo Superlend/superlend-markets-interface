@@ -29,19 +29,19 @@ function getTooltipContentUI({
       borderRadius: 1,
     })}>
       <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-        <Typography sx={(theme) => ({ color: theme.palette.mode === 'light' ? '#374151' : '#ffffff' })}>Score:</Typography>
+        <Typography sx={(theme) => ({ color: theme.palette.mode === 'light' ? '#374151' : '#ffffff' })}>APR:</Typography>
         <Typography sx={(theme) => ({ 
           display: 'flex', 
           alignItems: 'center', 
           gap: 1,
           color: theme.palette.mode === 'light' ? '#374151' : '#ffffff'
         })}>
-          {apr.toFixed(2)}
+          {apr.toFixed(2)}%
           <img src={`/logos/apple-green.png`} alt={"Green Apple"} width={16} height={16} />
         </Typography>
       </Box>
       <Typography variant="caption" color="text.secondary" sx={{ mt: 1 }}>
-        The Score factor indicates the proportion of daily Apples you receive relative to your contribution.{' '}
+        The APR factor indicates the proportion of daily rewards you receive relative to your contribution.{' '}
         <Typography
           component="a"
           href="https://app.applefarm.xyz/"
