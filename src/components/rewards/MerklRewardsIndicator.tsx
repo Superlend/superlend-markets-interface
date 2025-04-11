@@ -1,21 +1,23 @@
-import { Box, Tooltip, Typography, CircularProgress } from '@mui/material';
+import { Box, Tooltip, Typography, CircularProgress, Divider } from '@mui/material';
 import { ReactNode } from 'react';
 import { hasMerklRewards, useMerklAprMap } from '../../hooks/useMerklAprMap';
+import { FormattedNumber } from '../primitives/FormattedNumber';
 
 interface MerklRewardsIndicatorProps {
   symbol: string;
+  baseValue: number;
   isSupplyTab?: boolean;
   children: ReactNode;
 }
 
-// function formatLowestValue(value: number) {
-//   return (value > 0) && (value < 0.01) ? "<0.01" : value.toFixed(2);
-// }
-
 function getTooltipContentUI({
+  baseRate,
   apr,
+  netApy,
 }: {
+  baseRate: number,
   apr: number,
+  netApy: number,
 }) {
   return (
     <Box sx={(theme) => ({
@@ -28,45 +30,56 @@ function getTooltipContentUI({
       p: 2,
       borderRadius: 1,
     })}>
-      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-        <Typography sx={(theme) => ({ color: theme.palette.mode === 'light' ? '#374151' : '#ffffff' })}>APR:</Typography>
-        <Typography sx={(theme) => ({ 
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: 1,
-          color: theme.palette.mode === 'light' ? '#374151' : '#ffffff'
+      <Typography sx={(theme) => ({
+        fontWeight: 600,
+        color: theme.palette.mode === 'light' ? '#166534' : 'text.primary',
+        mb: 1
+      })}>
+        Rate & Rewards
+      </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 1, width: '100%' }}>
+        <Typography sx={(theme) => ({
+          color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary'
+        })}>Base Rate</Typography>
+        <Typography sx={(theme) => ({
+          color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary'
         })}>
-          {apr.toFixed(2)}%
-          <img src={`/logos/apple-green.png`} alt={"Green Apple"} width={16} height={16} />
+          <FormattedNumber compact value={baseRate} visibleDecimals={2} symbolsColor='text.white' />%
         </Typography>
       </Box>
-      <Typography variant="caption" color="text.secondary" sx={{ mt: 1 }}>
-        The APR factor indicates the proportion of daily rewards you receive relative to your contribution.{' '}
-        <Typography
-          component="a"
-          href="https://app.applefarm.xyz/"
-          target="_blank"
-          rel="noopener noreferrer"
-          variant="caption"
-          sx={{ 
-            color: 'primary.main', 
-            cursor: 'pointer', 
-            display: 'inline-flex', 
-            alignItems: 'center',
-            textDecoration: 'none',
-            '&:hover': {
-              textDecoration: 'underline'
-            }
-          }}
-        >
-          Know more <span style={{ marginLeft: '4px' }}>↗</span>
+      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 1, width: '100%' }}>
+        <Typography sx={(theme) => ({
+          color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary'
+        })}>APR</Typography>
+        <Typography sx={(theme) => ({
+          color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary'
+        })}>
+          + <FormattedNumber compact value={apr} visibleDecimals={2} symbolsColor='text.white' />%
         </Typography>
-      </Typography>
+      </Box>
+      <Divider sx={(theme) => ({
+        width: '100%',
+        my: 1,
+        borderColor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.2)' : 'text.primary',
+        opacity: 0.3
+      })} />
+      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 1, width: '100%' }}>
+        <Typography sx={(theme) => ({
+          color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary'
+        })}>
+          Net APY
+        </Typography>
+        <Typography sx={(theme) => ({
+          color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary'
+        })}>
+          <FormattedNumber compact value={netApy} visibleDecimals={2} symbolsColor='text.white' />%
+        </Typography>
+      </Box>
     </Box>
   );
 }
 
-export const MerklRewardsIndicator = ({ symbol, isSupplyTab = false, children }: MerklRewardsIndicatorProps) => {
+export const MerklRewardsIndicator = ({ symbol, baseValue, isSupplyTab = false, children }: MerklRewardsIndicatorProps) => {
   const { aprMap, isLoading } = useMerklAprMap();
   const showRewards = hasMerklRewards(symbol) && isSupplyTab;
   const merklApr = showRewards ? (aprMap[symbol as keyof typeof aprMap] || 0) : 0;
@@ -82,6 +95,8 @@ export const MerklRewardsIndicator = ({ symbol, isSupplyTab = false, children }:
             <Tooltip
               title={getTooltipContentUI({
                 apr: merklApr,
+                baseRate: baseValue * 100,
+                netApy: (merklApr + (baseValue * 100)),
               })}
               arrow
               placement="top"
