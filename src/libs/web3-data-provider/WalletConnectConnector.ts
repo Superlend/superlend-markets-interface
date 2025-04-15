@@ -17,6 +17,14 @@ export class UserRejectedRequestError extends Error {
   }
 }
 
+export class PendingRequestError extends Error {
+  public constructor() {
+    super();
+    this.name = this.constructor.name;
+    this.message = 'Request of type wallet_requestPermissions already pending for origin https://markets.superlend.xyz. Please wait.';
+  }
+}
+
 export class WalletConnectConnector extends AbstractConnector {
   private readonly config: EthereumProviderOptions;
 

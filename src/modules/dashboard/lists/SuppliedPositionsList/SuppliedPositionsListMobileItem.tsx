@@ -13,6 +13,8 @@ import { SpkAirdropNoteInline } from '../BorrowAssetsList/BorrowAssetsListItem';
 import { ListItemUsedAsCollateral } from '../ListItemUsedAsCollateral';
 import { ListMobileItemWrapper } from '../ListMobileItemWrapper';
 import { ListValueRow } from '../ListValueRow';
+import { MerklRewardsIndicator } from '@/components/rewards/MerklRewardsIndicator';
+import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
 
 export const SuppliedPositionsListMobileItem = ({
   reserve,
@@ -28,6 +30,16 @@ export const SuppliedPositionsListMobileItem = ({
   const isSwapButton = isFeatureEnabled.liquiditySwap(currentMarketData);
   const { symbol, iconSymbol, name, supplyAPY, isIsolated, aIncentivesData, isFrozen, isActive } =
     reserve;
+  const { aprMap, isLoading } = useMerklAprMap();
+  const hasRewards = hasMerklRewards(symbol);
+  const showAppleReward = hasRewards;
+
+  // If asset has Merkl rewards and we're on the supply tab, use the APR value
+  const displayValue = showAppleReward
+    ? isLoading
+      ? Number(supplyAPY) // Show base supplyAPY while loading
+      : ((aprMap[symbol as keyof typeof aprMap]) / 100) + Number(supplyAPY)
+    : Number(supplyAPY);
 
   const canBeEnabledAsCollateral =
     !debtCeiling.isMaxed &&
@@ -60,12 +72,14 @@ export const SuppliedPositionsListMobileItem = ({
         captionVariant="description"
         mb={2}
       >
-        <IncentivesCard
-          value={Number(supplyAPY)}
-          incentives={aIncentivesData}
-          symbol={symbol}
-          variant="secondary14"
-        />
+        <MerklRewardsIndicator symbol={symbol} baseValue={Number(supplyAPY)} isSupplyTab={true}>
+          <IncentivesCard
+            value={displayValue}
+            incentives={aIncentivesData}
+            symbol={symbol}
+            variant="secondary14"
+          />
+        </MerklRewardsIndicator>
       </Row>
       {(reserve.symbol === 'ETH' || reserve.symbol === 'WETH') && (
         <SpkAirdropNoteInline

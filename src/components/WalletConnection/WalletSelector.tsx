@@ -6,7 +6,7 @@ import { utils } from 'ethers';
 import { useState } from 'react';
 import { ReadOnlyModeTooltip } from 'src/components/infoTooltips/ReadOnlyModeTooltip';
 import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
-import { UserRejectedRequestError } from 'src/libs/web3-data-provider/WalletConnectConnector';
+import { UserRejectedRequestError, PendingRequestError } from 'src/libs/web3-data-provider/WalletConnectConnector';
 import { WalletType } from 'src/libs/web3-data-provider/WalletOptions';
 import { getENSProvider } from 'src/utils/marketsAndNetworksConfig';
 
@@ -98,6 +98,7 @@ export enum ErrorType {
   USER_REJECTED_REQUEST,
   UNDETERMINED_ERROR,
   NO_WALLET_DETECTED,
+  PENDING_REQUEST,
 }
 
 export const WalletSelector = () => {
@@ -116,6 +117,15 @@ export const WalletSelector = () => {
       blockingError = ErrorType.USER_REJECTED_REQUEST;
     } else if (error instanceof NoEthereumProviderError) {
       blockingError = ErrorType.NO_WALLET_DETECTED;
+    } else if (error instanceof PendingRequestError) {
+      blockingError = ErrorType.PENDING_REQUEST;
+    } else if (
+      (error as any).code === -32002 || 
+      (typeof error.message === 'string' && 
+       error.message.includes("Request of type") && 
+       error.message.includes("already pending"))
+    ) {
+      blockingError = ErrorType.PENDING_REQUEST;
     } else {
       blockingError = ErrorType.UNDETERMINED_ERROR;
     }
@@ -130,6 +140,8 @@ export const WalletSelector = () => {
         return <Trans>Rejected connection request</Trans>;
       case ErrorType.NO_WALLET_DETECTED:
         return <Trans>Wallet not detected. Connect or install wallet and retry</Trans>;
+      case ErrorType.PENDING_REQUEST:
+        return <Trans>Please approve the pending request in your wallet and retry.</Trans>;
       default:
         console.log('Uncatched error: ', error);
         return <Trans>Error connecting. Try refreshing the page.</Trans>;

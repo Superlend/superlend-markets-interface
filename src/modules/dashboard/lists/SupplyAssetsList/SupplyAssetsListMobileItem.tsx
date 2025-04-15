@@ -15,6 +15,9 @@ import { SpkAirdropNoteInline } from '../BorrowAssetsList/BorrowAssetsListItem';
 import { ListItemCanBeCollateral } from '../ListItemCanBeCollateral';
 import { ListMobileItemWrapper } from '../ListMobileItemWrapper';
 import { ListValueRow } from '../ListValueRow';
+import { hasMerklRewards } from '@/hooks/useMerklAprMap';
+import { useMerklAprMap } from '@/hooks/useMerklAprMap';
+import { MerklRewardsIndicator } from '@/components/rewards/MerklRewardsIndicator';
 
 export const SupplyAssetsListMobileItem = ({
   symbol,
@@ -37,6 +40,16 @@ export const SupplyAssetsListMobileItem = ({
   const { currentMarket } = useProtocolDataContext();
   const { dsr } = useAppDataContext();
   const { openSupply, } = useModalContext();
+  const { aprMap, isLoading } = useMerklAprMap();
+  const hasRewards = hasMerklRewards(symbol);
+  const showAppleReward = hasRewards;
+
+  // If asset has Merkl rewards and we're on the supply tab, use the APR value
+  const displayValue = showAppleReward
+    ? isLoading
+      ? Number(supplyAPY) // Show base value while loading
+      : ((aprMap[symbol as keyof typeof aprMap]) / 100) + Number(supplyAPY)
+    : Number(supplyAPY);
 
   // Hide the asset to prevent it from being supplied if supply cap has been reached
   const { supplyCap: supplyCapUsage } = useAssetCaps();
@@ -78,12 +91,14 @@ export const SupplyAssetsListMobileItem = ({
         captionVariant="description"
         mb={2}
       >
-        <IncentivesCard
-          value={symbol === 'sDAI' && dsr != null ? dsr.toNumber() : Number(supplyAPY)}
-          incentives={aIncentivesData}
-          symbol={symbol}
-          variant="secondary14"
-        />
+        <MerklRewardsIndicator symbol={symbol} baseValue={Number(supplyAPY)} isSupplyTab={true}>
+          <IncentivesCard
+            value={displayValue}
+            incentives={aIncentivesData}
+            symbol={symbol}
+            variant="secondary14"
+          />
+        </MerklRewardsIndicator>
       </Row>
 
       {(symbol === 'ETH' || symbol === 'WETH') && (
