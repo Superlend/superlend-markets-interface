@@ -1,5 +1,5 @@
-import { Box, Tooltip, Typography, CircularProgress, Divider } from '@mui/material';
-import { ReactNode } from 'react';
+import { Box, Tooltip, Typography, CircularProgress, Divider, ClickAwayListener, useMediaQuery, useTheme } from '@mui/material';
+import { ReactNode, useState, useRef } from 'react';
 import { hasMerklRewards, useMerklAprMap } from '../../hooks/useMerklAprMap';
 import { FormattedNumber } from '../primitives/FormattedNumber';
 
@@ -83,7 +83,42 @@ export const MerklRewardsIndicator = ({ symbol, baseValue, isSupplyTab = false, 
   const { aprMap, isLoading } = useMerklAprMap();
   const showRewards = hasMerklRewards(symbol) && isSupplyTab;
   const merklApr = showRewards ? (aprMap[symbol as keyof typeof aprMap] || 0) : 0;
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const iconRef = useRef<HTMLDivElement>(null);
 
+  const handleTooltipToggle = (event: React.MouseEvent) => {
+    // Stop propagation to prevent immediate clickaway
+    event.stopPropagation();
+    event.preventDefault();
+    
+    // Toggle tooltip visibility - always toggle regardless of device type
+    setTooltipOpen(!tooltipOpen);
+  };
+
+  const handleTooltipClose = (event: Event | React.SyntheticEvent) => {
+    // Check if the click was on the icon itself
+    if (iconRef.current && iconRef.current.contains(event.target as Node)) {
+      return; // Don't close if clicked on the icon itself
+    }
+    
+    setTooltipOpen(false);
+  };
+
+  // For desktop hover
+  const handleTooltipOpen = () => {
+    setTooltipOpen(true);
+  };
+
+  // For desktop hover
+  const handleMouseLeave = () => {
+    if (!isMobile) {
+      setTooltipOpen(false);
+    }
+  };
+
+  // Use a simpler implementation that works on both desktop and mobile
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
       {children}
@@ -92,39 +127,75 @@ export const MerklRewardsIndicator = ({ symbol, baseValue, isSupplyTab = false, 
           {isLoading ? (
             <CircularProgress size={18} />
           ) : (
-            <Tooltip
-              title={getTooltipContentUI({
-                apr: merklApr,
-                baseRate: baseValue * 100,
-                netApy: (merklApr + (baseValue * 100)),
-              })}
-              arrow
-              placement="top"
-              componentsProps={{
-                tooltip: {
-                  sx: (theme) => ({
-                    backgroundColor: theme.palette.mode === 'light' ? '#ffffff' : '#1e293b',
-                    '& .MuiTooltip-arrow': {
-                      color: theme.palette.mode === 'light' ? '#ffffff' : '#1e293b',
-                      '&::before': {
+            <ClickAwayListener onClickAway={handleTooltipClose}>
+              <Box sx={{ position: 'relative', display: 'inline-block' }}>
+                <Tooltip
+                  title={getTooltipContentUI({
+                    apr: merklApr,
+                    baseRate: baseValue * 100,
+                    netApy: (merklApr + (baseValue * 100)),
+                  })}
+                  arrow
+                  placement="top"
+                  open={tooltipOpen}
+                  disableFocusListener
+                  disableTouchListener
+                  disableHoverListener
+                  componentsProps={{
+                    tooltip: {
+                      sx: (theme) => ({
+                        backgroundColor: theme.palette.mode === 'light' ? '#ffffff' : '#1e293b',
+                        '& .MuiTooltip-arrow': {
+                          color: theme.palette.mode === 'light' ? '#ffffff' : '#1e293b',
+                          '&::before': {
+                            border: theme.palette.mode === 'light'
+                              ? '1px solid rgba(0, 0, 0, 0.15)'
+                              : 'none',
+                          }
+                        },
+                        boxShadow: theme.palette.mode === 'light'
+                          ? '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
+                          : 'none',
                         border: theme.palette.mode === 'light'
                           ? '1px solid rgba(0, 0, 0, 0.15)'
                           : 'none',
-                      }
-                    },
-                    boxShadow: theme.palette.mode === 'light'
-                      ? '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
-                      : 'none',
-                    border: theme.palette.mode === 'light'
-                      ? '1px solid rgba(0, 0, 0, 0.15)'
-                      : 'none',
-                    p: 0,
-                  })
-                }
-              }}
-            >
-              <img src={`/logos/apple-green.png`} alt={"Green Apple"} width={18} height={18} />
-            </Tooltip>
+                        p: 0,
+                      })
+                    }
+                  }}
+                  PopperProps={{
+                    disablePortal: false,
+                    modifiers: [
+                      {
+                        name: 'preventOverflow',
+                        enabled: true,
+                        options: {
+                          boundary: 'window',
+                        },
+                      },
+                    ],
+                  }}
+                >
+                  <Box 
+                    component="span" 
+                    ref={iconRef}
+                    sx={{ 
+                      display: 'inline-block',
+                      cursor: 'pointer',
+                      position: 'relative',
+                      zIndex: 1,
+                      padding: '8px', // Increased tap target for better mobile experience
+                      margin: '-8px', // Offset padding to maintain visual spacing
+                    }}
+                    onClick={handleTooltipToggle}
+                    onMouseEnter={isMobile ? undefined : handleTooltipOpen}
+                    onMouseLeave={isMobile ? undefined : handleMouseLeave}
+                  >
+                    <img src={`/logos/apple-green.png`} alt={"Green Apple"} width={18} height={18} />
+                  </Box>
+                </Tooltip>
+              </Box>
+            </ClickAwayListener>
           )}
         </>
       )}
