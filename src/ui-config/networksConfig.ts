@@ -100,7 +100,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     publicJsonRPCUrl: [
       'https://node.mainnet.etherlink.com',
       'https://plend-etherlink-mainnet-djs2w.zeeve.net/TuychDxGCScIED1nCk0m/rpc',
-      // 'https://rpc.superlend.xyz',
+      // 'https://rpc.superlend.xyz', // Temporarily disabled for improving RPC status tracking. Re-enable if needed.
     ],
     baseUniswapAdapter: '0x0',
     baseAssetSymbol: 'XTZ',
