@@ -16,7 +16,7 @@ import {
   networkConfigs as _networkConfigs,
 } from '../ui-config/networksConfig';
 import { EnhancedRotationProvider } from './enhancedRotationProvider';
-import { RotationProvider } from './rotationProvider';
+// import { RotationProvider } from './rotationProvider';
 
 export type Pool = {
   address: string;
