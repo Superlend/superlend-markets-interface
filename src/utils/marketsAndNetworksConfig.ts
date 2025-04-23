@@ -15,6 +15,7 @@ import {
   NetworkConfig,
   networkConfigs as _networkConfigs,
 } from '../ui-config/networksConfig';
+import { EnhancedRotationProvider } from './enhancedRotationProvider';
 import { RotationProvider } from './rotationProvider';
 
 export type Pool = {
@@ -177,7 +178,7 @@ export const getProvider = (chainId: ChainId): ethersProviders.Provider => {
     if (chainProviders.length === 1) {
       providers[chainId] = new StaticJsonRpcProvider(chainProviders[0], chainId);
     } else {
-      providers[chainId] = new RotationProvider(chainProviders, chainId);
+      providers[chainId] = new EnhancedRotationProvider(chainProviders, chainId);
     }
   }
   return providers[chainId];
