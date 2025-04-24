@@ -11,7 +11,7 @@ export const CAMPAIGN_IDS = {
   CAMPAIGN_WETH: '0x03457302c5da09f3415010aa5be76e6533dc016ce80ba641f8151e13fc0e5a21',
 };
 
-export const SUPPORTED_MERKL_TOKENS = ['mTBILL', 'mBASIS', 'WXTZ', 'WBTC', 'USDC', 'USDT', 'WETH'];
+export const SUPPORTED_MERKL_TOKENS = ['mTBILL', 'mBASIS', 'WXTZ', 'WBTC', 'USDC', 'USDT', 'WETH', 'XTZ'];
 
 export interface MerklRewardsResponse {
   campaigns: {
@@ -80,6 +80,7 @@ export const createMerklRewardsSlice: StateCreator<
         'mBASIS': extractApr(responses[1]),
         'mTBILL': extractApr(responses[0]),
         'WXTZ': extractApr(responses[2]),
+        'XTZ': extractApr(responses[2]),
         'WBTC': extractApr(responses[3]),
         'USDC': extractApr(responses[4]),
         'USDT': extractApr(responses[5]),
