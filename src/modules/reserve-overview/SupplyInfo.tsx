@@ -20,6 +20,9 @@ import { MarketDataType } from 'src/utils/marketsAndNetworksConfig';
 
 import { ApyGraphContainer } from './graphs/ApyGraphContainer';
 import { PanelItem } from './ReservePanels';
+import { MerklRewardsIndicator } from '@/components/rewards/MerklRewardsIndicator';
+import { hasMerklRewards } from '@/hooks/useMerklAprMap';
+import { useMerklAprMap } from '@/hooks/useMerklAprMap';
 
 interface SupplyInfoProps {
   reserve: ComputedReserveData;
@@ -39,8 +42,17 @@ export const SupplyInfo = ({
   debtCeiling,
 }: SupplyInfoProps) => {
   const isDAI = reserve.symbol !== 'DAI';
-
-  return (
+  const { aprMap, isLoading } = useMerklAprMap();
+  const hasRewards = hasMerklRewards(reserve.symbol);
+  const showAppleReward = hasRewards;
+  
+  const displayValue = showAppleReward
+    ? isLoading
+      ? reserve.supplyAPY // Show base value while loading
+      : ((aprMap[reserve.symbol as keyof typeof aprMap]) / 100) + Number(reserve.supplyAPY)
+    : reserve.supplyAPY;
+    
+    return (
     <Box sx={{ flexGrow: 1, minWidth: 0, maxWidth: '100%', width: '100%' }}>
       <Box
         sx={{
@@ -137,7 +149,9 @@ export const SupplyInfo = ({
           </PanelItem>
         )}
         <PanelItem title={<Trans>APY</Trans>}>
-          <FormattedNumber value={reserve.supplyAPY} percent variant="main16" />
+          <MerklRewardsIndicator symbol={reserve.symbol} baseValue={Number(reserve.supplyAPY)} isSupplyTab={true}>
+            <FormattedNumber value={displayValue} percent variant="main16" />
+          </MerklRewardsIndicator>
           <IncentivesButton
             symbol={reserve.symbol}
             incentives={reserve.aIncentivesData}

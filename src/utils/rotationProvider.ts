@@ -3,13 +3,13 @@ import { logger } from 'ethers';
 
 const DEFAULT_FALL_FORWARD_DELAY = 60000;
 const MAX_RETRIES = 1;
-const RPC_TIMEOUT = 5000; // 5 seconds timeout
+const RPC_TIMEOUT = 10000; // 10 seconds timeout
 const GLOBAL_TIMEOUT = 30000; // 30 seconds global timeout
 const MAX_CONSECUTIVE_ERRORS = 3; // Maximum consecutive errors before temporary blacklisting
 const BLACKLIST_DURATION = 60000; // 1 minute blacklist duration
 const MAX_QUEUE_SIZE = 100; // Maximum pending requests in queue
 
-interface RotationProviderConfig {
+export interface RotationProviderConfig {
   maxRetries?: number;
   fallFowardDelay?: number;
   rpcTimeout?: number;
@@ -86,7 +86,7 @@ export function checkNetworks(networks: Network[]): Network {
  */
 export class RotationProvider extends BaseProvider {
   readonly providers: StaticJsonRpcProvider[];
-  private currentProviderIndex = 0;
+  protected currentProviderIndex = 0;
   private firstRotationTimestamp = 0;
   // number of full loops through provider array before throwing an error
   private maxRetries = 0;
@@ -101,7 +101,7 @@ export class RotationProvider extends BaseProvider {
   private lastError = '';
   
   // RPC status tracking
-  private rpcStatus: RPCStatus[] = [];
+  protected rpcStatus: RPCStatus[] = [];
   
   // Request queue for concurrent handling
   private requestQueue: Array<{
@@ -244,7 +244,7 @@ export class RotationProvider extends BaseProvider {
   /**
    * Find the best available provider based on health metrics
    */
-  private findBestProvider(): number {
+  protected findBestProvider(): number {
     const now = Date.now();
     
     // First try to find non-blacklisted providers with no recent failures

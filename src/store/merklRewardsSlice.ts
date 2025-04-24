@@ -4,13 +4,14 @@ import { getMerklCampaignUrl } from '../ui-config/merklConfig';
 export const CAMPAIGN_IDS = {
   CAMPAIGN_MTBILL: '0xd8d0ad6579284bcb4dbc3fb1e40f4596c788e4508daf9cfd010459ce86832850',
   CAMPAIGN_BASIS: '0xb3509a79b1715bc7666666fc9c27eb77762436648de827a5c5817371593aefd0',
-  CAMPAIGN_XTZ: '0x898a135c2bceffdae7618b1e2266108d154dfeab75a373b3eb3641ca31647e6a',
+  CAMPAIGN_WXTZ: '0x898a135c2bceffdae7618b1e2266108d154dfeab75a373b3eb3641ca31647e6a',
   CAMPAIGN_WBTC: '0xc85b1c610c3ae5058cc69e04d87239c2af3cefb0c2fbdfcccffa5fb23d9f1cd7',
   CAMPAIGN_USDC: '0x1bd8c05ef0d7b581826288a6b28a33eee2d95caa68c7f4b23dc7c5f32704b8ad',
   CAMPAIGN_USDT: '0x691135dbaf8ce8bcc7aace2468be9b499834308362e1194a4246014ff74163a1',
+  CAMPAIGN_WETH: '0x03457302c5da09f3415010aa5be76e6533dc016ce80ba641f8151e13fc0e5a21',
 };
 
-export const SUPPORTED_MERKL_TOKENS = ['mTBILL', 'mBASIS', 'XTZ', 'WBTC', 'USDC', 'USDT'];
+export const SUPPORTED_MERKL_TOKENS = ['mTBILL', 'mBASIS', 'WXTZ', 'WBTC', 'USDC', 'USDT', 'WETH'];
 
 export interface MerklRewardsResponse {
   campaigns: {
@@ -78,10 +79,11 @@ export const createMerklRewardsSlice: StateCreator<
       const aprMap: Record<string, number> = {
         'mBASIS': extractApr(responses[1]),
         'mTBILL': extractApr(responses[0]),
-        'XTZ': extractApr(responses[2]),
+        'WXTZ': extractApr(responses[2]),
         'WBTC': extractApr(responses[3]),
         'USDC': extractApr(responses[4]),
         'USDT': extractApr(responses[5]),
+        'WETH': extractApr(responses[6]),
       };
       
       set({ 
