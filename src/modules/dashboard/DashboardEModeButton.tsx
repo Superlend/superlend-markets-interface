@@ -86,10 +86,10 @@ export const DashboardEModeButton = ({ userEmodeCategoryId }: DashboardEModeButt
               ? open
                 ? theme.palette.background.disabled
                 : theme.palette.background.surface
-              : "",
+              : '',
             px: '4px',
             borderRadius: '4px',
-            background: "#FF5B00"
+            background: '#FF5B00',
           })}
         >
           <SvgIcon
@@ -127,7 +127,12 @@ export const DashboardEModeButton = ({ userEmodeCategoryId }: DashboardEModeButt
       <Menu
         open={open}
         anchorEl={anchorEl}
-        sx={{ '.MuiMenu-paper': { maxWidth: '280px' }, '.MuiList-root.MuiMenu-list': { background: palette.mode === 'dark' ? "#2A2826" : "paper" } }}
+        sx={{
+          '.MuiMenu-paper': { maxWidth: '280px' },
+          '.MuiList-root.MuiMenu-list': {
+            background: palette.mode === 'dark' ? '#2A2826' : 'paper',
+          },
+        }}
         onClose={handleClose}
         keepMounted={true}
       >

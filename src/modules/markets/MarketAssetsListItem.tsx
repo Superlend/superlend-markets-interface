@@ -6,6 +6,8 @@ import { NoData } from 'src/components/primitives/NoData';
 import { ReserveSubheader } from 'src/components/ReserveSubheader';
 import { useProtocolDataContext } from 'src/hooks/useProtocolDataContext';
 
+import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
+
 import { IncentivesCard } from '../../components/incentives/IncentivesCard';
 import { AMPLToolTip } from '../../components/infoTooltips/AMPLToolTip';
 import { ListColumn } from '../../components/lists/ListColumn';
@@ -13,12 +15,11 @@ import { ListItem } from '../../components/lists/ListItem';
 import { FormattedNumber } from '../../components/primitives/FormattedNumber';
 import { Link, ROUTES } from '../../components/primitives/Link';
 import { TokenIcon } from '../../components/primitives/TokenIcon';
+import { MerklRewardsIndicator } from '../../components/rewards/MerklRewardsIndicator';
 import { ComputedReserveData } from '../../hooks/app-data-provider/useAppDataProvider';
 // import { hasMerklRewards, useMerklAprMap } from '../../hooks/useMerklAprMap';
 import { SpkAirdropNoteInline } from '../dashboard/lists/BorrowAssetsList/BorrowAssetsListItem';
 import { ListAPRColumn } from '../dashboard/lists/ListAPRColumn';
-import { MerklRewardsIndicator } from '../../components/rewards/MerklRewardsIndicator';
-import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
 
 export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
   const router = useRouter();
@@ -33,7 +34,7 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
   const displayValue = showAppleReward
     ? isLoading
       ? reserve.supplyAPY // Show base APY while loading
-      : (Number(aprMap[reserve.symbol as keyof typeof aprMap]) / 100) + Number(reserve.supplyAPY)
+      : Number(aprMap[reserve.symbol as keyof typeof aprMap]) / 100 + Number(reserve.supplyAPY)
     : reserve.supplyAPY;
 
   return (
@@ -66,12 +67,21 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
       </ListColumn>
 
       <ListColumn>
-        <FormattedNumber compact value={reserve.totalLiquidity} variant="main16" symbolsColor='text.white' />
+        <FormattedNumber
+          compact
+          value={reserve.totalLiquidity}
+          variant="main16"
+          symbolsColor="text.white"
+        />
         <ReserveSubheader value={reserve.totalLiquidityUSD} />
       </ListColumn>
 
       <ListColumn>
-        <MerklRewardsIndicator symbol={reserve.symbol} baseValue={Number(reserve.supplyAPY)} isSupplyTab={true}>
+        <MerklRewardsIndicator
+          symbol={reserve.symbol}
+          baseValue={Number(reserve.supplyAPY)}
+          isSupplyTab={true}
+        >
           <IncentivesCard
             value={displayValue}
             incentives={reserve.aIncentivesData || []}
@@ -88,7 +98,12 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
       <ListColumn>
         {reserve.borrowingEnabled || Number(reserve.totalDebt) > 0 ? (
           <>
-            <FormattedNumber compact value={reserve.totalDebt} variant="main16" symbolsColor='text.white' />{' '}
+            <FormattedNumber
+              compact
+              value={reserve.totalDebt}
+              variant="main16"
+              symbolsColor="text.white"
+            />{' '}
             <ReserveSubheader value={reserve.totalDebtUSD} />
           </>
         ) : (

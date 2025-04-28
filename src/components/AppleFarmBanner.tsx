@@ -1,34 +1,40 @@
-import React from 'react';
-import { Typography, Box, Card as MuiCard, useTheme } from '@mui/material';
 import { BigNumber } from '@ethersproject/bignumber';
-import ImageWithDefault from '@/components/ImageWithDefault';
-import { ArrowRightIcon } from 'lucide-react';
+import { Box, Card as MuiCard, Typography, useTheme } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useMerklUserRewards } from '@/hooks/useMerklUserRewards';
+import { ArrowRightIcon } from 'lucide-react';
+import React from 'react';
 import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
+
+import ImageWithDefault from '@/components/ImageWithDefault';
+import { useMerklUserRewards } from '@/hooks/useMerklUserRewards';
 
 const StyledCard = styled(MuiCard)(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden',
-  background: theme.palette.mode === 'light' 
-    ? 'linear-gradient(to right, rgba(240, 253, 244, 1), rgba(187, 247, 208, 0.3))'
-    : 'linear-gradient(to right, rgba(22, 163, 74, 0.1), rgba(22, 163, 74, 0.05))',
+  background:
+    theme.palette.mode === 'light'
+      ? 'linear-gradient(to right, rgba(240, 253, 244, 1), rgba(187, 247, 208, 0.3))'
+      : 'linear-gradient(to right, rgba(22, 163, 74, 0.1), rgba(22, 163, 74, 0.05))',
   // cursor: 'pointer',
   borderRadius: '1.125rem',
   transition: 'all 0.3s ease',
-  border: theme.palette.mode === 'light'
-    ? '1px solid rgba(22, 163, 74, 0.15)'
-    : '1px solid rgba(22, 163, 74, 0.2)',
-  boxShadow: theme.palette.mode === 'light'
-    ? '0 0 10px rgba(22, 163, 74, 0.05)'
-    : '0 0 10px rgba(22, 163, 74, 0.1)',
+  border:
+    theme.palette.mode === 'light'
+      ? '1px solid rgba(22, 163, 74, 0.15)'
+      : '1px solid rgba(22, 163, 74, 0.2)',
+  boxShadow:
+    theme.palette.mode === 'light'
+      ? '0 0 10px rgba(22, 163, 74, 0.05)'
+      : '0 0 10px rgba(22, 163, 74, 0.1)',
   '&:hover': {
-    boxShadow: theme.palette.mode === 'light'
-      ? '0 0 20px rgba(22, 163, 74, 0.1)'
-      : '0 0 20px rgba(22, 163, 74, 0.2)',
-    border: theme.palette.mode === 'light'
-      ? '1px solid rgba(22, 163, 74, 0.25)'
-      : '1px solid rgba(22, 163, 74, 0.4)',
+    boxShadow:
+      theme.palette.mode === 'light'
+        ? '0 0 20px rgba(22, 163, 74, 0.1)'
+        : '0 0 20px rgba(22, 163, 74, 0.2)',
+    border:
+      theme.palette.mode === 'light'
+        ? '1px solid rgba(22, 163, 74, 0.25)'
+        : '1px solid rgba(22, 163, 74, 0.4)',
   },
 }));
 
@@ -87,12 +93,11 @@ const RewardItem = styled(Typography)(({ theme }) => ({
 }));
 
 const StyledButton = styled('button')(({ theme }) => ({
-  background: theme.palette.mode === 'light' 
-    ? 'rgba(22, 163, 74, 0.1)'
-    : 'rgba(22, 163, 74, 0.1)',
-  border: theme.palette.mode === 'light'
-    ? '1px solid rgba(22, 163, 74, 0.2)'
-    : '1px solid rgba(22, 163, 74, 0.3)',
+  background: theme.palette.mode === 'light' ? 'rgba(22, 163, 74, 0.1)' : 'rgba(22, 163, 74, 0.1)',
+  border:
+    theme.palette.mode === 'light'
+      ? '1px solid rgba(22, 163, 74, 0.2)'
+      : '1px solid rgba(22, 163, 74, 0.3)',
   borderRadius: '0.75rem',
   padding: '10px 20px',
   color: theme.palette.mode === 'light' ? '#15803d' : '#4ade80',
@@ -104,12 +109,12 @@ const StyledButton = styled('button')(({ theme }) => ({
   transition: 'all 0.3s ease',
   textTransform: 'capitalize',
   '&:hover': {
-    background: theme.palette.mode === 'light'
-      ? 'rgba(22, 163, 74, 0.15)'
-      : 'rgba(22, 163, 74, 0.2)',
-    border: theme.palette.mode === 'light'
-      ? '1px solid rgba(22, 163, 74, 0.3)'
-      : '1px solid rgba(22, 163, 74, 0.5)',
+    background:
+      theme.palette.mode === 'light' ? 'rgba(22, 163, 74, 0.15)' : 'rgba(22, 163, 74, 0.2)',
+    border:
+      theme.palette.mode === 'light'
+        ? '1px solid rgba(22, 163, 74, 0.3)'
+        : '1px solid rgba(22, 163, 74, 0.5)',
     transform: 'translateY(-2px)',
   },
 }));
@@ -119,7 +124,9 @@ export default function AppleFarmBanner() {
   const { currentAccount: address } = useWeb3Context();
   const { userRewards, loading } = useMerklUserRewards(address || '', 42793);
 
-  const totalRewards = BigNumber.from(userRewards?.[0]?.rewards?.[0]?.amount ?? '0').div(BigNumber.from(10).pow(18));
+  const totalRewards = BigNumber.from(userRewards?.[0]?.rewards?.[0]?.amount ?? '0').div(
+    BigNumber.from(10).pow(18)
+  );
   const totalRewardsNumber = parseFloat(totalRewards.toString());
 
   return (
@@ -135,7 +142,14 @@ export default function AppleFarmBanner() {
                 height={36}
                 style={{ objectFit: 'contain' }}
               />
-              <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', gap: '5px' }}>
+              <Box
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'start',
+                  gap: '5px',
+                }}
+              >
                 <Typography
                   component="h2"
                   sx={{
@@ -147,7 +161,12 @@ export default function AppleFarmBanner() {
                 >
                   Apple Farm is Live on Etherlink!
                 </Typography>
-                <a href="https://www.applefarm.xyz" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: '#4ade80' }}>
+                <a
+                  href="https://www.applefarm.xyz"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: 'none', color: '#4ade80' }}
+                >
                   <RewardsText>
                     Season One Rewards: $3,000,000
                     <ArrowRightIcon size={16} />
@@ -167,32 +186,38 @@ export default function AppleFarmBanner() {
               right: 24,
             }}
           >
-            {loading && (
-              <RewardItem>Loading rewards...</RewardItem>
-            )}
+            {loading && <RewardItem>Loading rewards...</RewardItem>}
             {!loading && address && totalRewardsNumber > 0 && (
               <RewardsInfoBox>
-                <RewardItem sx={{ 
-                  color: theme.palette.mode === 'light' ? '#15803d' : '#4ade80',
-                  fontWeight: 600 
-                }}>
+                <RewardItem
+                  sx={{
+                    color: theme.palette.mode === 'light' ? '#15803d' : '#4ade80',
+                    fontWeight: 600,
+                  }}
+                >
                   Your Available Rewards:
                 </RewardItem>
-                <RewardItem>
-                  {formatRewards(totalRewardsNumber)}
-                </RewardItem>
+                <RewardItem>{formatRewards(totalRewardsNumber)}</RewardItem>
               </RewardsInfoBox>
             )}
             {!loading && address && totalRewardsNumber === 0 && (
               <RewardsInfoBox>
-                <RewardItem sx={{ fontWeight: 600 }}>
-                  No rewards found
-                </RewardItem>
+                <RewardItem sx={{ fontWeight: 600 }}>No rewards found</RewardItem>
               </RewardsInfoBox>
             )}
-            <a href={(totalRewardsNumber > 0 || !address) ? "https://app.applefarm.xyz/users" : "https://app.applefarm.xyz/opportunities"} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: '#4ade80' }}>
+            <a
+              href={
+                totalRewardsNumber > 0 || !address
+                  ? 'https://app.applefarm.xyz/users'
+                  : 'https://app.applefarm.xyz/opportunities'
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: 'none', color: '#4ade80' }}
+            >
               <StyledButton>
-                {(totalRewardsNumber > 0 || !address) ? "Claim Rewards" : "Supply to gain rewards"} <ArrowRightIcon size={16} />
+                {totalRewardsNumber > 0 || !address ? 'Claim Rewards' : 'Supply to gain rewards'}{' '}
+                <ArrowRightIcon size={16} />
               </StyledButton>
             </a>
           </Box>
@@ -204,12 +229,12 @@ export default function AppleFarmBanner() {
 
 function formatRewards(rewards: number) {
   if (rewards > 1000000) {
-    return `${(rewards / 1000000).toFixed(2)}M`
+    return `${(rewards / 1000000).toFixed(2)}M`;
   } else if (rewards > 1000) {
-    return `${(rewards / 1000).toFixed(2)}K`
+    return `${(rewards / 1000).toFixed(2)}K`;
   } else if (rewards > 0 && rewards < 0.01) {
-    return `<0.01`
+    return `<0.01`;
   } else {
-    return rewards.toFixed(2)
+    return rewards.toFixed(2);
   }
 }

@@ -18,11 +18,11 @@ import { ComputedReserveData } from 'src/hooks/app-data-provider/useAppDataProvi
 import { AssetCapHookData } from 'src/hooks/useAssetCaps';
 import { MarketDataType } from 'src/utils/marketsAndNetworksConfig';
 
+import { MerklRewardsIndicator } from '@/components/rewards/MerklRewardsIndicator';
+import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
+
 import { ApyGraphContainer } from './graphs/ApyGraphContainer';
 import { PanelItem } from './ReservePanels';
-import { MerklRewardsIndicator } from '@/components/rewards/MerklRewardsIndicator';
-import { hasMerklRewards } from '@/hooks/useMerklAprMap';
-import { useMerklAprMap } from '@/hooks/useMerklAprMap';
 
 interface SupplyInfoProps {
   reserve: ComputedReserveData;
@@ -45,14 +45,14 @@ export const SupplyInfo = ({
   const { aprMap, isLoading } = useMerklAprMap();
   const hasRewards = hasMerklRewards(reserve.symbol);
   const showAppleReward = hasRewards;
-  
+
   const displayValue = showAppleReward
     ? isLoading
       ? reserve.supplyAPY // Show base value while loading
-      : ((aprMap[reserve.symbol as keyof typeof aprMap]) / 100) + Number(reserve.supplyAPY)
+      : aprMap[reserve.symbol as keyof typeof aprMap] / 100 + Number(reserve.supplyAPY)
     : reserve.supplyAPY;
-    
-    return (
+
+  return (
     <Box sx={{ flexGrow: 1, minWidth: 0, maxWidth: '100%', width: '100%' }}>
       <Box
         sx={{
@@ -149,7 +149,11 @@ export const SupplyInfo = ({
           </PanelItem>
         )}
         <PanelItem title={<Trans>APY</Trans>}>
-          <MerklRewardsIndicator symbol={reserve.symbol} baseValue={Number(reserve.supplyAPY)} isSupplyTab={true}>
+          <MerklRewardsIndicator
+            symbol={reserve.symbol}
+            baseValue={Number(reserve.supplyAPY)}
+            isSupplyTab={true}
+          >
             <FormattedNumber value={displayValue} percent variant="main16" />
           </MerklRewardsIndicator>
           <IncentivesButton

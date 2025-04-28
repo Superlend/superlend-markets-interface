@@ -84,9 +84,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
   },
   [ChainId.etherlink_testnet]: {
     name: 'Etherlink Testnet',
-    publicJsonRPCUrl: [
-      'https://node.ghostnet.etherlink.com',
-    ],
+    publicJsonRPCUrl: ['https://node.ghostnet.etherlink.com'],
     baseUniswapAdapter: '0x0',
     baseAssetSymbol: 'XTZ',
     wrappedBaseAssetSymbol: 'WXTZ',

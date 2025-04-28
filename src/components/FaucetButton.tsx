@@ -25,7 +25,7 @@ export const FaucetButton = () => {
           </SvgIcon>
         }
         component={Link}
-        href={"https://faucet.etherlink.com"}
+        href={'https://faucet.etherlink.com'}
         variant="outlined"
         size="small"
       >

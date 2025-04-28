@@ -98,8 +98,7 @@ export const useMerklRewardsSubscription = createSingletonSubscriber(() => {
 useRootStore.subscribe(
   (state) => state.currentMarketData,
   async (selected) => {
-    const { setIsFaucetPermissioned: setFaucetPermissioned } =
-      useRootStore.getState();
+    const { setIsFaucetPermissioned: setFaucetPermissioned } = useRootStore.getState();
     if (ENABLE_TESTNET || STAGING_ENV) {
       if (!selected.v3) {
         setFaucetPermissioned(false);

@@ -83,7 +83,7 @@ export function getMaxAmountAvailableToBorrow(
   //       .lt(user.availableBorrowsUSD));
 
   return maxUserAmountToBorrow.multipliedBy('0.99');
-  
+
   // return shouldAddMargin ?  : maxUserAmountToBorrow;
 }
 

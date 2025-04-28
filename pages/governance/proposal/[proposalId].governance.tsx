@@ -165,7 +165,11 @@ export default function ProposalPage({
   return (
     <>
       {ipfs && (
-        <Meta imageUrl="https://asset.cloudinary.com/dbogvpefw/07d39cb3701b76bca4dbeacfb5b9e927" title={ipfs.title} description={ipfs.shortDescription} />
+        <Meta
+          imageUrl="https://asset.cloudinary.com/dbogvpefw/07d39cb3701b76bca4dbeacfb5b9e927"
+          title={ipfs.title}
+          description={ipfs.shortDescription}
+        />
       )}
       <ProposalTopPanel />
 

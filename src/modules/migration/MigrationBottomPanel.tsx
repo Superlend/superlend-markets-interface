@@ -76,8 +76,8 @@ export const MigrationBottomPanel = ({
         return (
           <>
             <Trans>
-              This action will reduce health factor of Superlend Protocol below liquidation threshold.
-              Increase migrated collateral or reduce migrated borrow to continue.
+              This action will reduce health factor of Superlend Protocol below liquidation
+              threshold. Increase migrated collateral or reduce migrated borrow to continue.
             </Trans>
           </>
         );

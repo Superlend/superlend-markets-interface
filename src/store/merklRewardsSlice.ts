@@ -1,4 +1,5 @@
 import { StateCreator } from 'zustand';
+
 import { getMerklCampaignUrl } from '../ui-config/merklConfig';
 
 export const CAMPAIGN_IDS = {
@@ -11,7 +12,16 @@ export const CAMPAIGN_IDS = {
   CAMPAIGN_WETH: '0x03457302c5da09f3415010aa5be76e6533dc016ce80ba641f8151e13fc0e5a21',
 };
 
-export const SUPPORTED_MERKL_TOKENS = ['mTBILL', 'mBASIS', 'WXTZ', 'WBTC', 'USDC', 'USDT', 'WETH', 'XTZ'];
+export const SUPPORTED_MERKL_TOKENS = [
+  'mTBILL',
+  'mBASIS',
+  'WXTZ',
+  'WBTC',
+  'USDC',
+  'USDT',
+  'WETH',
+  'XTZ',
+];
 
 export interface MerklRewardsResponse {
   campaigns: {
@@ -36,58 +46,62 @@ export interface MerklRewardsSlice {
 }
 
 export const createMerklRewardsSlice: StateCreator<
-  MerklRewardsSlice, 
-  [["zustand/subscribeWithSelector", never], ["zustand/devtools", never]]
+  MerklRewardsSlice,
+  [['zustand/subscribeWithSelector', never], ['zustand/devtools', never]]
 > = (set, get) => ({
   merklAprMap: {},
   merklRewardsLoading: true,
   merklRewardsError: null,
   merklLastUpdated: 0,
-  
+
   fetchMerklRewards: async () => {
     // Check if we already loaded data and it's less than 5 minutes old
     const now = Date.now();
     const lastUpdated = get().merklLastUpdated;
-    if (lastUpdated > 0 && now - lastUpdated < 5 * 60 * 1000 && Object.keys(get().merklAprMap).length) {
+    if (
+      lastUpdated > 0 &&
+      now - lastUpdated < 5 * 60 * 1000 &&
+      Object.keys(get().merklAprMap).length
+    ) {
       return; // Skip fetch if recently updated
     }
-    
+
     try {
       set({ merklRewardsLoading: true });
-      
+
       // Fetch all campaigns in parallel
       const campaignIds = Object.values(CAMPAIGN_IDS);
       const responses = await Promise.all(
-        campaignIds.map(campaignId => 
+        campaignIds.map((campaignId) =>
           fetch(getMerklCampaignUrl(campaignId))
-            .then(res => res.json())
-            .catch(err => {
+            .then((res) => res.json())
+            .catch((err) => {
               console.error(`Error fetching Merkl campaign ${campaignId}:`, err);
               return null;
             })
         )
       );
-      
+
       // Extract APR values from responses
       const extractApr = (data: any) => {
         if (!data) return 0;
         // Handle the specific response structure from Merkl API
         return data[0]?.Opportunity?.apr || 0;
       };
-      
+
       // Map tokens to their APRs
       const aprMap: Record<string, number> = {
-        'mBASIS': extractApr(responses[1]),
-        'mTBILL': extractApr(responses[0]),
-        'WXTZ': extractApr(responses[2]),
-        'XTZ': extractApr(responses[2]),
-        'WBTC': extractApr(responses[3]),
-        'USDC': extractApr(responses[4]),
-        'USDT': extractApr(responses[5]),
-        'WETH': extractApr(responses[6]),
+        mBASIS: extractApr(responses[1]),
+        mTBILL: extractApr(responses[0]),
+        WXTZ: extractApr(responses[2]),
+        XTZ: extractApr(responses[2]),
+        WBTC: extractApr(responses[3]),
+        USDC: extractApr(responses[4]),
+        USDT: extractApr(responses[5]),
+        WETH: extractApr(responses[6]),
       };
-      
-      set({ 
+
+      set({
         merklAprMap: aprMap,
         merklRewardsLoading: false,
         merklRewardsError: null,
@@ -101,4 +115,4 @@ export const createMerklRewardsSlice: StateCreator<
       });
     }
   },
-}); 
+});

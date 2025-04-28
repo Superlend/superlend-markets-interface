@@ -13,6 +13,11 @@ import Box from '@mui/material/Box';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { ContentWithTooltip } from 'src/components/ContentWithTooltip';
+import WarningSnackbar from 'src/components/primitives/WarningSnackbar';
+import { toggleMode } from 'src/helpers/toggle-mode';
+import useSnackbar from 'src/hooks/useSnackbar';
+import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
+import { ChainId } from 'src/ui-config/networksConfig';
 import { ENABLE_TESTNET } from 'src/utils/marketsAndNetworksConfig';
 
 import { Link } from '../components/primitives/Link';
@@ -21,11 +26,6 @@ import { NavItems } from './components/NavItems';
 import { MobileMenu } from './MobileMenu';
 import { SettingsMenu } from './SettingsMenu';
 import WalletWidget from './WalletWidget';
-import { toggleMode } from 'src/helpers/toggle-mode';
-import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
-import { ChainId } from 'src/ui-config/networksConfig';
-import useSnackbar from 'src/hooks/useSnackbar';
-import WarningSnackbar from 'src/components/primitives/WarningSnackbar';
 
 interface Props {
   children: React.ReactElement;
@@ -69,11 +69,11 @@ export function AppHeader() {
 
     switchNetwork(newChainId)
       .then(toggleMode)
-      .catch(err => {
-        console.log('Switch network error => ', `"${err.code}"`)
-        if(err.code.toString() === "-32002") {
+      .catch((err) => {
+        console.log('Switch network error => ', `"${err.code}"`);
+        if (err.code.toString() === '-32002') {
           handleOpenSnackbar({
-            message: "Resolve any pending requests from your wallet or try again!"
+            message: 'Resolve any pending requests from your wallet or try again!',
           });
         }
       });
@@ -86,15 +86,18 @@ export function AppHeader() {
         {!ENABLE_TESTNET && <Trans>Testnet mode is OFF</Trans>}
       </Typography>
       <Typography variant="description">
-        {ENABLE_TESTNET &&
-          <Trans>The app is running in testnet mode. Learn how it works in</Trans>
-        }
-        {!ENABLE_TESTNET &&
+        {ENABLE_TESTNET && <Trans>The app is running in testnet mode. Learn how it works in</Trans>}
+        {!ENABLE_TESTNET && (
           <Trans>The app is running in mainnet mode. Learn how it works in</Trans>
-        }
+        )}
         <Link
           href="https://docs.superlend.xyz"
-          style={{ fontSize: '14px', fontWeight: 400, textDecoration: 'underline', marginLeft: '5px' }}
+          style={{
+            fontSize: '14px',
+            fontWeight: 400,
+            textDecoration: 'underline',
+            marginLeft: '5px',
+          }}
         >
           FAQ.
         </Link>
@@ -139,11 +142,16 @@ export function AppHeader() {
               transition: '0.3s ease all',
               '&:hover': { opacity: 0.7 },
               height: sm ? 25 : 30,
-              width: sm ? 25 : 30
+              width: sm ? 25 : 30,
             }}
             onClick={() => setMobileMenuOpen(false)}
           >
-            <img src={uiConfig.appLogo} alt="An SVG of the Superlend logo" height="100%" width="100%" />
+            <img
+              src={uiConfig.appLogo}
+              alt="An SVG of the Superlend logo"
+              height="100%"
+              width="100%"
+            />
           </Box>
           <Box sx={{ mr: sm ? 1 : 3 }}>
             <ContentWithTooltip tooltipContent={testnetTooltip} offset={[0, -4]} withoutHover>
@@ -156,7 +164,7 @@ export function AppHeader() {
                   '&:hover, &.Mui-focusVisible': { backgroundColor: 'rgba(255, 255, 255, 0.1)' },
                 }}
               >
-                {ENABLE_TESTNET ? "TESTNET" : "MAINNET"}
+                {ENABLE_TESTNET ? 'TESTNET' : 'MAINNET'}
                 <SvgIcon sx={{ marginLeft: '2px', fontSize: '16px' }}>
                   <InformationCircleIcon />
                 </SvgIcon>

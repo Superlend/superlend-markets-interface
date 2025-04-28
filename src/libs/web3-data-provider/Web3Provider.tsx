@@ -1,4 +1,5 @@
 import { API_ETH_MOCK_ADDRESS, transactionType } from '@aave/contract-helpers';
+import { logEvent } from '@amplitude/analytics-browser';
 import { SignatureLike } from '@ethersproject/bytes';
 import {
   JsonRpcProvider,
@@ -19,7 +20,6 @@ import { isLedgerDappBrowserProvider } from 'web3-ledgerhq-frame-connector';
 import { Web3Context } from '../hooks/useWeb3Context';
 import { WalletConnectConnector } from './WalletConnectConnector';
 import { getWallet, ReadOnlyModeConnector, WalletType } from './WalletOptions';
-import { logEvent } from '@amplitude/analytics-browser';
 
 export type ERC20TokenType = {
   address: string;

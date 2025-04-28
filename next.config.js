@@ -8,8 +8,8 @@ const pageExtensions = ['page.tsx'];
 if (process.env.NEXT_PUBLIC_ENABLE_GOVERNANCE === 'true') pageExtensions.push('governance.tsx');
 if (process.env.NEXT_PUBLIC_ENABLE_STAKING === 'true') pageExtensions.push('staking.tsx');
 
-// Also include .js and .page.js for API routes
-// pageExtensions.push('js', 'page.js');
+// Include page.js for API routes, but not plain .js to avoid duplicates
+pageExtensions.push('page.js');
 
 /** @type {import('next').NextConfig} */
 module.exports = withBundleAnalyzer({
@@ -29,9 +29,9 @@ module.exports = withBundleAnalyzer({
       ],
     });
     // Enable both topLevelAwait and layers experiments
-    config.experiments = { 
+    config.experiments = {
       topLevelAwait: true,
-      layers: true
+      layers: true,
     };
     return config;
   },

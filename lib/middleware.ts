@@ -2,28 +2,24 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 // Helper method to wait for a middleware to execute before continuing
 // And to throw an error when an error happens in a middleware
-export function runMiddleware(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  fn: Function
-) {
+export function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: (req: NextApiRequest, res: NextApiResponse, callback: (result: any) => void) => void) {
   console.log('MIDDLEWARE: Starting runMiddleware execution');
   console.log('MIDDLEWARE: Request method:', req.method);
   console.log('MIDDLEWARE: Request path:', req.url);
-  
+
   return new Promise((resolve, reject) => {
     console.log('MIDDLEWARE: Setting up middleware promise');
-    
+
     // Define a callback function to handle middleware completion
     const callback = (result: any) => {
       console.log('MIDDLEWARE: Middleware callback invoked');
-      
+
       if (result instanceof Error) {
         console.error('MIDDLEWARE: Middleware failed with error:', result);
         console.error('MIDDLEWARE: Error details:', {
           name: result.name,
           message: result.message,
-          stack: result.stack
+          stack: result.stack,
         });
         return reject(result);
       }
@@ -32,7 +28,7 @@ export function runMiddleware(
       console.log('MIDDLEWARE: Result:', result);
       return resolve(result);
     };
-    
+
     try {
       console.log('MIDDLEWARE: Calling middleware function');
       fn(req, res, callback);
@@ -42,7 +38,7 @@ export function runMiddleware(
       console.error('MIDDLEWARE: Error details:', {
         name: error.name,
         message: error.message,
-        stack: error.stack
+        stack: error.stack,
       });
       reject(error);
     }
@@ -50,10 +46,8 @@ export function runMiddleware(
 }
 
 // For CommonJS compatibility
-// @ts-ignore
 if (typeof module !== 'undefined') {
-  // @ts-ignore
   module.exports = {
-    runMiddleware
+    runMiddleware,
   };
-} 
+}

@@ -21,7 +21,7 @@ export const DrawerWrapper = ({ open, setOpen, children, headerHeight }: DrawerW
       sx={{ top: `${headerHeight}px` }}
       PaperProps={{
         sx: {
-          background: palette.mode === 'dark' ? "#000000" : "paper",
+          background: palette.mode === 'dark' ? '#000000' : 'paper',
           backdropFilter: 'blur(20px)',
           boxShadow: 'none',
           borderRadius: 'unset',

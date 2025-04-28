@@ -59,7 +59,9 @@ type MarketLogoProps = {
 export const MarketLogo = ({ size, logo, testChainName }: MarketLogoProps) => {
   return (
     <Box sx={{ mr: 2, width: size, height: size, position: 'relative' }}>
-      <Box sx={{ filter: 'brightness(0.7)' }}><img src={logo} alt="" width="100%" height="100%" /></Box>
+      <Box sx={{ filter: 'brightness(0.7)' }}>
+        <img src={logo} alt="" width="100%" height="100%" />
+      </Box>
 
       {testChainName && (
         <Tooltip title={testChainName} arrow>
@@ -157,7 +159,7 @@ export const MarketSwitcher = () => {
           PaperProps: {
             style: {
               minWidth: 240,
-              background: theme.palette.mode === 'dark' ? '#2A2826' : '#f1f1f1'
+              background: theme.palette.mode === 'dark' ? '#2A2826' : '#f1f1f1',
             },
             variant: 'outlined',
             elevation: 0,
@@ -168,41 +170,42 @@ export const MarketSwitcher = () => {
       <Box>
         <Typography variant="subheader2" color="text.secondary" sx={{ px: 4, py: 2 }}>
           <Trans>
-            {ENABLE_TESTNET || STAGING_ENV ? 'Select Superlend Testnet Market' : 'Select Superlend Market'}
+            {ENABLE_TESTNET || STAGING_ENV
+              ? 'Select Superlend Testnet Market'
+              : 'Select Superlend Market'}
           </Trans>
         </Typography>
       </Box>
 
-      {availableMarkets
-        .map((marketId: CustomMarket) => {
-          const { market, network } = getMarketInfoById(marketId);
-          const marketNaming = getMarketHelpData(market.marketTitle);
-          return (
-            <MenuItem
-              key={marketId}
-              data-cy={`marketSelector_${marketId}`}
-              value={marketId}
-              sx={{
-                '.MuiListItemIcon-root': { minWidth: 'unset' },
-                display: market.v3 ? 'flex' : 'none',
-              }}
-            >
-              <MarketLogo
-                size={32}
-                logo={network.networkLogoPath}
-                testChainName={marketNaming.testChainName}
-              />
-              <ListItemText sx={{ mr: 0 }}>
-                {marketNaming.name} {market.isFork ? 'Fork' : ''}
-              </ListItemText>
-              <ListItemText sx={{ textAlign: 'right' }}>
-                <Typography color="text.secondary" variant="description">
-                  {marketNaming.testChainName}
-                </Typography>
-              </ListItemText>
-            </MenuItem>
-          );
-        })}
+      {availableMarkets.map((marketId: CustomMarket) => {
+        const { market, network } = getMarketInfoById(marketId);
+        const marketNaming = getMarketHelpData(market.marketTitle);
+        return (
+          <MenuItem
+            key={marketId}
+            data-cy={`marketSelector_${marketId}`}
+            value={marketId}
+            sx={{
+              '.MuiListItemIcon-root': { minWidth: 'unset' },
+              display: market.v3 ? 'flex' : 'none',
+            }}
+          >
+            <MarketLogo
+              size={32}
+              logo={network.networkLogoPath}
+              testChainName={marketNaming.testChainName}
+            />
+            <ListItemText sx={{ mr: 0 }}>
+              {marketNaming.name} {market.isFork ? 'Fork' : ''}
+            </ListItemText>
+            <ListItemText sx={{ textAlign: 'right' }}>
+              <Typography color="text.secondary" variant="description">
+                {marketNaming.testChainName}
+              </Typography>
+            </ListItemText>
+          </MenuItem>
+        );
+      })}
     </TextField>
   );
 };

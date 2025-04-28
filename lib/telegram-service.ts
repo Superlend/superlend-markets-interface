@@ -24,23 +24,25 @@ export async function checkTelegramUsernameSubmitted(walletAddress: string): Pro
 
   try {
     console.log('TELEGRAM CHECK: Starting check for wallet:', walletAddress);
-    
+
     // Use standard Next.js API route with trailing slash to match trailingSlash: true config
     const apiUrl = `/api/telegram-check/?wallet=${walletAddress}`;
     console.log('TELEGRAM CHECK: Using API URL:', apiUrl);
-    
+
     const response = await fetch(apiUrl, {
       method: 'GET',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json' 
+        Accept: 'application/json',
       },
     });
 
     console.log('TELEGRAM CHECK: Response status:', response.status);
-    
+
     if (!response.ok) {
-      console.error(`TELEGRAM CHECK: Error checking Telegram username: ${response.statusText} (${response.status})`);
+      console.error(
+        `TELEGRAM CHECK: Error checking Telegram username: ${response.statusText} (${response.status})`
+      );
       return false;
     }
 
@@ -66,26 +68,31 @@ export async function submitTelegramUsername({
 }: SubmitTelegramUsernameParams): Promise<SubmitTelegramUsernameResponse> {
   try {
     console.log('SUBMIT TELEGRAM: Starting submission process for:', telegramUsername);
-    console.log('SUBMIT TELEGRAM: Full payload:', { telegramUsername, walletAddress, portfolioValue, website });
-    
+    console.log('SUBMIT TELEGRAM: Full payload:', {
+      telegramUsername,
+      walletAddress,
+      portfolioValue,
+      website,
+    });
+
     // Standard Next.js API route with trailing slash to match trailingSlash: true config
     const apiUrl = '/api/telegram-connect/';
     console.log('SUBMIT TELEGRAM: Using API URL:', apiUrl);
-    
+
     // Prepare the request payload
     const payload = {
       telegramUsername,
       walletAddress,
       portfolioValue,
-      website
+      website,
     };
-    
+
     // Make the API request
     const response = await fetch(apiUrl, {
       method: 'POST',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        Accept: 'application/json',
       },
       body: JSON.stringify(payload),
     });
@@ -93,22 +100,28 @@ export async function submitTelegramUsername({
     console.log('SUBMIT TELEGRAM: Response status:', response.status);
 
     if (!response.ok) {
-      console.error('SUBMIT TELEGRAM: Request failed with status:', response.status, response.statusText);
-      
+      console.error(
+        'SUBMIT TELEGRAM: Request failed with status:',
+        response.status,
+        response.statusText
+      );
+
       try {
         const errorData = await response.json();
         console.error('SUBMIT TELEGRAM: Error response data:', errorData);
         throw new Error(errorData.message || `Server responded with status: ${response.status}`);
       } catch (jsonError) {
         console.error('SUBMIT TELEGRAM: Failed to parse error response:', jsonError);
-        throw new Error(`Server responded with status: ${response.status} (${response.statusText})`);
+        throw new Error(
+          `Server responded with status: ${response.status} (${response.statusText})`
+        );
       }
     }
 
     // Parse the successful response
     const data = await response.json();
     console.log('SUBMIT TELEGRAM: Success response data:', data);
-    
+
     return {
       success: data.success,
       message: data.message || 'Successfully connected Telegram username',
@@ -124,7 +137,7 @@ export async function submitTelegramUsername({
 
 /**
  * Validate a Telegram username format
- * 
+ *
  * @param telegramUsername The Telegram username to validate
  * @returns String containing error message if invalid, empty string if valid
  */
@@ -135,8 +148,8 @@ export function validateTelegramUsername(telegramUsername: string): string {
   }
 
   // Remove @ symbol if present
-  const usernameWithoutAt = trimmedUsername.startsWith('@') 
-    ? trimmedUsername.substring(1) 
+  const usernameWithoutAt = trimmedUsername.startsWith('@')
+    ? trimmedUsername.substring(1)
     : trimmedUsername;
 
   // Check length requirements (5-32 characters)
@@ -154,4 +167,4 @@ export function validateTelegramUsername(telegramUsername: string): string {
   }
 
   return '';
-} 
+}

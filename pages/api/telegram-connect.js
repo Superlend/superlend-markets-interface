@@ -1,5 +1,5 @@
 // Import supabase client for database operations
-import { supabaseServer, getErrorMessage } from '../../lib/supabase-client';
+import { getErrorMessage, supabaseServer } from '../../lib/supabase-client';
 
 // Telegram username validation function
 function validateTelegramUsername(telegramUsername) {
@@ -9,8 +9,8 @@ function validateTelegramUsername(telegramUsername) {
   }
 
   // Remove @ symbol if present
-  const usernameWithoutAt = trimmedUsername.startsWith('@') 
-    ? trimmedUsername.substring(1) 
+  const usernameWithoutAt = trimmedUsername.startsWith('@')
+    ? trimmedUsername.substring(1)
     : trimmedUsername;
 
   // Check length requirements (5-32 characters)
@@ -38,25 +38,25 @@ export default async function handler(req, res) {
   console.log('API Route called: /api/telegram-connect', {
     method: req.method,
     body: req.body,
-    query: req.query
+    query: req.query,
   });
-  
+
   // Setup CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  
+
   // Handle OPTIONS request for CORS preflight
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
   }
-  
+
   // Only allow POST method
   if (req.method !== 'POST') {
-    return res.status(405).json({ 
-      success: false, 
-      message: 'Method not allowed' 
+    return res.status(405).json({
+      success: false,
+      message: 'Method not allowed',
     });
   }
 
@@ -66,69 +66,67 @@ export default async function handler(req, res) {
 
     // Validate required fields
     if (!telegramUsername) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Telegram username is required' 
+      return res.status(400).json({
+        success: false,
+        message: 'Telegram username is required',
       });
     }
 
     // Validate Telegram username format
     const validationError = validateTelegramUsername(telegramUsername);
     if (validationError) {
-      return res.status(400).json({ 
-        success: false, 
-        message: validationError 
+      return res.status(400).json({
+        success: false,
+        message: validationError,
       });
     }
 
     // Format username (remove @ if present)
-    const formattedUsername = telegramUsername.startsWith('@') 
-      ? telegramUsername.substring(1) 
+    const formattedUsername = telegramUsername.startsWith('@')
+      ? telegramUsername.substring(1)
       : telegramUsername;
 
-    console.log('Saving telegram username:', { 
-      telegramUsername: formattedUsername, 
-      walletAddress, 
-      portfolioValue, 
-      website 
+    console.log('Saving telegram username:', {
+      telegramUsername: formattedUsername,
+      walletAddress,
+      portfolioValue,
+      website,
     });
 
     // Re-enable database operations
     try {
       // Try to save to Supabase
-      const { error } = await supabaseServer
-        .from('telegram_users')
-        .insert({
-          telegram_username: formattedUsername,
-          wallet_address: walletAddress || null,
-          portfolio_value: portfolioValue,
-          website,
-        });
+      const { error } = await supabaseServer.from('telegram_users').insert({
+        telegram_username: formattedUsername,
+        wallet_address: walletAddress || null,
+        portfolio_value: portfolioValue,
+        website,
+      });
 
       if (error) {
         console.error('Supabase error:', error);
         const errorMessage = getErrorMessage(error);
         return res.status(400).json({ success: false, message: errorMessage });
       }
-      
+
       // Send success response
       return res.status(200).json({
         success: true,
-        message: 'Successfully connected Telegram username'
+        message: 'Successfully connected Telegram username',
       });
     } catch (dbError) {
       console.error('Database operation failed:', dbError);
-      return res.status(500).json({ 
-        success: false, 
+      return res.status(500).json({
+        success: false,
         message: 'Database error occurred',
-        error: dbError.message
+        error: dbError.message,
       });
     }
   } catch (error) {
     console.error('Error in telegram-connect API:', error);
-    return res.status(500).json({ 
-      success: false, 
-      message: error instanceof Error ? error.message : 'An unknown error occurred' 
+    return res.status(500).json({
+      success: false,
+      message: error instanceof Error ? error.message : 'An unknown error occurred',
     });
   }
-} 
+}

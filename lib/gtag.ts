@@ -1,8 +1,5 @@
 // lib/gtag.js
-export const GA_TRACKING_ID =
-  process.env.NEXT_PUBLIC_ENV === 'prod'
-    ? 'G-S6H189KCT7'
-    : undefined;
+export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_ENV === 'prod' ? 'G-S6H189KCT7' : undefined;
 
 // Log page views
 export const pageview = (url: string) => {

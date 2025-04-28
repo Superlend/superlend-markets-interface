@@ -11,14 +11,14 @@ export const useTelegramDialog = (portfolioValue: number = 0) => {
   const [isChecking, setIsChecking] = useState<boolean>(false);
   const [shouldShowAfterDeposit, setShouldShowAfterDeposit] = useState<boolean>(false);
   const { currentAccount } = useWeb3Context();
-  
+
   // Check if wallet is connected (non-empty account)
   const isWalletConnected = !!currentAccount;
 
   // Check if the user has already submitted their Telegram username
   const checkUserSubmission = useCallback(async () => {
     if (!currentAccount) return;
-    
+
     setIsChecking(true);
     try {
       const hasAlreadySubmitted = await checkTelegramUsernameSubmitted(currentAccount);
@@ -38,18 +38,21 @@ export const useTelegramDialog = (portfolioValue: number = 0) => {
   }, [isWalletConnected, checkUserSubmission]);
 
   // Function to check after a successful deposit
-  const checkAfterDeposit = useCallback((newPortfolioValue: number) => {
-    console.log('Checking after deposit, portfolio value:', newPortfolioValue);
-    
-    if (
-      isWalletConnected &&
-      !hasSubmitted &&
-      !isChecking &&
-      newPortfolioValue >= PORTFOLIO_VALUE_THRESHOLD
-    ) {
-      setShouldShowAfterDeposit(true);
-    }
-  }, [isWalletConnected, hasSubmitted, isChecking]);
+  const checkAfterDeposit = useCallback(
+    (newPortfolioValue: number) => {
+      console.log('Checking after deposit, portfolio value:', newPortfolioValue);
+
+      if (
+        isWalletConnected &&
+        !hasSubmitted &&
+        !isChecking &&
+        newPortfolioValue >= PORTFOLIO_VALUE_THRESHOLD
+      ) {
+        setShouldShowAfterDeposit(true);
+      }
+    },
+    [isWalletConnected, hasSubmitted, isChecking]
+  );
 
   // Show dialog after deposit if conditions are met
   useEffect(() => {
@@ -82,4 +85,4 @@ export const useTelegramDialog = (portfolioValue: number = 0) => {
     isEligible: portfolioValue >= PORTFOLIO_VALUE_THRESHOLD,
     portfolioValue,
   };
-}; 
+};

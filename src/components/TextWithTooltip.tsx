@@ -27,12 +27,14 @@ export const TextWithTooltip = ({
   const [open, setOpen] = useState(false);
 
   return (
-    <Box sx={{
-      display: 'flex',
-      alignItems: 'center',
-      flexWrap: "wrap",
-      gap: "3px"
-    }}>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: '3px',
+      }}
+    >
       {text && <Typography {...rest}>{text}</Typography>}
 
       <ContentWithTooltip tooltipContent={<>{children}</>} open={open} setOpen={setOpen}>

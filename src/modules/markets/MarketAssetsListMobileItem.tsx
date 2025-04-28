@@ -5,6 +5,9 @@ import { NoData } from 'src/components/primitives/NoData';
 import { ReserveSubheader } from 'src/components/ReserveSubheader';
 import { useProtocolDataContext } from 'src/hooks/useProtocolDataContext';
 
+import { MerklRewardsIndicator } from '@/components/rewards/MerklRewardsIndicator';
+import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
+
 import { IncentivesCard } from '../../components/incentives/IncentivesCard';
 import { FormattedNumber } from '../../components/primitives/FormattedNumber';
 import { Link, ROUTES } from '../../components/primitives/Link';
@@ -12,8 +15,6 @@ import { Row } from '../../components/primitives/Row';
 import { ComputedReserveData } from '../../hooks/app-data-provider/useAppDataProvider';
 import { SpkAirdropNoteInline } from '../dashboard/lists/BorrowAssetsList/BorrowAssetsListItem';
 import { ListMobileItemWrapper } from '../dashboard/lists/ListMobileItemWrapper';
-import { MerklRewardsIndicator } from '@/components/rewards/MerklRewardsIndicator';
-import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
 
 export const MarketAssetsListMobileItem = ({ ...reserve }: ComputedReserveData) => {
   const { currentMarket } = useProtocolDataContext();
@@ -25,7 +26,7 @@ export const MarketAssetsListMobileItem = ({ ...reserve }: ComputedReserveData) 
   const displayValue = showAppleReward
     ? isLoading
       ? reserve.supplyAPY // Show base APY while loading
-      : (Number(aprMap[reserve.symbol as keyof typeof aprMap]) / 100) + Number(reserve.supplyAPY)
+      : Number(aprMap[reserve.symbol as keyof typeof aprMap]) / 100 + Number(reserve.supplyAPY)
     : reserve.supplyAPY;
 
   return (
@@ -46,7 +47,12 @@ export const MarketAssetsListMobileItem = ({ ...reserve }: ComputedReserveData) 
             textAlign: 'center',
           }}
         >
-          <FormattedNumber compact value={reserve.totalLiquidity} variant="secondary14" symbolsColor='text.white' />
+          <FormattedNumber
+            compact
+            value={reserve.totalLiquidity}
+            variant="secondary14"
+            symbolsColor="text.white"
+          />
           <ReserveSubheader value={reserve.totalLiquidityUSD} rightAlign={true} />
         </Box>
       </Row>
@@ -56,7 +62,11 @@ export const MarketAssetsListMobileItem = ({ ...reserve }: ComputedReserveData) 
         mb={3}
         align="flex-start"
       >
-        <MerklRewardsIndicator symbol={reserve.symbol} baseValue={Number(reserve.supplyAPY)} isSupplyTab={true}>
+        <MerklRewardsIndicator
+          symbol={reserve.symbol}
+          baseValue={Number(reserve.supplyAPY)}
+          isSupplyTab={true}
+        >
           <IncentivesCard
             align="flex-end"
             value={displayValue}
@@ -81,7 +91,12 @@ export const MarketAssetsListMobileItem = ({ ...reserve }: ComputedReserveData) 
         >
           {Number(reserve.totalDebt) > 0 ? (
             <>
-              <FormattedNumber compact value={reserve.totalDebt} variant="secondary14" symbolsColor='text.white' />
+              <FormattedNumber
+                compact
+                value={reserve.totalDebt}
+                variant="secondary14"
+                symbolsColor="text.white"
+              />
               <ReserveSubheader value={reserve.totalDebtUSD} rightAlign={true} />
             </>
           ) : (

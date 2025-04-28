@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
-import { useRootStore, useMerklRewardsSubscription } from '../store/root';
+
 import { SUPPORTED_MERKL_TOKENS } from '../store/merklRewardsSlice';
+import { useMerklRewardsSubscription, useRootStore } from '../store/root';
 
 export { SUPPORTED_MERKL_TOKENS } from '../store/merklRewardsSlice';
 
@@ -22,7 +23,7 @@ export const useMerklAprMap = () => {
     merklRewardsLoading: state.merklRewardsLoading,
     fetchMerklRewards: state.fetchMerklRewards,
   }));
-  
+
   // Trigger a fetch if the map is empty (first load)
   useEffect(() => {
     if (Object.keys(merklAprMap).length === 0) {
@@ -34,4 +35,4 @@ export const useMerklAprMap = () => {
     aprMap: merklAprMap,
     isLoading: merklRewardsLoading,
   };
-}; 
+};

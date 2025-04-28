@@ -28,4 +28,4 @@ export function getErrorMessage(error: any): string {
     return String(error.message);
   }
   return 'Unknown error occurred';
-} 
+}

@@ -1,12 +1,12 @@
 import { BookOpenIcon } from '@heroicons/react/outline';
 import { t } from '@lingui/macro';
+// import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import { ReactNode } from 'react';
 import { ROUTES } from 'src/components/primitives/Link';
 
 import GithubIcon from '/public/icons/github.svg';
-// import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
-import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 
 import { MarketDataType } from '../marketsConfig';
 

@@ -1,12 +1,12 @@
 // import { Trans } from '@lingui/macro';
-import { 
-  Box, 
-  Button, 
-  Dialog, 
-  DialogContent, 
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogContent,
   DialogTitle,
-  IconButton, 
-  TextField, 
+  IconButton,
+  TextField,
   Typography,
   useMediaQuery,
   Card,
@@ -14,7 +14,7 @@ import {
   FormHelperText,
   Drawer,
   Tooltip,
-  CircularProgress
+  CircularProgress,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -32,11 +32,11 @@ interface TelegramConnectionDialogProps {
   website?: 'AGGREGATOR' | 'MARKETS';
 }
 
-export const TelegramConnectionDialog = ({ 
-  open, 
-  onClose, 
+export const TelegramConnectionDialog = ({
+  open,
+  onClose,
   portfolioValue,
-  website = 'MARKETS'
+  website = 'MARKETS',
 }: TelegramConnectionDialogProps) => {
   const { currentAccount } = useWeb3Context();
   const [telegramUsername, setTelegramUsername] = useState('');
@@ -48,12 +48,12 @@ export const TelegramConnectionDialog = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Format portfolio value for display
-  const formattedPortfolioValue = portfolioValue 
-    ? new Intl.NumberFormat('en-US', { 
-        style: 'currency', 
+  const formattedPortfolioValue = portfolioValue
+    ? new Intl.NumberFormat('en-US', {
+        style: 'currency',
         currency: 'USD',
         minimumFractionDigits: 2,
-        maximumFractionDigits: 2 
+        maximumFractionDigits: 2,
       }).format(portfolioValue)
     : '$0.00';
 
@@ -65,7 +65,7 @@ export const TelegramConnectionDialog = ({
       setSubmitSuccess(false);
     }
   }, [open]);
-  
+
   // Focus input when dialog opens
   useEffect(() => {
     if (open && !submitSuccess && inputRef.current) {
@@ -85,7 +85,7 @@ export const TelegramConnectionDialog = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate username
     const validationError = validateTelegramUsername(telegramUsername);
     if (validationError) {
@@ -94,7 +94,7 @@ export const TelegramConnectionDialog = ({
     }
 
     setIsSubmitting(true);
-    
+
     try {
       // Submit username
       const result = await submitTelegramUsername({
@@ -103,7 +103,7 @@ export const TelegramConnectionDialog = ({
         portfolioValue,
         website,
       });
-      
+
       if (result.success) {
         setSubmitSuccess(true);
       } else {
@@ -115,7 +115,7 @@ export const TelegramConnectionDialog = ({
       setIsSubmitting(false);
     }
   };
-  
+
   const handleDiscordClick = () => {
     window.open('https://discord.gg/superlend', '_blank');
   };
@@ -129,7 +129,7 @@ export const TelegramConnectionDialog = ({
           We need your inputs!
         </Typography>
       </DialogTitle>
-      
+
       {/* Close button */}
       <IconButton
         aria-label="close"
@@ -144,63 +144,84 @@ export const TelegramConnectionDialog = ({
       >
         <CloseIcon />
       </IconButton>
-      
+
       <DialogContent sx={{ p: 2 }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5, maxWidth: '100%', overflow: 'hidden' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2.5,
+            maxWidth: '100%',
+            overflow: 'hidden',
+          }}
+        >
           {submitSuccess ? (
             // Success state
-            <Card sx={{ 
-              p: 3, 
-              bgcolor: theme.palette.mode === 'dark' ? '#2c6e42' : '#4ade80', 
-              borderRadius: 2,
-              boxShadow: 'none',
-              textAlign: 'center'
-            }}>
-              <Box sx={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                gap:.5,
-                mb: 2
-              }}>
-                <Box sx={{ 
-                  width: 28, 
-                  height: 28, 
-                  bgcolor: 'rgba(255,255,255,0.3)', 
-                  borderRadius: '50%', 
-                  display: 'flex', 
-                  alignItems: 'center', 
+            <Card
+              sx={{
+                p: 3,
+                bgcolor: theme.palette.mode === 'dark' ? '#2c6e42' : '#4ade80',
+                borderRadius: 2,
+                boxShadow: 'none',
+                textAlign: 'center',
+              }}
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
                   justifyContent: 'center',
-                  mr: 1
-                }}>
+                  gap: 0.5,
+                  mb: 2,
+                }}
+              >
+                <Box
+                  sx={{
+                    width: 28,
+                    height: 28,
+                    bgcolor: 'rgba(255,255,255,0.3)',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mr: 1,
+                  }}
+                >
                   <CheckCircleOutlineIcon sx={{ color: 'white' }} fontSize="small" />
                 </Box>
                 <Typography sx={{ fontWeight: 500, color: 'white' }}>
                   Thank you! We'll connect with you soon.
                 </Typography>
               </Box>
-              
+
               {/* Divider */}
               <Box sx={{ height: '1px', bgcolor: 'rgba(255,255,255,0.3)', width: '100%', my: 2 }} />
-              
+
               {/* Join Discord button */}
               <Button
                 variant="contained"
                 fullWidth
-                sx={{ 
-                  py: 1.5, 
-                  borderRadius: 2, 
+                sx={{
+                  py: 1.5,
+                  borderRadius: 2,
                   bgcolor: '#5865F2', // Discord brand color
                   color: 'white',
                   '&:hover': { bgcolor: '#4752C4' },
                   textTransform: 'none',
-                  fontWeight: 500
+                  fontWeight: 500,
                 }}
                 onClick={handleDiscordClick}
               >
                 Join our Discord Community
               </Button>
-              <Typography sx={{ color: 'rgba(255,255,255,0.8)', textAlign: 'center', mt: 1, fontSize: '0.875rem' }}>
+              <Typography
+                sx={{
+                  color: 'rgba(255,255,255,0.8)',
+                  textAlign: 'center',
+                  mt: 1,
+                  fontSize: '0.875rem',
+                }}
+              >
                 Join our active community for the latest updates and support
               </Typography>
             </Card>
@@ -208,36 +229,45 @@ export const TelegramConnectionDialog = ({
             <>
               {/* Message */}
               <Typography sx={{ color: 'white', fontSize: '0.875rem', lineHeight: 1.6 }}>
-                Hope you've been enjoying Superlend. 
-                Our product manager would like to have a chat with you and ask you a few questions to understand how best we can add value to you.
+                Hope you've been enjoying Superlend. Our product manager would like to have a chat
+                with you and ask you a few questions to understand how best we can add value to you.
                 This will help us build the best DeFi products for you.
               </Typography>
-              
+
               <Typography sx={{ color: 'white', fontSize: '0.875rem', lineHeight: 1.6 }}>
                 Do drop-in your Telegram username, and our PM will reach out in the next 24-48 hours
               </Typography>
-              
+
               {/* Info Banner */}
-              <Box sx={{ 
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1.5,
-                p: 2,
-                mt: 1,
-                bgcolor: '#0b3b65', 
-                borderRadius: 1,
-                boxShadow: '0 1px 2px rgba(0,0,0,0.1)'
-              }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1.5,
+                  p: 2,
+                  mt: 1,
+                  bgcolor: '#0b3b65',
+                  borderRadius: 1,
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
+                }}
+              >
                 <InfoOutlinedIcon sx={{ color: 'white', fontSize: 20 }} />
                 <Typography sx={{ color: 'white', fontSize: '0.875rem' }}>
-                  Your portfolio of <Box component="span" sx={{ fontWeight: 600 }}>{formattedPortfolioValue}</Box> qualifies you for personalized support.
+                  Your portfolio of{' '}
+                  <Box component="span" sx={{ fontWeight: 600 }}>
+                    {formattedPortfolioValue}
+                  </Box>{' '}
+                  qualifies you for personalized support.
                 </Typography>
               </Box>
-              
+
               {/* Input field - simplified */}
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, mt: 1 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <InputLabel sx={{ color: 'white', fontSize: '0.875rem' }} htmlFor="telegram-username">
+                  <InputLabel
+                    sx={{ color: 'white', fontSize: '0.875rem' }}
+                    htmlFor="telegram-username"
+                  >
                     Your Telegram Username
                   </InputLabel>
                   <Tooltip
@@ -253,8 +283,12 @@ export const TelegramConnectionDialog = ({
                         <ol style={{ paddingLeft: 16, marginTop: 4 }}>
                           <li style={{ marginBottom: 2, fontSize: '0.875rem' }}>Open Telegram</li>
                           <li style={{ marginBottom: 2, fontSize: '0.875rem' }}>Go to Settings</li>
-                          <li style={{ marginBottom: 2, fontSize: '0.875rem' }}>Tap on your profile</li>
-                          <li style={{ fontSize: '0.875rem' }}>Your username will be listed as @username</li>
+                          <li style={{ marginBottom: 2, fontSize: '0.875rem' }}>
+                            Tap on your profile
+                          </li>
+                          <li style={{ fontSize: '0.875rem' }}>
+                            Your username will be listed as @username
+                          </li>
                         </ol>
                       </Box>
                     }
@@ -263,7 +297,7 @@ export const TelegramConnectionDialog = ({
                     <InfoOutlinedIcon fontSize="small" sx={{ color: 'rgba(255,255,255,0.7)' }} />
                   </Tooltip>
                 </Box>
-                
+
                 <TextField
                   id="telegram-username"
                   value={telegramUsername}
@@ -274,7 +308,7 @@ export const TelegramConnectionDialog = ({
                   helperText={usernameError}
                   inputRef={inputRef}
                   autoFocus
-                  sx={{ 
+                  sx={{
                     borderRadius: 2,
                     '& .MuiOutlinedInput-root': {
                       borderRadius: 2,
@@ -283,41 +317,45 @@ export const TelegramConnectionDialog = ({
                       border: '2px solid white',
                       '&:hover, &.Mui-focused': {
                         borderColor: 'white',
-                        boxShadow: '0 0 0 2px rgba(255,255,255,0.4)'
-                      }
+                        boxShadow: '0 0 0 2px rgba(255,255,255,0.4)',
+                      },
                     },
                     '& .MuiInputBase-input': {
                       px: 2,
                       color: '#333',
                       '&::placeholder': {
                         color: '#777',
-                        opacity: 1
-                      }
+                        opacity: 1,
+                      },
                     },
                     '& .MuiFormHelperText-root': {
-                      color: theme => theme.palette.error.main,
-                      mt: 1
-                    }
+                      color: (theme) => theme.palette.error.main,
+                      mt: 1,
+                    },
                   }}
                 />
-                
-                <FormHelperText sx={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.75rem', mt: 0.5 }}>
+
+                <FormHelperText
+                  sx={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.75rem', mt: 0.5 }}
+                >
                   Your information will only be used for product improvement purposes.
                 </FormHelperText>
               </Box>
-              
+
               {/* Buttons */}
-              <Box sx={{ 
-                display: 'flex',
-                justifyContent: 'center',
-                pt: 1.5,
-                mt: 1
-              }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  pt: 1.5,
+                  mt: 1,
+                }}
+              >
                 <Button
                   onClick={handleSubmit}
                   disabled={isSubmitting || !telegramUsername.trim()}
                   variant="contained"
-                  sx={{ 
+                  sx={{
                     py: 1.5,
                     px: 4,
                     borderRadius: 5,
@@ -325,17 +363,20 @@ export const TelegramConnectionDialog = ({
                     display: 'flex',
                     alignItems: 'center',
                     gap: 0.5,
-                    bgcolor: theme => isSubmitting || !telegramUsername.trim() 
-                      ? theme.palette.action.disabledBackground 
-                      : theme.palette.primary.main,
-                    color: theme => isSubmitting || !telegramUsername.trim() 
-                      ? theme.palette.action.disabled 
-                      : theme.palette.primary.contrastText,
+                    bgcolor: (theme) =>
+                      isSubmitting || !telegramUsername.trim()
+                        ? theme.palette.action.disabledBackground
+                        : theme.palette.primary.main,
+                    color: (theme) =>
+                      isSubmitting || !telegramUsername.trim()
+                        ? theme.palette.action.disabled
+                        : theme.palette.primary.contrastText,
                     '&:hover': {
-                      bgcolor: theme => !isSubmitting && telegramUsername.trim() 
-                        ? theme.palette.primary.dark 
-                        : theme.palette.action.disabledBackground
-                    }
+                      bgcolor: (theme) =>
+                        !isSubmitting && telegramUsername.trim()
+                          ? theme.palette.primary.dark
+                          : theme.palette.action.disabledBackground,
+                    },
                   }}
                 >
                   Connect
@@ -356,8 +397,8 @@ export const TelegramConnectionDialog = ({
   // Render the appropriate dialog
   if (isDesktop) {
     return (
-      <Dialog 
-        open={open} 
+      <Dialog
+        open={open}
         onClose={!isSubmitting ? onClose : undefined}
         maxWidth="sm"
         PaperProps={{
@@ -367,15 +408,15 @@ export const TelegramConnectionDialog = ({
             p: 3,
             pt: 2.5,
             bgcolor: '#222222',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
-          }
+            boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+          },
         }}
       >
         {renderDialogContent()}
       </Dialog>
     );
   }
-  
+
   return (
     <Drawer
       anchor="bottom"
@@ -388,11 +429,11 @@ export const TelegramConnectionDialog = ({
           p: 3,
           pt: 2.5,
           bgcolor: '#222222',
-          boxShadow: '0 -8px 32px rgba(0,0,0,0.3)'
-        }
+          boxShadow: '0 -8px 32px rgba(0,0,0,0.3)',
+        },
       }}
     >
       {renderDialogContent()}
     </Drawer>
   );
-}; 
+};

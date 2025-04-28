@@ -12,7 +12,9 @@ export const USDCMigrationWarning: React.FC = () => {
       severity="error"
     >
       <Typography variant="caption" component="span">
-        <Trans>Superlend Protocol only supports DAI, so your USDC will be converted into DAI.</Trans>{' '}
+        <Trans>
+          Superlend Protocol only supports DAI, so your USDC will be converted into DAI.
+        </Trans>{' '}
       </Typography>
     </Warning>
   );

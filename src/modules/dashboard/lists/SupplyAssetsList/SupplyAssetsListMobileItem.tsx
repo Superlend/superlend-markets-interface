@@ -5,6 +5,9 @@ import { useAssetCaps } from 'src/hooks/useAssetCaps';
 import { useProtocolDataContext } from 'src/hooks/useProtocolDataContext';
 import { DashboardReserve } from 'src/utils/dashboardSortUtils';
 
+import { MerklRewardsIndicator } from '@/components/rewards/MerklRewardsIndicator';
+import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
+
 import { CapsHint } from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
 import { IncentivesCard } from '../../../../components/incentives/IncentivesCard';
@@ -15,9 +18,6 @@ import { SpkAirdropNoteInline } from '../BorrowAssetsList/BorrowAssetsListItem';
 import { ListItemCanBeCollateral } from '../ListItemCanBeCollateral';
 import { ListMobileItemWrapper } from '../ListMobileItemWrapper';
 import { ListValueRow } from '../ListValueRow';
-import { hasMerklRewards } from '@/hooks/useMerklAprMap';
-import { useMerklAprMap } from '@/hooks/useMerklAprMap';
-import { MerklRewardsIndicator } from '@/components/rewards/MerklRewardsIndicator';
 
 export const SupplyAssetsListMobileItem = ({
   symbol,
@@ -39,7 +39,7 @@ export const SupplyAssetsListMobileItem = ({
 }: DashboardReserve) => {
   const { currentMarket } = useProtocolDataContext();
   const { dsr } = useAppDataContext();
-  const { openSupply, } = useModalContext();
+  const { openSupply } = useModalContext();
   const { aprMap, isLoading } = useMerklAprMap();
   const hasRewards = hasMerklRewards(symbol);
   const showAppleReward = hasRewards;
@@ -48,7 +48,7 @@ export const SupplyAssetsListMobileItem = ({
   const displayValue = showAppleReward
     ? isLoading
       ? Number(supplyAPY) // Show base value while loading
-      : ((aprMap[symbol as keyof typeof aprMap]) / 100) + Number(supplyAPY)
+      : aprMap[symbol as keyof typeof aprMap] / 100 + Number(supplyAPY)
     : Number(supplyAPY);
 
   // Hide the asset to prevent it from being supplied if supply cap has been reached

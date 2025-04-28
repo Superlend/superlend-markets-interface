@@ -46,7 +46,7 @@ export function SettingsMenu() {
         aria-expanded={settingsOpen ? 'true' : undefined}
         aria-haspopup="true"
         onClick={handleSettingsClick}
-        sx={{ p: '7px 8px', minWidth: 'unset', ml: 2, background: "rgba(235, 235, 237, 0.20)" }}
+        sx={{ p: '7px 8px', minWidth: 'unset', ml: 2, background: 'rgba(235, 235, 237, 0.20)' }}
       >
         <SvgIcon sx={{ color: '#F1F1F3' }} fontSize="small">
           <CogIcon />
@@ -61,7 +61,12 @@ export function SettingsMenu() {
         anchorEl={anchorEl}
         open={settingsOpen}
         onClose={handleClose}
-        sx={{ '.MuiMenuItem-root.Mui-disabled': { opacity: 1 }, '.MuiList-root.MuiMenu-list': { background: palette.mode === 'dark' ? "#2A2826" : "#f1f1f1" } }}
+        sx={{
+          '.MuiMenuItem-root.Mui-disabled': { opacity: 1 },
+          '.MuiList-root.MuiMenu-list': {
+            background: palette.mode === 'dark' ? '#2A2826' : '#f1f1f1',
+          },
+        }}
         keepMounted={true}
       >
         <MenuItem disabled sx={{ mb: '4px' }}>
@@ -84,7 +89,11 @@ export function SettingsMenu() {
         open={languagesOpen}
         onClose={handleClose}
         keepMounted={true}
-        sx={{ '.MuiList-root.MuiMenu-list': { background: palette.mode === 'dark' ? "#2A2826" : "#f1f1f1" } }}
+        sx={{
+          '.MuiList-root.MuiMenu-list': {
+            background: palette.mode === 'dark' ? '#2A2826' : '#f1f1f1',
+          },
+        }}
       >
         <LanguagesList onClick={handleCloseLanguage} component={MenuItem} />
       </Menu>

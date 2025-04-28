@@ -8,25 +8,25 @@ export default async function handler(req, res) {
   // Log the request for debugging
   console.log('API Route called: /api/telegram-check', {
     method: req.method,
-    query: req.query
+    query: req.query,
   });
-  
+
   // Setup CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  
+
   // Handle OPTIONS request for CORS preflight
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
   }
-  
+
   // Only allow GET method
   if (req.method !== 'GET') {
-    return res.status(405).json({ 
-      exists: false, 
-      message: 'Method not allowed' 
+    return res.status(405).json({
+      exists: false,
+      message: 'Method not allowed',
     });
   }
 
@@ -36,9 +36,9 @@ export default async function handler(req, res) {
 
     // Validate required fields
     if (!walletAddress) {
-      return res.status(400).json({ 
-        exists: false, 
-        message: 'Wallet address is required' 
+      return res.status(400).json({
+        exists: false,
+        message: 'Wallet address is required',
       });
     }
 
@@ -61,7 +61,7 @@ export default async function handler(req, res) {
       // Return whether a record exists
       return res.status(200).json({
         exists: !!data,
-        message: data ? 'Telegram username found' : 'No Telegram username found'
+        message: data ? 'Telegram username found' : 'No Telegram username found',
       });
     } catch (dbError) {
       console.error('Database operation failed:', dbError);
@@ -69,14 +69,14 @@ export default async function handler(req, res) {
       return res.status(200).json({
         exists: false,
         message: 'Database error, defaulting to no username found',
-        error: dbError.message
+        error: dbError.message,
       });
     }
   } catch (error) {
     console.error('Error in telegram-check API:', error);
-    return res.status(500).json({ 
-      exists: false, 
-      message: error instanceof Error ? error.message : 'An unknown error occurred' 
+    return res.status(500).json({
+      exists: false,
+      message: error instanceof Error ? error.message : 'An unknown error occurred',
     });
   }
-} 
+}

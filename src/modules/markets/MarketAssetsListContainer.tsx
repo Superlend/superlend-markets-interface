@@ -77,9 +77,9 @@ export const MarketAssetsListContainer = () => {
           </Typography>
           <Warning severity="info">
             <Trans>
-              These assets are temporarily frozen by Superlend Protocol decisions, meaning that further
-              supply / borrow, or rate swap of these assets are unavailable. Withdrawals and debt
-              repayments are allowed.
+              These assets are temporarily frozen by Superlend Protocol decisions, meaning that
+              further supply / borrow, or rate swap of these assets are unavailable. Withdrawals and
+              debt repayments are allowed.
             </Trans>
           </Warning>
         </Box>

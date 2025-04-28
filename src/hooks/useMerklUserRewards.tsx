@@ -1,41 +1,44 @@
 import { useEffect, useState } from 'react';
 
 interface MerklUserReward {
-    chain: {
-        id: number
-        name: string
-        icon: string
-        Explorer: Array<{
-            id: string
-            type: string
-            url: string
-            chainId: number
-        }>
-    }
-    rewards: Array<{
-        root: string
-        recipient: string
-        amount: string
-        claimed: string
-        pending: string
-        proofs: string[]
-        token: {
-            address: string
-            chainId: number
-            symbol: string
-            decimals: number
-        }
-        breakdowns: Array<{
-            reason: string
-            amount: string
-            claimed: string
-            pending: string
-            campaignId: string
-        }>
-    }>
+  chain: {
+    id: number;
+    name: string;
+    icon: string;
+    Explorer: Array<{
+      id: string;
+      type: string;
+      url: string;
+      chainId: number;
+    }>;
+  };
+  rewards: Array<{
+    root: string;
+    recipient: string;
+    amount: string;
+    claimed: string;
+    pending: string;
+    proofs: string[];
+    token: {
+      address: string;
+      chainId: number;
+      symbol: string;
+      decimals: number;
+    };
+    breakdowns: Array<{
+      reason: string;
+      amount: string;
+      claimed: string;
+      pending: string;
+      campaignId: string;
+    }>;
+  }>;
 }
 
-export const useMerklUserRewards = (walletAddress: string, chainId: number = 42793): {
+export const useMerklUserRewards = (
+  walletAddress: string,
+  chainId = 42793
+): {
   userRewards: MerklUserReward[];
   loading: boolean;
   error: Error | null;
@@ -49,13 +52,13 @@ export const useMerklUserRewards = (walletAddress: string, chainId: number = 427
       if (!walletAddress) {
         setLoading(false);
         return;
-      };
+      }
 
       try {
         const response = await fetch(
           `https://api.merkl.xyz/v4/users/${walletAddress}/rewards?chainId=${chainId}`
         );
-        
+
         if (!response.ok) {
           throw new Error('Failed to fetch user Merkl rewards');
         }
@@ -78,4 +81,4 @@ export const useMerklUserRewards = (walletAddress: string, chainId: number = 427
     loading,
     error,
   };
-}; 
+};
