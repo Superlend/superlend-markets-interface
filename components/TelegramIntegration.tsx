@@ -19,6 +19,9 @@ export const TelegramIntegration = () => {
     return user?.totalLiquidityUSD ? parseFloat(user.totalLiquidityUSD) : 0;
   }, [user?.totalLiquidityUSD]);
 
+  // Check if any transaction modal is currently open
+  const isTransactionModalOpen = modalType !== undefined;
+
   // Initialize the Telegram dialog logic
   const {
     isOpen,
@@ -26,7 +29,7 @@ export const TelegramIntegration = () => {
     // markAsSubmitted,
     checkAfterDeposit,
     portfolioValue: thresholdValue,
-  } = useTelegramDialog(portfolioValue);
+  } = useTelegramDialog(portfolioValue, isTransactionModalOpen);
 
   // Monitor transaction success to trigger the dialog check
   useEffect(() => {

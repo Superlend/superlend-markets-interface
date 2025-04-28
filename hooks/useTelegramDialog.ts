@@ -5,7 +5,10 @@ import { checkTelegramUsernameSubmitted } from '../lib/telegram-service';
 // Portfolio value threshold for showing the dialog (in USD)
 export const PORTFOLIO_VALUE_THRESHOLD = 1000; // $1000 USD threshold for whales
 
-export const useTelegramDialog = (portfolioValue: number = 0) => {
+export const useTelegramDialog = (
+  portfolioValue: number = 0,
+  isTransactionModalOpen: boolean = false
+) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [hasSubmitted, setHasSubmitted] = useState<boolean>(false);
   const [isChecking, setIsChecking] = useState<boolean>(false);
@@ -54,13 +57,13 @@ export const useTelegramDialog = (portfolioValue: number = 0) => {
     [isWalletConnected, hasSubmitted, isChecking]
   );
 
-  // Show dialog after deposit if conditions are met
+  // Show dialog after deposit if conditions are met AND transaction modal is closed
   useEffect(() => {
-    if (shouldShowAfterDeposit && !isOpen) {
+    if (shouldShowAfterDeposit && !isOpen && !isTransactionModalOpen) {
       setIsOpen(true);
       setShouldShowAfterDeposit(false);
     }
-  }, [shouldShowAfterDeposit, isOpen]);
+  }, [shouldShowAfterDeposit, isOpen, isTransactionModalOpen]);
 
   const openDialog = useCallback(() => {
     setIsOpen(true);
