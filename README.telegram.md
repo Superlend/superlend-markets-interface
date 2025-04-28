@@ -29,8 +29,7 @@ Replace the placeholder values with your actual Supabase credentials from the Su
 
 ### 3. Integration Usage
 
-The Telegram dialog will automatically appear for users whose portfolio value exceeds the threshold defined in `hooks/useTelegramDialog.ts` (default: $50 USD).
-
+The Telegram dialog will automatically appear for users whose portfolio value exceeds the threshold defined in `hooks/useTelegramDialog.ts` (default: $1000 USD).
 To change the threshold, modify the `PORTFOLIO_VALUE_THRESHOLD` constant in `hooks/useTelegramDialog.ts`.
 
 ### 4. Components Overview
