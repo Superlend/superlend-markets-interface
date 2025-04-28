@@ -32,11 +32,7 @@ export const LanguageListItem = ({ component = ListItem, onClick }: LanguageList
   const { palette } = useTheme();
 
   return (
-    <Box
-      component={component}
-      onClick={onClick}
-      sx={{ color: { xs: 'text.primary' } }}
-    >
+    <Box component={component} onClick={onClick} sx={{ color: { xs: 'text.primary' } }}>
       <ListItemText sx={{ fontFamily: palette.fonts.header, fontWeight: 500 }}>
         <Trans>Language</Trans>
       </ListItemText>

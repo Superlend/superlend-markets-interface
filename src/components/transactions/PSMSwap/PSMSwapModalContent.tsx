@@ -62,18 +62,18 @@ export const PSMSwapModalContent = ({
       ),
     })
   );
-  const currentValidTypes = validTypes.get(poolReserve.symbol)!;
+  const currentValidTypes = validTypes.get(poolReserve.symbol) ?? [];
 
   // states
   const [_amount, setAmount] = useState('');
   const amountRef = useRef<string>('');
-  const [type, setType] = useState(currentValidTypes[0]);
+  const [type, setType] = useState(currentValidTypes[0] || PSMSwapActionType.BUY_GEM);
   const poolReserveSwapFrom = reserves.find(
-    (reserve) => typeSourceReserveMap.get(type)! === reserve.symbol
+    (reserve) => typeSourceReserveMap.get(type) === reserve.symbol
   ) as ComputedReserveData;
   const sourceBalance =
     walletBalances[poolReserveSwapFrom.underlyingAsset.toLowerCase()]?.amount || '0';
-  const currentExchangeRate = exchangeRate.get(type)!;
+  const currentExchangeRate = exchangeRate.get(type) ?? new BigNumber(1);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleTypeChange = (e: any) => {

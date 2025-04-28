@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import Image, { ImageProps } from 'next/image'
+import Image, { ImageProps } from 'next/image';
+import React, { useState } from 'react';
 
 const ImageWithDefault = (props: ImageProps) => {
-  const [error, setError] = useState(false)
-  const fallbackSrc = '/images/placeholder.png' // You can change this to your default image
+  const [error, setError] = useState(false);
+  const fallbackSrc = '/images/placeholder.png'; // You can change this to your default image
 
   return (
     <Image
@@ -12,7 +12,7 @@ const ImageWithDefault = (props: ImageProps) => {
       onError={() => setError(true)}
       alt={props.alt || 'Image'}
     />
-  )
-}
+  );
+};
 
-export default ImageWithDefault 
+export default ImageWithDefault;

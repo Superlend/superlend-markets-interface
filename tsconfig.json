@@ -4,7 +4,7 @@
     "target": "es2016",
     "module": "esnext",
     "jsx": "preserve",
-    "allowJs": false,
+    "allowJs": true,
     "strict": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
@@ -17,7 +17,7 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "typeRoots": ["./node_modules/@types"],
-    "lib": ["dom", "es2017"],
+    "lib": ["dom", "es2017", "esnext"],
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "resolveJsonModule": true,
@@ -41,5 +41,5 @@
     "**/*.test.tsx",
     "coverage",
   ],
-  "include": ["custom.d.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": ["custom.d.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
 }

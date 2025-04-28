@@ -3,9 +3,13 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
+// Define page extensions for regular pages
 const pageExtensions = ['page.tsx'];
 if (process.env.NEXT_PUBLIC_ENABLE_GOVERNANCE === 'true') pageExtensions.push('governance.tsx');
 if (process.env.NEXT_PUBLIC_ENABLE_STAKING === 'true') pageExtensions.push('staking.tsx');
+
+// Include page.js for API routes, but not plain .js to avoid duplicates
+pageExtensions.push('page.js');
 
 /** @type {import('next').NextConfig} */
 module.exports = withBundleAnalyzer({
@@ -24,7 +28,11 @@ module.exports = withBundleAnalyzer({
         },
       ],
     });
-    config.experiments = { topLevelAwait: true };
+    // Enable both topLevelAwait and layers experiments
+    config.experiments = {
+      topLevelAwait: true,
+      layers: true,
+    };
     return config;
   },
   reactStrictMode: true,

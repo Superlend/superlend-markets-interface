@@ -261,7 +261,7 @@ export const createPoolSlice: StateCreator<
                 produce(state, (draft) => {
                   if (!draft.data.get(currentChainId)) draft.data.set(currentChainId, new Map());
                   if (!draft.data.get(currentChainId)?.get(lendingPoolAddressProvider)) {
-                    draft.data.get(currentChainId)!.set(lendingPoolAddressProvider, {
+                    draft.data.get(currentChainId)?.set(lendingPoolAddressProvider, {
                       reserves: reservesResponse.reservesData,
                       baseCurrencyData: reservesResponse.baseCurrencyData,
                       dsr,
@@ -275,26 +275,22 @@ export const createPoolSlice: StateCreator<
                       daiInDSR,
                     });
                   } else {
-                    draft.data.get(currentChainId)!.get(lendingPoolAddressProvider)!.reserves =
-                      reservesResponse.reservesData;
-                    draft.data
-                      .get(currentChainId)!
-                      .get(lendingPoolAddressProvider)!.baseCurrencyData =
-                      reservesResponse.baseCurrencyData;
-                    draft.data.get(currentChainId)!.get(lendingPoolAddressProvider)!.dsr = dsr;
-                    draft.data.get(currentChainId)!.get(lendingPoolAddressProvider)!.chi = chi;
-                    draft.data.get(currentChainId)!.get(lendingPoolAddressProvider)!.tin = tin;
-                    draft.data.get(currentChainId)!.get(lendingPoolAddressProvider)!.tout = tout;
-                    draft.data
-                      .get(currentChainId)!
-                      .get(lendingPoolAddressProvider)!.sDaiTotalAssets = sDaiTotalAssets;
-                    draft.data.get(currentChainId)!.get(lendingPoolAddressProvider)!.rho = rho;
-                    draft.data.get(currentChainId)!.get(lendingPoolAddressProvider)!.realChi =
-                      realChi;
-                    draft.data.get(currentChainId)!.get(lendingPoolAddressProvider)!.realDSR =
-                      realDSR;
-                    draft.data.get(currentChainId)!.get(lendingPoolAddressProvider)!.daiInDSR =
-                      daiInDSR;
+                    const marketData = draft.data
+                      .get(currentChainId)
+                      ?.get(lendingPoolAddressProvider);
+                    if (marketData) {
+                      marketData.reserves = reservesResponse.reservesData;
+                      marketData.baseCurrencyData = reservesResponse.baseCurrencyData;
+                      marketData.dsr = dsr;
+                      marketData.chi = chi;
+                      marketData.tin = tin;
+                      marketData.tout = tout;
+                      marketData.sDaiTotalAssets = sDaiTotalAssets;
+                      marketData.rho = rho;
+                      marketData.realChi = realChi;
+                      marketData.realDSR = realDSR;
+                      marketData.daiInDSR = daiInDSR;
+                    }
                   }
                 })
               )
@@ -310,14 +306,16 @@ export const createPoolSlice: StateCreator<
                 produce(state, (draft) => {
                   if (!draft.data.get(currentChainId)) draft.data.set(currentChainId, new Map());
                   if (!draft.data.get(currentChainId)?.get(lendingPoolAddressProvider)) {
-                    draft.data.get(currentChainId)!.set(lendingPoolAddressProvider, {
+                    draft.data.get(currentChainId)?.set(lendingPoolAddressProvider, {
                       reserveIncentives: reserveIncentivesResponse,
                     });
                   } else {
-                    draft.data
-                      .get(currentChainId)!
-                      .get(lendingPoolAddressProvider)!.reserveIncentives =
-                      reserveIncentivesResponse;
+                    const marketData = draft.data
+                      .get(currentChainId)
+                      ?.get(lendingPoolAddressProvider);
+                    if (marketData) {
+                      marketData.reserveIncentives = reserveIncentivesResponse;
+                    }
                   }
                 })
               )
@@ -335,19 +333,18 @@ export const createPoolSlice: StateCreator<
                   produce(state, (draft) => {
                     if (!draft.data.get(currentChainId)) draft.data.set(currentChainId, new Map());
                     if (!draft.data.get(currentChainId)?.get(lendingPoolAddressProvider)) {
-                      draft.data.get(currentChainId)!.set(lendingPoolAddressProvider, {
+                      draft.data.get(currentChainId)?.set(lendingPoolAddressProvider, {
                         userReserves: userReservesResponse.userReserves,
                         userEmodeCategoryId: userReservesResponse.userEmodeCategoryId,
                       });
                     } else {
-                      draft.data
-                        .get(currentChainId)!
-                        .get(lendingPoolAddressProvider)!.userReserves =
-                        userReservesResponse.userReserves;
-                      draft.data
-                        .get(currentChainId)!
-                        .get(lendingPoolAddressProvider)!.userEmodeCategoryId =
-                        userReservesResponse.userEmodeCategoryId;
+                      const marketData = draft.data
+                        .get(currentChainId)
+                        ?.get(lendingPoolAddressProvider);
+                      if (marketData) {
+                        marketData.userReserves = userReservesResponse.userReserves;
+                        marketData.userEmodeCategoryId = userReservesResponse.userEmodeCategoryId;
+                      }
                     }
                   })
                 )

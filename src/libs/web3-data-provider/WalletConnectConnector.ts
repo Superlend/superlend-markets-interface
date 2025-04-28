@@ -21,7 +21,8 @@ export class PendingRequestError extends Error {
   public constructor() {
     super();
     this.name = this.constructor.name;
-    this.message = 'Request of type wallet_requestPermissions already pending for origin https://markets.superlend.xyz. Please wait.';
+    this.message =
+      'Request of type wallet_requestPermissions already pending for origin https://markets.superlend.xyz. Please wait.';
   }
 }
 

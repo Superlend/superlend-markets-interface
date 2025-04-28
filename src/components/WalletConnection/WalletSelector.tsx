@@ -6,7 +6,10 @@ import { utils } from 'ethers';
 import { useState } from 'react';
 import { ReadOnlyModeTooltip } from 'src/components/infoTooltips/ReadOnlyModeTooltip';
 import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
-import { UserRejectedRequestError, PendingRequestError } from 'src/libs/web3-data-provider/WalletConnectConnector';
+import {
+  PendingRequestError,
+  UserRejectedRequestError,
+} from 'src/libs/web3-data-provider/WalletConnectConnector';
 import { WalletType } from 'src/libs/web3-data-provider/WalletOptions';
 import { getENSProvider } from 'src/utils/marketsAndNetworksConfig';
 
@@ -120,10 +123,10 @@ export const WalletSelector = () => {
     } else if (error instanceof PendingRequestError) {
       blockingError = ErrorType.PENDING_REQUEST;
     } else if (
-      (error as any).code === -32002 || 
-      (typeof error.message === 'string' && 
-       error.message.includes("Request of type") && 
-       error.message.includes("already pending"))
+      (error as any).code === -32002 ||
+      (typeof error.message === 'string' &&
+        error.message.includes('Request of type') &&
+        error.message.includes('already pending'))
     ) {
       blockingError = ErrorType.PENDING_REQUEST;
     } else {
@@ -205,7 +208,9 @@ export const WalletSelector = () => {
           sx={(theme) => ({
             py: 1,
             px: 3,
-            border: `1px solid ${theme.palette.mode === "dark" ? theme.palette.divider : theme.palette.text.secondary}`,
+            border: `1px solid ${
+              theme.palette.mode === 'dark' ? theme.palette.divider : theme.palette.text.secondary
+            }`,
             borderRadius: '6px',
             mb: 1,
             overflow: 'show',

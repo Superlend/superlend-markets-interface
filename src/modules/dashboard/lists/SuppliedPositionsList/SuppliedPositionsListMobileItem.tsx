@@ -4,6 +4,9 @@ import { useAppDataContext } from 'src/hooks/app-data-provider/useAppDataProvide
 import { useAssetCaps } from 'src/hooks/useAssetCaps';
 import { DashboardReserve } from 'src/utils/dashboardSortUtils';
 
+import { MerklRewardsIndicator } from '@/components/rewards/MerklRewardsIndicator';
+import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
+
 import { IncentivesCard } from '../../../../components/incentives/IncentivesCard';
 import { Row } from '../../../../components/primitives/Row';
 import { useModalContext } from '../../../../hooks/useModal';
@@ -13,8 +16,6 @@ import { SpkAirdropNoteInline } from '../BorrowAssetsList/BorrowAssetsListItem';
 import { ListItemUsedAsCollateral } from '../ListItemUsedAsCollateral';
 import { ListMobileItemWrapper } from '../ListMobileItemWrapper';
 import { ListValueRow } from '../ListValueRow';
-import { MerklRewardsIndicator } from '@/components/rewards/MerklRewardsIndicator';
-import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
 
 export const SuppliedPositionsListMobileItem = ({
   reserve,
@@ -38,7 +39,7 @@ export const SuppliedPositionsListMobileItem = ({
   const displayValue = showAppleReward
     ? isLoading
       ? Number(supplyAPY) // Show base supplyAPY while loading
-      : ((aprMap[symbol as keyof typeof aprMap]) / 100) + Number(supplyAPY)
+      : aprMap[symbol as keyof typeof aprMap] / 100 + Number(supplyAPY)
     : Number(supplyAPY);
 
   const canBeEnabledAsCollateral =

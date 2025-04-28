@@ -27,19 +27,15 @@ export function WalletEmptyInfo({ bridge, chainId, icon, sx, symbol }: WalletEmp
         </Trans>
       ) : (
         <>
-          <Trans>
-            Your wallet is empty. Purchase or transfer assets.{' '}
-          </Trans>
-          {isWstEth &&
+          <Trans>Your wallet is empty. Purchase or transfer assets. </Trans>
+          {isWstEth && (
             <>
               <br />
               <Link href="https://stake.lido.fi/wrap">
-                <Trans>
-                  Wrap your Lido stETH here.
-                </Trans>
+                <Trans>Wrap your Lido stETH here.</Trans>
               </Link>
             </>
-          }
+          )}
         </>
       )}
     </Warning>

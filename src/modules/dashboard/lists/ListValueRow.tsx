@@ -27,7 +27,7 @@ export const ListValueRow = ({
             value={value}
             variant="secondary14"
             color={disabled ? 'text.disabled' : 'text.primary'}
-            symbolsColor='text.white'
+            symbolsColor="text.white"
           />
           {capsComponent}
         </Box>

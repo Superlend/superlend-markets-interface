@@ -64,8 +64,9 @@ const TOSContent = (): JSX.Element => {
         </MarkedListItem>
         <MarkedListItem>
           agree that the Site is provided for informational purposes only and is not directly or
-          indirectly in control of or capable of interacting with Etherlink Mainnet, PlSuperlendend Altchains
-          and related Blockchain Systems or performing or effecting any transactions on your behalf;
+          indirectly in control of or capable of interacting with Etherlink Mainnet, PlSuperlendend
+          Altchains and related Blockchain Systems or performing or effecting any transactions on
+          your behalf;
         </MarkedListItem>
         <MarkedListItem>
           agree that the Site is only being provided as an aid to your own independent research and
@@ -118,13 +119,13 @@ const TOSContent = (): JSX.Element => {
           <MarkedList markerType="disc" name="thirdpartyinformation" sx={{ mb: 4 }}>
             <MarkedListItem>the Etherlink Mainnet;</MarkedListItem>
             <MarkedListItem>
-              the Superlend Smart Contract System, Superlend Smart Contract Protocol, Superlend Mainnet, and
-              Superlend Altchains;
+              the Superlend Smart Contract System, Superlend Smart Contract Protocol, Superlend
+              Mainnet, and Superlend Altchains;
             </MarkedListItem>
             <MarkedListItem>
               tokens that exist and have been or may be made available for withdrawal or “borrowing”
-              by third parties known as “lenders” or “depositors” in connection with the Superlend Smart
-              Contract System;
+              by third parties known as “lenders” or “depositors” in connection with the Superlend
+              Smart Contract System;
             </MarkedListItem>
             <MarkedListItem>
               third-party smart contract systems that act as “borrowers” or “lenders” in
@@ -140,8 +141,8 @@ const TOSContent = (): JSX.Element => {
           </MarkedList>
           <Typography mb={4}>
             The Site also offers interaction methods whereby the User can indicate a transaction the
-            User would like to perform in connection with the Superlend Smart Contract System (such as
-            swapping one token for another).
+            User would like to perform in connection with the Superlend Smart Contract System (such
+            as swapping one token for another).
           </Typography>
           <Typography mb={4}>
             When used in this way, the Site can generate a draft transaction message which the User
@@ -154,16 +155,16 @@ const TOSContent = (): JSX.Element => {
             About Superlend
           </Typography>
           <Typography mb={4}>
-            The Superlend Smart Contract Protocol is software source code freely licensed to the public,
-            which provides a decentralized “credit” protocol through which tokens can be ‘loaned'
-            and ‘borrowed'. The Superlend Smart Contract System is a copy of the Superlend Smart Contract
-            Protocol that has been compiled to bytecode and permanently associated with one or more
-            specific public addresses on Etherlink Mainnet and Superlend Altchains. Through a compatible
-            third-party wallet application or device, Etherlink Mainnet Node or node compatible with
-            a Superlend Altchain, as applicable, any User may pay Etherlink Mainnet Validators or other
-            validators on the appropriate Blockchain System to operate and record the results of the
-            Superlend Smart Contract System in accordance with the User's instructions, thus
-            effectuating token transactions.
+            The Superlend Smart Contract Protocol is software source code freely licensed to the
+            public, which provides a decentralized “credit” protocol through which tokens can be
+            ‘loaned' and ‘borrowed'. The Superlend Smart Contract System is a copy of the Superlend
+            Smart Contract Protocol that has been compiled to bytecode and permanently associated
+            with one or more specific public addresses on Etherlink Mainnet and Superlend Altchains.
+            Through a compatible third-party wallet application or device, Etherlink Mainnet Node or
+            node compatible with a Superlend Altchain, as applicable, any User may pay Etherlink
+            Mainnet Validators or other validators on the appropriate Blockchain System to operate
+            and record the results of the Superlend Smart Contract System in accordance with the
+            User's instructions, thus effectuating token transactions.
           </Typography>
         </MarkedListItem>
         <MarkedListItem disableTypography>
@@ -171,13 +172,13 @@ const TOSContent = (): JSX.Element => {
             Relationship to Superlend Smart Contract System
           </Typography>
           <Typography mb={4}>
-            Using Superlend Mainnet, Superlend Altchains, Etherlink Mainnet, or the Superlend Smart Contract
-            System does not require use of the Site. The Site aggregates and publishes publicly
-            available information about the Superlend Smart Contract System in a user- friendly and
-            convenient format. Such information is also independently available from other
-            sources—for example, a person may directly review transaction history, account balances
-            and the Superlend Smart Contract System on a compatible block explorer for Etherlink Mainnet
-            or a Superlend Altchain.
+            Using Superlend Mainnet, Superlend Altchains, Etherlink Mainnet, or the Superlend Smart
+            Contract System does not require use of the Site. The Site aggregates and publishes
+            publicly available information about the Superlend Smart Contract System in a user-
+            friendly and convenient format. Such information is also independently available from
+            other sources—for example, a person may directly review transaction history, account
+            balances and the Superlend Smart Contract System on a compatible block explorer for
+            Etherlink Mainnet or a Superlend Altchain.
           </Typography>
           <Typography mb={4}>
             By combining publicly available information with the User's interactions with the Site,
@@ -190,13 +191,13 @@ const TOSContent = (): JSX.Element => {
             All draft transaction messages are delivered by the Site via API to a compatible
             third-party wallet application or device selected by the User after pressing the
             “Connect Wallet” (or similar) button on the Site. The User must personally review and
-            authorize all transaction messages that the User wishes to send to Superlend Mainnet, Superlend
-            Altchains or other blockchain systems; this requires the User to sign the relevant
-            transaction message with a private cryptographic key inaccessible to the Site. The User-
-            authorized message will then be broadcast to Validators through the wallet application
-            or device and the User may pay a network fee to have the Validators apply the
-            transaction message to the Superlend Smart Contract System and record the results on the
-            appropriate blockchain—resulting in a token transaction being completed on that
+            authorize all transaction messages that the User wishes to send to Superlend Mainnet,
+            Superlend Altchains or other blockchain systems; this requires the User to sign the
+            relevant transaction message with a private cryptographic key inaccessible to the Site.
+            The User- authorized message will then be broadcast to Validators through the wallet
+            application or device and the User may pay a network fee to have the Validators apply
+            the transaction message to the Superlend Smart Contract System and record the results on
+            the appropriate blockchain—resulting in a token transaction being completed on that
             blockchain.
           </Typography>
           <Typography mb={4}>
@@ -204,8 +205,8 @@ const TOSContent = (): JSX.Element => {
             store or have access to or control over any tokens, private keys, passwords, accounts or
             other property of the User, and are not capable of performing transactions or sending
             transaction messages on behalf of the User. The Site does not hold and cannot purchase,
-            sell or trade any tokens. All transactions relating to the Superlend Smart Contract System
-            are effected and recorded solely through the interactions of the User with the
+            sell or trade any tokens. All transactions relating to the Superlend Smart Contract
+            System are effected and recorded solely through the interactions of the User with the
             respective Validators, who are not under the control of or affiliated with the Site
             Operator or the Site.
           </Typography>
@@ -217,8 +218,8 @@ const TOSContent = (): JSX.Element => {
           <Typography mb={4}>
             Important disclaimers and disclosures regarding the subject material of the Site can be
             found in Section 6. You should familiarize yourself with these disclaimers and
-            disclosures and conduct your own thorough due diligence into the Superlend Smart Contract
-            Protocol before using the Site.
+            disclosures and conduct your own thorough due diligence into the Superlend Smart
+            Contract Protocol before using the Site.
           </Typography>
         </MarkedListItem>
       </MarkedList>
@@ -273,16 +274,17 @@ const TOSContent = (): JSX.Element => {
               Mainnet Nodes selected as a validator for Etherlink Mainnet at such time.
             </MarkedListItem>
             <MarkedListItem>
-              <strong>“Superlend”</strong> means, collectively, the Superlend Smart Contract Protocol, Superlend
-              Mainnet, Superlend Smart Contract Systems, and Superlend Altchains.
+              <strong>“Superlend”</strong> means, collectively, the Superlend Smart Contract
+              Protocol, Superlend Mainnet, Superlend Smart Contract Systems, and Superlend
+              Altchains.
             </MarkedListItem>
             <MarkedListItem>
-              <strong>“Superlend Altchains”</strong> means Superlend Smart Contract Systems deployed to
-              Blockchain Systems other than the Etherlink Mainnet.
+              <strong>“Superlend Altchains”</strong> means Superlend Smart Contract Systems deployed
+              to Blockchain Systems other than the Etherlink Mainnet.
             </MarkedListItem>
             <MarkedListItem>
-              <strong>“Superlend Mainnet”</strong> means Superlend Smart Contract Systems deployed to
-              Etherlink Mainnet.
+              <strong>“Superlend Mainnet”</strong> means Superlend Smart Contract Systems deployed
+              to Etherlink Mainnet.
             </MarkedListItem>
             <MarkedListItem>
               <strong>“Superlend Smart Contract Protocol”</strong> means the source code for
@@ -294,17 +296,25 @@ const TOSContent = (): JSX.Element => {
             </MarkedListItem>
             <MarkedListItem>
               <strong>“Superlend Smart Contract Systems”</strong> means all blockchain-based smart
-              contract bytecodes that: (i) are compiled from the Superlend Smart Contract Protocol (or
-              any part thereof); and (ii) are deployed to production Blockchain Systems.
+              contract bytecodes that: (i) are compiled from the Superlend Smart Contract Protocol
+              (or any part thereof); and (ii) are deployed to production Blockchain Systems.
             </MarkedListItem>
             <MarkedListItem>
               <strong>“Site”</strong> means the web site, web pages, web applications and
               information and software available at or accessible through the URLs{' '}
-              <Link href="https://www.Superlendprotocol.io/">https://www.Superlendprotocol.io/</Link>,{' '}
-              <Link href="https://app.Superlendprotocol.io/">https://app.Superlendprotocol.io/</Link>,{' '}
-              <Link href="https://docs.Superlendprotocol.io/">https://docs.Superlendprotocol.io/</Link> or
-              any sub-URL of any such URL and any other Superlend-related website or web application
-              maintained by the Site Operator.
+              <Link href="https://www.Superlendprotocol.io/">
+                https://www.Superlendprotocol.io/
+              </Link>
+              ,{' '}
+              <Link href="https://app.Superlendprotocol.io/">
+                https://app.Superlendprotocol.io/
+              </Link>
+              ,{' '}
+              <Link href="https://docs.Superlendprotocol.io/">
+                https://docs.Superlendprotocol.io/
+              </Link>{' '}
+              or any sub-URL of any such URL and any other Superlend-related website or web
+              application maintained by the Site Operator.
             </MarkedListItem>
           </MarkedList>
         </MarkedListItem>
@@ -368,10 +378,10 @@ const TOSContent = (): JSX.Element => {
                 No Site Fees; Third-Party Fees Irreversible
               </Typography>
               <Typography mb={4}>
-                There are no fees or charges for use of the Site. Use of the Superlend Smart Contract
-                System and use of Superlend Mainnet and Superlend Altchains are subject to third-party
-                transaction fees. The Site Operator does not receive such fees and has no ability to
-                reverse or refund any amounts paid in error.
+                There are no fees or charges for use of the Site. Use of the Superlend Smart
+                Contract System and use of Superlend Mainnet and Superlend Altchains are subject to
+                third-party transaction fees. The Site Operator does not receive such fees and has
+                no ability to reverse or refund any amounts paid in error.
               </Typography>
             </MarkedListItem>
             <MarkedListItem disableTypography>
@@ -393,28 +403,28 @@ const TOSContent = (): JSX.Element => {
               <Typography mb={4}>
                 The Site Operator has no obligation to ensure that the Site is a complete and
                 accurate source of all information relating to the Superlend Smart Contract System,
-                Superlend Mainnet, Superlend Altchains or any other subject matter. The Site does not
-                necessarily display all tokens that are available for trading in connection with the
-                Superlend Smart Contract System or Superlend Mainnet or Superlend Altchains. Even if the Site
-                currently displays a particular token or token pair, the Site may discontinue
-                tracking and publishing information about that token or token pair at any time, in
-                the Site Operator's sole and absolute discretion. In the event of such a
-                discontinuation, Users may need to rely on third-party resources such as block
-                explorers or Etherlink Mainnet Nodes, or applicable node for a Superlend Altchains, in
-                order to get equivalent information, and, depending on the User's level of expertise
-                and the quality of such third-party resources, this may result in the User incurring
-                financial losses due to delays or mistakes in processing information or
+                Superlend Mainnet, Superlend Altchains or any other subject matter. The Site does
+                not necessarily display all tokens that are available for trading in connection with
+                the Superlend Smart Contract System or Superlend Mainnet or Superlend Altchains.
+                Even if the Site currently displays a particular token or token pair, the Site may
+                discontinue tracking and publishing information about that token or token pair at
+                any time, in the Site Operator's sole and absolute discretion. In the event of such
+                a discontinuation, Users may need to rely on third-party resources such as block
+                explorers or Etherlink Mainnet Nodes, or applicable node for a Superlend Altchains,
+                in order to get equivalent information, and, depending on the User's level of
+                expertise and the quality of such third-party resources, this may result in the User
+                incurring financial losses due to delays or mistakes in processing information or
                 transactions.
               </Typography>
               <Typography mb={4}>
-                The Superlend Smart Contract Protocol is available under a free open-source license, and
-                the Site Operator does not have proprietary or exclusive rights in all copies or
+                The Superlend Smart Contract Protocol is available under a free open-source license,
+                and the Site Operator does not have proprietary or exclusive rights in all copies or
                 derivatives thereof. It is possible that additional copies of the Superlend Smart
                 Contract Protocol or derivatives thereof will be deployed to other Blockchain
-                Systems in the future by any person, resulting in the existence of multiple ‘Superlend-
-                branded' smart contract systems. The Site Operator is under no obligation to publish
-                information for all such copies of the Superlend Smart Contract Protocol or to warn
-                Users regarding the existence of such alternatives.
+                Systems in the future by any person, resulting in the existence of multiple
+                ‘Superlend- branded' smart contract systems. The Site Operator is under no
+                obligation to publish information for all such copies of the Superlend Smart
+                Contract Protocol or to warn Users regarding the existence of such alternatives.
               </Typography>
             </MarkedListItem>
             <MarkedListItem disableTypography>
@@ -486,8 +496,8 @@ const TOSContent = (): JSX.Element => {
               </Typography>
               <Typography mb={4}>
                 The software code for the Site is available at https://github.com/plentynetwork and
-                is licensed for use in connection with the Superlend Smart Contract System, Etherlink
-                Mainnet and Altchains.
+                is licensed for use in connection with the Superlend Smart Contract System,
+                Etherlink Mainnet and Altchains.
               </Typography>
             </MarkedListItem>
             <MarkedListItem disableTypography>
@@ -678,30 +688,30 @@ const TOSContent = (): JSX.Element => {
                 User is not, (and, if User is an entity, User is not owned or controlled by any
                 other person who is), acting, directly or indirectly, on behalf of any other person
                 who is, located, ordinarily resident, organized, established, or domiciled in the
-                United States or any country where use of the Superlend Smart Contract System, Superlend
-                Mainnet, Superlend Altchains or related activities is illegal, prohibited, or requires a
-                permit or license. User is not (and, if User is an entity, User is not owned or
-                controlled by any other person who is) acting, directly or indirectly, on behalf of
-                any other person who is: in contravention of any applicable laws and regulations,
-                including anti-money laundering regulations or conventions; a terrorist or a member
-                of a terrorist organization; identified on, or operationally based or domiciled in a
-                country or territory that is included in, any list of prohibited parties under any
-                law or by any nation or government, state or other political subdivision thereof,
-                any entity exercising legislative, judicial or administrative functions of or
-                pertaining to government such as the sanctions lists maintained by the United
-                Kingdom (as are extended to the BVI by statutory instrument), United Nations
-                (whether through the Security Council, or otherwise), the U.S. government (including
-                the U.S. Treasury Department's Specially Designated Nationals list and Foreign
-                Sanctions Evaders list), or the European Union (EU) or its member states; a senior
-                foreign political figure, any member of a senior foreign political figure's
+                United States or any country where use of the Superlend Smart Contract System,
+                Superlend Mainnet, Superlend Altchains or related activities is illegal, prohibited,
+                or requires a permit or license. User is not (and, if User is an entity, User is not
+                owned or controlled by any other person who is) acting, directly or indirectly, on
+                behalf of any other person who is: in contravention of any applicable laws and
+                regulations, including anti-money laundering regulations or conventions; a terrorist
+                or a member of a terrorist organization; identified on, or operationally based or
+                domiciled in a country or territory that is included in, any list of prohibited
+                parties under any law or by any nation or government, state or other political
+                subdivision thereof, any entity exercising legislative, judicial or administrative
+                functions of or pertaining to government such as the sanctions lists maintained by
+                the United Kingdom (as are extended to the BVI by statutory instrument), United
+                Nations (whether through the Security Council, or otherwise), the U.S. government
+                (including the U.S. Treasury Department's Specially Designated Nationals list and
+                Foreign Sanctions Evaders list), or the European Union (EU) or its member states; a
+                senior foreign political figure, any member of a senior foreign political figure's
                 immediate family or any close associate of a senior foreign political figure unless
                 the director of the Foundation, after being specifically notified by the User in
                 writing that it is such a person, conduct further due diligence and determines that
                 the User shall be permitted to use the Site; or as trustee, agent, representative or
                 nominee for a foreign shell bank. The tokens or other funds User uses to participate
-                in the Superlend Smart Contract System, Superlend Mainnet or Superlend Altchains are not derived
-                from, and do not otherwise represent the proceeds of, any activities done in
-                violation or contravention of any law.
+                in the Superlend Smart Contract System, Superlend Mainnet or Superlend Altchains are
+                not derived from, and do not otherwise represent the proceeds of, any activities
+                done in violation or contravention of any law.
               </Typography>
             </MarkedListItem>
             <MarkedListItem disableTypography>
@@ -710,15 +720,16 @@ const TOSContent = (): JSX.Element => {
               </Typography>
               <Typography mb={4}>
                 User is knowledgeable, experienced and sophisticated in using and evaluating
-                blockchain and related technologies and assets, including Superlend Altchains, tokens,
-                yield-generating smart contract systems, automated market making smart contract
-                systems, bonding curve systems and “smart contracts” (runtime bytecode deployed to
-                Superlend Altchains or another blockchain). User has conducted its own thorough
-                independent investigation and analysis of the Superlend Smart Contract System, Superlend
-                Mainnet, Superlend Altchains and the other matters contemplated by these Terms, and has
-                not relied upon any information, statement, omission, representation or warranty,
-                express or implied, written or oral, made byor on behalf of Site Operator in
-                connection therewith, except as expressly set forth by Site Operator in these Terms.
+                blockchain and related technologies and assets, including Superlend Altchains,
+                tokens, yield-generating smart contract systems, automated market making smart
+                contract systems, bonding curve systems and “smart contracts” (runtime bytecode
+                deployed to Superlend Altchains or another blockchain). User has conducted its own
+                thorough independent investigation and analysis of the Superlend Smart Contract
+                System, Superlend Mainnet, Superlend Altchains and the other matters contemplated by
+                these Terms, and has not relied upon any information, statement, omission,
+                representation or warranty, express or implied, written or oral, made byor on behalf
+                of Site Operator in connection therewith, except as expressly set forth by Site
+                Operator in these Terms.
               </Typography>
             </MarkedListItem>
           </MarkedList>
@@ -771,11 +782,11 @@ const TOSContent = (): JSX.Element => {
               </Typography>
               <Typography mb={4}>
                 Site Operator has no responsibility for the tokens traded by Users on the Superlend
-                Smart Contract System or Superlend Mainnet or Superlend Altchains. Site Operator does not
-                investigate and cannot guarantee or warrant the authenticity, originality,
+                Smart Contract System or Superlend Mainnet or Superlend Altchains. Site Operator
+                does not investigate and cannot guarantee or warrant the authenticity, originality,
                 uniqueness, marketability, legality or value of any token traded by Users on the
-                Superlend Smart Contract System or Superlend Mainnet or Superlend Altchains, even if information
-                about such token is available on the Site.
+                Superlend Smart Contract System or Superlend Mainnet or Superlend Altchains, even if
+                information about such token is available on the Site.
               </Typography>
             </MarkedListItem>
             <MarkedListItem disableTypography>
@@ -854,27 +865,27 @@ const TOSContent = (): JSX.Element => {
                   change, other than ceasing to display information about certain “smart contracts”
                   or adding information about new “smart contracts”. Users are solely responsible
                   for the safekeeping of the private key associated with the blockchain address used
-                  in connection with the Superlend Smart Contract System. Site Operator will not be able
-                  to restore or issue any refund in respect of property lost or frozen due to loss
-                  of private keys or otherwise. If a User is not able to spend or use tokens due to
-                  loss or theft of the corresponding private key or otherwise, a User will be unable
-                  to enjoy the benefits of such tokens.
+                  in connection with the Superlend Smart Contract System. Site Operator will not be
+                  able to restore or issue any refund in respect of property lost or frozen due to
+                  loss of private keys or otherwise. If a User is not able to spend or use tokens
+                  due to loss or theft of the corresponding private key or otherwise, a User will be
+                  unable to enjoy the benefits of such tokens.
                 </MarkedListItem>
                 <MarkedListItem>
                   <Underlined>Certain Risks of Smart Contract Technology</Underlined>. Digital
                   assets relevant to the Site depend on the Superlend Smart Contract System or other
-                  smart contracts deployed to Superlend Altchains or other blockchain systems, or on the
-                  Etherlink Mainnet, each of which may be coded or deployed by persons other than
-                  Site Operator. Etherlink Mainnet, Superlend Altchains, and other Blockchain Systems,
-                  and, once deployed to a Blockchain System, the code of smart contracts, including
-                  the Superlend Smart Contract System, typically cannot be modified, or can only be
-                  modified in limited ways. In the event that the Etherlink Mainnet, Superlend
-                  Altchains, Superlend Smart Contract System or other smart contracts or blockchain
-                  systems are adversely affected by malfunctions, bugs, defects, malfunctions,
-                  hacking, theft, attacks, negligent coding or design choices, or changes to the
-                  applicable protocol rules, Users may be exposed to a risk of total loss and
-                  forfeiture of all relevant digital assets. Site Operator assumes no liability or
-                  responsibility for any of the foregoing matters.
+                  smart contracts deployed to Superlend Altchains or other blockchain systems, or on
+                  the Etherlink Mainnet, each of which may be coded or deployed by persons other
+                  than Site Operator. Etherlink Mainnet, Superlend Altchains, and other Blockchain
+                  Systems, and, once deployed to a Blockchain System, the code of smart contracts,
+                  including the Superlend Smart Contract System, typically cannot be modified, or
+                  can only be modified in limited ways. In the event that the Etherlink Mainnet,
+                  Superlend Altchains, Superlend Smart Contract System or other smart contracts or
+                  blockchain systems are adversely affected by malfunctions, bugs, defects,
+                  malfunctions, hacking, theft, attacks, negligent coding or design choices, or
+                  changes to the applicable protocol rules, Users may be exposed to a risk of total
+                  loss and forfeiture of all relevant digital assets. Site Operator assumes no
+                  liability or responsibility for any of the foregoing matters.
                 </MarkedListItem>
                 <MarkedListItem>
                   <Underlined>Asset Prices</Underlined>. The fiat-denominated prices and value in
@@ -885,42 +896,43 @@ const TOSContent = (): JSX.Element => {
                   is generated by speculators and investors seeking to profit from the short- or
                   long-term holding of blockchain assets. The market value of any token may decline
                   below the price for which a User acquires such asset through the Etherlink
-                  Mainnet, Superlend Altchains or Superlend Smart Contract System or on any other system.
-                  User acknowledges and agrees that the costs and speeds of transacting with
-                  cryptographic and blockchain-based systems such as the Etherlink Mainnet, Superlend
-                  Altchains and Superlend Smart Contract System are variable and may increase or
-                  decrease dramatically at any time, resulting in prolonged inability to access or
-                  use any tokens.
+                  Mainnet, Superlend Altchains or Superlend Smart Contract System or on any other
+                  system. User acknowledges and agrees that the costs and speeds of transacting with
+                  cryptographic and blockchain-based systems such as the Etherlink Mainnet,
+                  Superlend Altchains and Superlend Smart Contract System are variable and may
+                  increase or decrease dramatically at any time, resulting in prolonged inability to
+                  access or use any tokens.
                 </MarkedListItem>
                 <MarkedListItem>
                   <Underlined>Regulatory Uncertainty</Underlined>. Blockchain technologies and
                   digital assets are subject to many legal and regulatory uncertainties, and the
-                  Etherlink Mainnet, Superlend Altchains, Superlend Smart Contract System or any tokens
-                  could be adversely impacted by one or more regulatory or legal inquiries, actions,
-                  suits, investigations, claims, fines or judgments, which could impede or limit the
-                  ability of User to continue the use and enjoyment of such assets and technologies.
+                  Etherlink Mainnet, Superlend Altchains, Superlend Smart Contract System or any
+                  tokens could be adversely impacted by one or more regulatory or legal inquiries,
+                  actions, suits, investigations, claims, fines or judgments, which could impede or
+                  limit the ability of User to continue the use and enjoyment of such assets and
+                  technologies.
                 </MarkedListItem>
                 <MarkedListItem>
                   <Underlined>Cryptography Risks</Underlined>. Cryptography is a progressing field.
                   Advances in code cracking or technical advances such as the development of quantum
-                  computers may present risks to Blockchain Systems, the Etherlink Mainnet, Superlend
-                  Altchains, Superlend Smart Contract System or tokens, including the theft, loss or
-                  inaccessibility thereof.
+                  computers may present risks to Blockchain Systems, the Etherlink Mainnet,
+                  Superlend Altchains, Superlend Smart Contract System or tokens, including the
+                  theft, loss or inaccessibility thereof.
                 </MarkedListItem>
                 <MarkedListItem>
-                  <Underlined>Fork Handling</Underlined>. Etherlink Mainnet, Superlend Altchains, the
-                  Superlend Smart Contract System, and all tokens may be subject to “forks.” Forks occur
-                  when some or all persons running the software clients for a particular blockchain
-                  system adopt a new client or a new version of an existing client that: (i) changes
-                  the protocol rules in backwards-compatible or backwards-incompatible manner that
-                  affects which transactions can be added into later blocks, how later blocks are
-                  added to the blockchain, or other matters relating to the future operation of the
-                  protocol; or (ii) reorganizes or changes past blocks to alter the history of the
-                  blockchain. Some forks are “contentious” and thus may result in two or more
-                  persistent alternative versions of the protocol or blockchain, either of which may
-                  be viewed as or claimed to be the legitimate or genuine continuation of the
-                  original. Site Operator may not be able to anticipate, control or influence the
-                  occurrence or outcome of forks, and does not assume any risk, liability or
+                  <Underlined>Fork Handling</Underlined>. Etherlink Mainnet, Superlend Altchains,
+                  the Superlend Smart Contract System, and all tokens may be subject to “forks.”
+                  Forks occur when some or all persons running the software clients for a particular
+                  blockchain system adopt a new client or a new version of an existing client that:
+                  (i) changes the protocol rules in backwards-compatible or backwards-incompatible
+                  manner that affects which transactions can be added into later blocks, how later
+                  blocks are added to the blockchain, or other matters relating to the future
+                  operation of the protocol; or (ii) reorganizes or changes past blocks to alter the
+                  history of the blockchain. Some forks are “contentious” and thus may result in two
+                  or more persistent alternative versions of the protocol or blockchain, either of
+                  which may be viewed as or claimed to be the legitimate or genuine continuation of
+                  the original. Site Operator may not be able to anticipate, control or influence
+                  the occurrence or outcome of forks, and does not assume any risk, liability or
                   obligation in connection therewith. Without limiting the generality of the
                   foregoing, Site Operator does not assume any responsibility to notify a User of
                   pending, threatened or completed forks. Site Operator will respond (or refrain
@@ -929,33 +941,33 @@ const TOSContent = (): JSX.Element => {
                   obligation or liability to a User if such response (or lack of such response) acts
                   to a User detriment. Without limiting the generality of the foregoing, Site
                   Operator's possible and permissible responses to a fork may include: (i) honoring
-                  the Etherlink Mainnet, Superlend Altchains, Superlend Smart Contract System and tokens on
-                  both chains;(ii) honoring the Etherlink Mainnet, Superlend Altchains, Superlend Smart
-                  Contract System and tokens on only one of the chains; (iii) honoring the Etherlink
-                  Mainnet, Superlend Altchains, Superlend Smart Contract System and tokens in different
-                  respects or to a different extent on both chains; or (iv) any other response or
-                  policy or procedure, as determined by Site Operator in its sole and absolute
-                  discretion. Each User assumes full responsibility to independently remain apprised
-                  of and informed about possible forks, and to manage the User's own interests and
-                  risks in connection therewith.
+                  the Etherlink Mainnet, Superlend Altchains, Superlend Smart Contract System and
+                  tokens on both chains;(ii) honoring the Etherlink Mainnet, Superlend Altchains,
+                  Superlend Smart Contract System and tokens on only one of the chains; (iii)
+                  honoring the Etherlink Mainnet, Superlend Altchains, Superlend Smart Contract
+                  System and tokens in different respects or to a different extent on both chains;
+                  or (iv) any other response or policy or procedure, as determined by Site Operator
+                  in its sole and absolute discretion. Each User assumes full responsibility to
+                  independently remain apprised of and informed about possible forks, and to manage
+                  the User's own interests and risks in connection therewith.
                 </MarkedListItem>
                 <MarkedListItem>
                   <Underlined>Essential Third-Party Software Dependencies</Underlined>. The
-                  Etherlink Mainnet, Superlend Altchains, Superlend Smart Contract System and other relevant
-                  Blockchain Systems and smart contracts are public software utilities which are
-                  accessible directly through any compatible node or indirectly through any
-                  compatible “wallet” application (such as the web browser plugin MetaMask) which
-                  interacts with such a node. Interacting with the Superlend Smart Contract System does
-                  not require use of the Site, but the Site provides a convenient and user- friendly
-                  method of reading and displaying data from the Superlend Smart Contract System and
-                  generating standard transaction messages compatible with the Superlend Smart Contract
-                  System. Because the Site does not provide wallet software or nodes for Superlend
-                  Mainnet or Superlend Altchains, such software constitutes an essential third-party or
-                  user dependency without which the Superlend Smart Contract System cannot be utilized,
-                  and tokens cannot be traded or used. Furthermore, the site may utilize APIs,
-                  middleware and servers of Site Operator or third parties, and Site Operator does
-                  not guarantee the continued operation, maintenance, availability or security of
-                  any of the foregoing dependencies.
+                  Etherlink Mainnet, Superlend Altchains, Superlend Smart Contract System and other
+                  relevant Blockchain Systems and smart contracts are public software utilities
+                  which are accessible directly through any compatible node or indirectly through
+                  any compatible “wallet” application (such as the web browser plugin MetaMask)
+                  which interacts with such a node. Interacting with the Superlend Smart Contract
+                  System does not require use of the Site, but the Site provides a convenient and
+                  user- friendly method of reading and displaying data from the Superlend Smart
+                  Contract System and generating standard transaction messages compatible with the
+                  Superlend Smart Contract System. Because the Site does not provide wallet software
+                  or nodes for Superlend Mainnet or Superlend Altchains, such software constitutes
+                  an essential third-party or user dependency without which the Superlend Smart
+                  Contract System cannot be utilized, and tokens cannot be traded or used.
+                  Furthermore, the site may utilize APIs, middleware and servers of Site Operator or
+                  third parties, and Site Operator does not guarantee the continued operation,
+                  maintenance, availability or security of any of the foregoing dependencies.
                 </MarkedListItem>
               </MarkedList>
             </MarkedListItem>

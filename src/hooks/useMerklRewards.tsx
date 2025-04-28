@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { getMerklCampaignUrl } from '../ui-config/merklConfig';
 
 interface MerklRewardsResponse {
@@ -46,4 +47,4 @@ export const useMerklRewards = (campaignId: string): any => {
     loading,
     error,
   };
-}; 
+};

@@ -39,7 +39,12 @@ const MenuItemsWrapper = ({ children, title }: { children: ReactNode; title: Rea
       <Box sx={{ px: 2 }}>
         <Typography
           variant="subheader2"
-          sx={{ color: palette.mode === 'dark' ? '#A5A8B6' : '#2A2826', px: 4, py: 2, fontFamily: palette.fonts.header }}
+          sx={{
+            color: palette.mode === 'dark' ? '#A5A8B6' : '#2A2826',
+            px: 4,
+            py: 2,
+            fontFamily: palette.fonts.header,
+          }}
         >
           {title}
         </Typography>
@@ -67,7 +72,7 @@ export const MobileMenu = ({ open, setOpen, headerHeight }: MobileMenuProps) => 
         <Button
           id="settings-button-mobile"
           // variant="surface"
-          sx={{ p: '7px 8px', minWidth: 'unset', ml: 2, background: "rgba(235, 235, 237, 0.20)" }}
+          sx={{ p: '7px 8px', minWidth: 'unset', ml: 2, background: 'rgba(235, 235, 237, 0.20)' }}
           onClick={() => setOpen(true)}
         >
           <SvgIcon sx={{ color: '#F1F1F3' }} fontSize="small">
@@ -90,11 +95,18 @@ export const MobileMenu = ({ open, setOpen, headerHeight }: MobileMenuProps) => 
               </List>
             </MenuItemsWrapper>
             <MenuItemsWrapper title={<Trans>Links</Trans>}>
-              <List sx={{pb: 10}}>
+              <List sx={{ pb: 10 }}>
                 {moreNavigation.map((item, index) => (
-                  <ListItem component={Link} href={item.link} sx={{ color: 'text.primary' }} key={index}>
+                  <ListItem
+                    component={Link}
+                    href={item.link}
+                    sx={{ color: 'text.primary' }}
+                    key={index}
+                  >
                     <ListItemIcon sx={{ minWidth: 'unset', mr: 3 }}>
-                      <SvgIcon sx={{ fontSize: '20px', color: 'text.primary' }}>{item.icon}</SvgIcon>
+                      <SvgIcon sx={{ fontSize: '20px', color: 'text.primary' }}>
+                        {item.icon}
+                      </SvgIcon>
                     </ListItemIcon>
 
                     <ListItemText sx={{ fontFamily: palette.fonts.header, fontWeight: 500 }}>

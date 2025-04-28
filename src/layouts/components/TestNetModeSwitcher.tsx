@@ -7,13 +7,12 @@ import useSnackbar from 'src/hooks/useSnackbar';
 import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
 import { ChainId } from 'src/ui-config/networksConfig';
 
-
 interface TestNetModeSwitcherProps {
   component?: typeof MenuItem | typeof ListItem;
 }
 
 export const TestNetModeSwitcher = ({ component = ListItem }: TestNetModeSwitcherProps) => {
-  const testnetEnabled = localStorage.getItem("testnetsEnabled") === 'true';
+  const testnetEnabled = localStorage.getItem('testnetsEnabled') === 'true';
   const { snackbar, handleCloseSnackbar, handleOpenSnackbar } = useSnackbar();
   const { switchNetwork } = useWeb3Context();
 
@@ -22,11 +21,11 @@ export const TestNetModeSwitcher = ({ component = ListItem }: TestNetModeSwitche
 
     switchNetwork(newChainId)
       .then(toggleMode)
-      .catch(err => {
-        console.log('Switch network error => ', `"${err.message}"`)
-        if (err.code.toString() === "-32002") {
+      .catch((err) => {
+        console.log('Switch network error => ', `"${err.message}"`);
+        if (err.code.toString() === '-32002') {
           handleOpenSnackbar({
-            message: "Resolve any pending requests from your wallet or try again!"
+            message: 'Resolve any pending requests from your wallet or try again!',
           });
         }
       });

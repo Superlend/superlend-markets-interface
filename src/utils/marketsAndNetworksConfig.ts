@@ -102,7 +102,7 @@ export function getSupportedChainIds(): number[] {
         if (STAGING_ENV || ENABLE_TESTNET) {
           return isTestnet;
         }
-        
+
         return !isTestnet;
       })
       .reduce(

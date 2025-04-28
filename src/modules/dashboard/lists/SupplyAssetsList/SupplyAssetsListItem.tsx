@@ -63,7 +63,12 @@ export const SupplyAssetsListItem = ({
         }
       />
 
-      <ListAPRColumn value={Number(supplyAPY)} incentives={aIncentivesData} symbol={symbol} isSupplyTab>
+      <ListAPRColumn
+        value={Number(supplyAPY)}
+        incentives={aIncentivesData}
+        symbol={symbol}
+        isSupplyTab
+      >
         {(symbol === 'ETH' || symbol === 'WETH') && <SpkAirdropNoteInline tokenAmount={6} />}
       </ListAPRColumn>
 

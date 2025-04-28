@@ -12,7 +12,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
     '@typescript-eslint/no-non-null-assertion': 'warn',
-    'prettier/prettier': 'warn',
+    'prettier/prettier': ['warn', { endOfLine: 'auto' }],
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     'simple-import-sort/imports': 'warn',
@@ -27,4 +27,14 @@ module.exports = {
     'react/self-closing-comp': 'warn',
     'react/no-unescaped-entities': 'off',
   },
+  overrides: [
+    {
+      // Disable TypeScript-specific rules for JavaScript files
+      files: ['*.js', '*.page.js'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/ban-ts-comment': 'off',
+      },
+    },
+  ],
 };

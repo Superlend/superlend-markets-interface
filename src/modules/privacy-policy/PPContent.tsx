@@ -25,9 +25,9 @@ const PPContent = (): JSX.Element => {
       <Typography mb={4}>
         This privacy notice applies to you if (i) you access and/or use the website (the{' '}
         <strong>Website</strong>) and front-end provided by the Foundation to interact with the
-        Superlend Protocol (the <strong>Front-End</strong>), including by connecting your digital assets
-        wallet to the Front-End; (ii) your personal data has been provided to the Foundation by
-        another person; or (iii) the Foundation otherwise uses your personal data. This privacy
+        Superlend Protocol (the <strong>Front-End</strong>), including by connecting your digital
+        assets wallet to the Front-End; (ii) your personal data has been provided to the Foundation
+        by another person; or (iii) the Foundation otherwise uses your personal data. This privacy
         notice sets out the basis on which personal data about you will be processed by the
         Foundation. Please take the time to read and understand this privacy notice.
       </Typography>
@@ -54,8 +54,11 @@ const PPContent = (): JSX.Element => {
           judgments.
         </MarkedListItem>
         <MarkedListItem>
-          To send you promotional newsletters and marketing communications and other information on products or services that we consider will be of interest to you about Superlend, its affiliates, subsidiaries, joint venture partners and the web3 industry via SMS Messages, Whatsapp, email or any other electronic medium.
-          And to now and again send you offers or information on products or services that we consider will be of interest to you.
+          To send you promotional newsletters and marketing communications and other information on
+          products or services that we consider will be of interest to you about Superlend, its
+          affiliates, subsidiaries, joint venture partners and the web3 industry via SMS Messages,
+          Whatsapp, email or any other electronic medium. And to now and again send you offers or
+          information on products or services that we consider will be of interest to you.
         </MarkedListItem>
       </MarkedList>
       <Typography mb={4}>

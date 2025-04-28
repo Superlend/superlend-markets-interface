@@ -11,4 +11,4 @@ export const getMerklCampaignUrl = (campaignId: string) => {
   });
 
   return `${MERKL_CONFIG.API_BASE_URL}/campaigns/?${params.toString()}`;
-}; 
+};

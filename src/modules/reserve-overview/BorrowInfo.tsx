@@ -44,7 +44,7 @@ export const BorrowInfo = ({
           display: 'flex',
           alignItems: 'center',
           flexWrap: 'wrap',
-          gap: '10px'
+          gap: '10px',
         }}
       >
         {showBorrowCapStatus ? (

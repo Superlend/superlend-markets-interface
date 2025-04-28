@@ -23,10 +23,10 @@ export const FaucetTopPanel = () => {
           <Box sx={{ width: md ? (xsm ? '320px' : '540px') : '860px' }}>
             <Typography variant="description" color="#A5A8B6">
               <Trans>
-                With testnet Faucet you can get free assets to test the Superlend Protocol. Make sure to
-                switch your wallet provider to the appropriate testnet network, select desired
-                asset, and click ‘Faucet’ to get tokens transferred to your wallet. The assets on a
-                testnet are not “real,” meaning they have no monetary value.{' '}
+                With testnet Faucet you can get free assets to test the Superlend Protocol. Make
+                sure to switch your wallet provider to the appropriate testnet network, select
+                desired asset, and click ‘Faucet’ to get tokens transferred to your wallet. The
+                assets on a testnet are not “real,” meaning they have no monetary value.{' '}
               </Trans>
             </Typography>
           </Box>
