@@ -11,28 +11,28 @@ export const hasMerklRewards = (symbol: string) => {
 
 /**
  * Hook to get APR data for all Merkl campaigns from the Zustand store
- * @returns Object containing apyMap and loading state
+ * @returns Object containing aprMap and loading state
  */
-export const useMerklApyMap = () => {
+export const useMerklAprMap = () => {
   // Start the subscription automatically
   useMerklRewardsSubscription();
 
   // Get state from Zustand store
-  const { merklApyMap, merklRewardsLoading, fetchMerklRewards } = useRootStore((state) => ({
-    merklApyMap: state.merklApyMap,
+  const { merklAprMap, merklRewardsLoading, fetchMerklRewards } = useRootStore((state) => ({
+    merklAprMap: state.merklAprMap,
     merklRewardsLoading: state.merklRewardsLoading,
     fetchMerklRewards: state.fetchMerklRewards,
   }));
 
   // Trigger a fetch if the map is empty (first load)
   useEffect(() => {
-    if (Object.keys(merklApyMap).length === 0) {
+    if (Object.keys(merklAprMap).length === 0) {
       fetchMerklRewards();
     }
-  }, [merklApyMap, fetchMerklRewards]);
+  }, [merklAprMap, fetchMerklRewards]);
 
   return {
-    apyMap: merklApyMap,
+    aprMap: merklAprMap,
     isLoading: merklRewardsLoading,
   };
 };

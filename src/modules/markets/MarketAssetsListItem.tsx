@@ -16,14 +16,14 @@ import { Link, ROUTES } from '../../components/primitives/Link';
 import { TokenIcon } from '../../components/primitives/TokenIcon';
 import { MerklRewardsIndicator } from '../../components/rewards/MerklRewardsIndicator';
 import { ComputedReserveData } from '../../hooks/app-data-provider/useAppDataProvider';
-import { hasMerklRewards, useMerklApyMap } from '@/hooks/useMerklApyMap';
+import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
 import { SpkAirdropNoteInline } from '../dashboard/lists/BorrowAssetsList/BorrowAssetsListItem';
 import { ListAPRColumn } from '../dashboard/lists/ListAPRColumn';
 
 export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
   const router = useRouter();
   const { currentMarket } = useProtocolDataContext();
-  const { apyMap, isLoading } = useMerklApyMap();
+  const { aprMap, isLoading } = useMerklAprMap();
 
   const hasRewards = hasMerklRewards(reserve.symbol);
   // Always show apple rewards in market list (it's always the supply tab)
@@ -33,7 +33,7 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
   const displayValue = showAppleReward
     ? isLoading
       ? reserve.supplyAPY // Show base APY while loading
-      : Number(apyMap[reserve.symbol as keyof typeof apyMap]) / 100 + Number(reserve.supplyAPY)
+      : Number(aprMap[reserve.symbol as keyof typeof aprMap]) / 100 + Number(reserve.supplyAPY)
     : reserve.supplyAPY;
 
   return (

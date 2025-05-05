@@ -23,11 +23,11 @@ interface MerklRewardsIndicatorProps {
 
 function getTooltipContentUI({
   baseRate,
-  apy,
+  apr,
   netApy,
 }: {
   baseRate: number;
-  apy: number;
+  apr: number;
   netApy: number;
 }) {
   return (
@@ -91,16 +91,6 @@ function getTooltipContentUI({
           width: '100%',
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <img src="/logos/apple-green.png" alt="APY" width={16} height={16} />
-          <Typography
-            sx={(theme) => ({
-              color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
-            })}
-          >
-            APY
-          </Typography>
-        </Box>
         <Typography
           sx={(theme) => ({
             color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
@@ -171,9 +161,9 @@ export const MerklRewardsIndicator = ({
   isSupplyTab = false,
   children,
 }: MerklRewardsIndicatorProps) => {
-  const { apyMap, isLoading } = useMerklApyMap();
+  const { aprMap, isLoading } = useMerklAprMap();
   const showRewards = hasMerklRewards(symbol) && isSupplyTab;
-  const merklApy = showRewards ? apyMap[symbol as keyof typeof apyMap] || 0 : 0;
+  const merklApr = showRewards ? aprMap[symbol as keyof typeof aprMap] || 0 : 0;
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -222,9 +212,9 @@ export const MerklRewardsIndicator = ({
               <Box sx={{ position: 'relative', display: 'inline-block' }}>
                 <Tooltip
                   title={getTooltipContentUI({
-                    apy: merklApy,
+                    apr: merklApr,
                     baseRate: baseValue * 100,
-                    netApy: merklApy + baseValue * 100,
+                    netApy: merklApr + baseValue * 100,
                   })}
                   arrow
                   placement="top"

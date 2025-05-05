@@ -19,7 +19,7 @@ import { AssetCapHookData } from 'src/hooks/useAssetCaps';
 import { MarketDataType } from 'src/utils/marketsAndNetworksConfig';
 
 import { MerklRewardsIndicator } from '@/components/rewards/MerklRewardsIndicator';
-import { hasMerklRewards, useMerklApyMap } from '@/hooks/useMerklApyMap';
+import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
 
 import { ApyGraphContainer } from './graphs/ApyGraphContainer';
 import { PanelItem } from './ReservePanels';
@@ -42,14 +42,14 @@ export const SupplyInfo = ({
   debtCeiling,
 }: SupplyInfoProps) => {
   const isDAI = reserve.symbol !== 'DAI';
-  const { apyMap, isLoading } = useMerklApyMap();
+  const { aprMap, isLoading } = useMerklAprMap();
   const hasRewards = hasMerklRewards(reserve.symbol);
   const showAppleReward = hasRewards;
 
   const displayValue = showAppleReward
     ? isLoading
       ? reserve.supplyAPY // Show base value while loading
-      : apyMap[reserve.symbol as keyof typeof apyMap] / 100 + Number(reserve.supplyAPY)
+      : aprMap[reserve.symbol as keyof typeof aprMap] / 100 + Number(reserve.supplyAPY)
     : reserve.supplyAPY;
 
   return (

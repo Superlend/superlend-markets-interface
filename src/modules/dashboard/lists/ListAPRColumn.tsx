@@ -2,7 +2,7 @@ import { ReserveIncentiveResponse } from '@aave/math-utils/dist/esm/formatters/i
 import { Box, Tooltip } from '@mui/material';
 import { ReactNode } from 'react';
 
-import { hasMerklRewards, useMerklApyMap } from '@/hooks/useMerklApyMap';
+import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
 
 import { IncentivesCard } from '../../../components/incentives/IncentivesCard';
 import { ListColumn } from '../../../components/lists/ListColumn';
@@ -25,7 +25,7 @@ export const ListAPRColumn = ({
   isSupplyTab = false,
   children,
 }: ListAPRColumnProps) => {
-  const { apyMap, isLoading } = useMerklApyMap();
+  const { aprMap, isLoading } = useMerklAprMap();
   const hasRewards = hasMerklRewards(symbol);
   const showAppleReward = hasRewards && isSupplyTab;
 
@@ -33,7 +33,7 @@ export const ListAPRColumn = ({
   const displayValue = showAppleReward
     ? isLoading
       ? value // Show base value while loading
-      : apyMap[symbol as keyof typeof apyMap] / 100 + value
+      : aprMap[symbol as keyof typeof aprMap] / 100 + value
     : value;
 
   return (
