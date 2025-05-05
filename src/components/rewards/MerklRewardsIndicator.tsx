@@ -9,7 +9,8 @@ import {
   useTheme,
 } from '@mui/material';
 import { ReactNode, useRef, useState } from 'react';
-
+import PercentIcon from '@mui/icons-material/Percent';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { hasMerklRewards, useMerklAprMap } from '../../hooks/useMerklAprMap';
 import { FormattedNumber } from '../primitives/FormattedNumber';
 
@@ -61,13 +62,16 @@ function getTooltipContentUI({
           width: '100%',
         }}
       >
-        <Typography
-          sx={(theme) => ({
-            color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
-          })}
-        >
-          Base Rate
-        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <PercentIcon sx={{ fontSize: 16, color: (theme) => theme.palette.mode === 'light' ? '#166534' : 'primary.main' }} />
+          <Typography
+            sx={(theme) => ({
+              color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
+            })}
+          >
+            Base Rate
+          </Typography>
+        </Box>
         <Typography
           sx={(theme) => ({
             color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
@@ -92,7 +96,16 @@ function getTooltipContentUI({
             color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
           })}
         >
-          APR
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <img src="/logos/apple-green.png" alt="APY" width={16} height={16} />
+            <Typography
+              sx={(theme) => ({
+                color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
+              })}
+            >
+              APR
+            </Typography>
+          </Box>
         </Typography>
         <Typography
           sx={(theme) => ({
@@ -120,13 +133,16 @@ function getTooltipContentUI({
           width: '100%',
         }}
       >
-        <Typography
-          sx={(theme) => ({
-            color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
-          })}
-        >
-          Net APY
-        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <TrendingUpIcon sx={{ fontSize: 16, color: (theme) => theme.palette.mode === 'light' ? '#166534' : 'primary.main' }} />
+          <Typography
+            sx={(theme) => ({
+              color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
+            })}
+          >
+            Net APY
+          </Typography>
+        </Box>
         <Typography
           sx={(theme) => ({
             color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
