@@ -97,7 +97,7 @@ function getTooltipContentUI({
           })}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <img src="/logos/apple-green.png" alt="APY" width={16} height={16} />
+            <img src="/logos/apple-green.png" alt="APR" width={16} height={16} />
             <Typography
               sx={(theme) => ({
                 color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
