@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand';
 
 import { getMerklCampaignUrl } from '../ui-config/merklConfig';
-import { convertAPRtoAPY } from '@/utils/utils';
+// import { convertAPRtoAPY } from '@/utils/utils';
 
 export const CAMPAIGN_IDS = {
   CAMPAIGN_MTBILL: '0xd8d0ad6579284bcb4dbc3fb1e40f4596c788e4508daf9cfd010459ce86832850',
@@ -89,9 +89,9 @@ export const createMerklRewardsSlice: StateCreator<
         return (data[0]?.Opportunity?.apr || 0);
       };
 
-      const getApyFromApr = (apr: number) => {
-        return convertAPRtoAPY(extractApr(apr));
-      };
+      // const getApyFromApr = (apr: number) => {
+      //   return convertAPRtoAPY(extractApr(apr));
+      // };
 
       // Map tokens to their APRs
       const aprMap: Record<string, number> = {
