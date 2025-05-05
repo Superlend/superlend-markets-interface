@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand';
 
 import { getMerklCampaignUrl } from '../ui-config/merklConfig';
-import { convertAPRtoAPY } from '@/utils/utils';
+// import { convertAPRtoAPY } from '@/utils/utils';
 
 export const CAMPAIGN_IDS = {
   CAMPAIGN_MTBILL: '0xd8d0ad6579284bcb4dbc3fb1e40f4596c788e4508daf9cfd010459ce86832850',
@@ -39,7 +39,7 @@ export interface MerklRewardsResponse {
 }
 
 export interface MerklRewardsSlice {
-  merklApyMap: Record<string, number>;
+  merklAprMap: Record<string, number>;
   merklRewardsLoading: boolean;
   merklRewardsError: Error | null;
   merklLastUpdated: number;
@@ -50,7 +50,7 @@ export const createMerklRewardsSlice: StateCreator<
   MerklRewardsSlice,
   [['zustand/subscribeWithSelector', never], ['zustand/devtools', never]]
 > = (set, get) => ({
-  merklApyMap: {},
+  merklAprMap: {},
   merklRewardsLoading: true,
   merklRewardsError: null,
   merklLastUpdated: 0,
@@ -62,7 +62,7 @@ export const createMerklRewardsSlice: StateCreator<
     if (
       lastUpdated > 0 &&
       now - lastUpdated < 5 * 60 * 1000 &&
-      Object.keys(get().merklApyMap).length
+      Object.keys(get().merklAprMap).length
     ) {
       return; // Skip fetch if recently updated
     }
@@ -86,27 +86,27 @@ export const createMerklRewardsSlice: StateCreator<
       // Extract APR values from responses
       const extractApr = (data: any) => {
         if (!data) return 0;
-        return (data[0]?.Opportunity?.apr || 0) / 100;
+        return (data[0]?.Opportunity?.apr || 0);
       };
 
-      const getApyFromApr = (apr: number) => {
-        return convertAPRtoAPY(extractApr(apr));
-      };
+      // const getApyFromApr = (apr: number) => {
+      //   return convertAPRtoAPY(extractApr(apr));
+      // };
 
       // Map tokens to their APRs
-      const apyMap: Record<string, number> = {
-        mBASIS: getApyFromApr(responses[1]),
-        mTBILL: getApyFromApr(responses[0]),
-        WXTZ: getApyFromApr(responses[2]),
-        XTZ: getApyFromApr(responses[2]),
-        WBTC: getApyFromApr(responses[3]),
-        USDC: getApyFromApr(responses[4]),
-        USDT: getApyFromApr(responses[5]),
-        WETH: getApyFromApr(responses[6]),
+      const aprMap: Record<string, number> = {
+        mBASIS: extractApr(responses[1]),
+        mTBILL: extractApr(responses[0]),
+        WXTZ: extractApr(responses[2]),
+        XTZ: extractApr(responses[2]),
+        WBTC: extractApr(responses[3]),
+        USDC: extractApr(responses[4]),
+        USDT: extractApr(responses[5]),
+        WETH: extractApr(responses[6]),
       };
 
       set({
-        merklApyMap: apyMap,
+        merklAprMap: aprMap,
         merklRewardsLoading: false,
         merklRewardsError: null,
         merklLastUpdated: now,

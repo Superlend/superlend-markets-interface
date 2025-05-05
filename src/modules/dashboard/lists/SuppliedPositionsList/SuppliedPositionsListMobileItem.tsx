@@ -5,7 +5,7 @@ import { useAssetCaps } from 'src/hooks/useAssetCaps';
 import { DashboardReserve } from 'src/utils/dashboardSortUtils';
 
 import { MerklRewardsIndicator } from '@/components/rewards/MerklRewardsIndicator';
-import { hasMerklRewards, useMerklApyMap } from '@/hooks/useMerklApyMap';
+import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
 
 import { IncentivesCard } from '../../../../components/incentives/IncentivesCard';
 import { Row } from '../../../../components/primitives/Row';
@@ -31,7 +31,7 @@ export const SuppliedPositionsListMobileItem = ({
   const isSwapButton = isFeatureEnabled.liquiditySwap(currentMarketData);
   const { symbol, iconSymbol, name, supplyAPY, isIsolated, aIncentivesData, isFrozen, isActive } =
     reserve;
-  const { apyMap, isLoading } = useMerklApyMap();
+  const { aprMap, isLoading } = useMerklAprMap();
   const hasRewards = hasMerklRewards(symbol);
   const showAppleReward = hasRewards;
 
@@ -39,7 +39,7 @@ export const SuppliedPositionsListMobileItem = ({
   const displayValue = showAppleReward
     ? isLoading
       ? Number(supplyAPY) // Show base supplyAPY while loading
-      : apyMap[symbol as keyof typeof apyMap] / 100 + Number(supplyAPY)
+      : aprMap[symbol as keyof typeof aprMap] / 100 + Number(supplyAPY)
     : Number(supplyAPY);
 
   const canBeEnabledAsCollateral =
