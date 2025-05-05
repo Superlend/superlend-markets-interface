@@ -1,5 +1,7 @@
 import { ChainId } from '@aave/contract-helpers';
 import { BigNumberValue, USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
+export const SEC_IN_YEAR = 31536000;
+
 
 export function hexToAscii(_hex: string): string {
   const hex = _hex.toString();
@@ -58,4 +60,10 @@ export const amountToUsd = (
     .multipliedBy(formattedPriceInMarketReferenceCurrency)
     .multipliedBy(marketReferencePriceInUsd)
     .shiftedBy(-USD_DECIMALS);
+};
+
+export const convertAPRtoAPY = (apr: number) => {
+  if (!apr) return 0;
+  const apy = ((1 + apr / SEC_IN_YEAR) ** SEC_IN_YEAR - 1) * 100;
+  return apy < 0.01 && apy > 0 ? 0.01 : apy;
 };

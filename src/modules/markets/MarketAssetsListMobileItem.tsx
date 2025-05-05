@@ -6,7 +6,7 @@ import { ReserveSubheader } from 'src/components/ReserveSubheader';
 import { useProtocolDataContext } from 'src/hooks/useProtocolDataContext';
 
 import { MerklRewardsIndicator } from '@/components/rewards/MerklRewardsIndicator';
-import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
+import { hasMerklRewards, useMerklApyMap } from '@/hooks/useMerklApyMap';
 
 import { IncentivesCard } from '../../components/incentives/IncentivesCard';
 import { FormattedNumber } from '../../components/primitives/FormattedNumber';
@@ -18,7 +18,7 @@ import { ListMobileItemWrapper } from '../dashboard/lists/ListMobileItemWrapper'
 
 export const MarketAssetsListMobileItem = ({ ...reserve }: ComputedReserveData) => {
   const { currentMarket } = useProtocolDataContext();
-  const { aprMap, isLoading } = useMerklAprMap();
+  const { apyMap, isLoading } = useMerklApyMap();
   const hasRewards = hasMerklRewards(reserve.symbol);
   // Always show apple rewards in market list (it's always the supply tab)
   const showAppleReward = hasRewards;
@@ -26,7 +26,7 @@ export const MarketAssetsListMobileItem = ({ ...reserve }: ComputedReserveData) 
   const displayValue = showAppleReward
     ? isLoading
       ? reserve.supplyAPY // Show base APY while loading
-      : Number(aprMap[reserve.symbol as keyof typeof aprMap]) / 100 + Number(reserve.supplyAPY)
+      : Number(apyMap[reserve.symbol as keyof typeof apyMap]) / 100 + Number(reserve.supplyAPY)
     : reserve.supplyAPY;
 
   return (

@@ -6,7 +6,6 @@ import { NoData } from 'src/components/primitives/NoData';
 import { ReserveSubheader } from 'src/components/ReserveSubheader';
 import { useProtocolDataContext } from 'src/hooks/useProtocolDataContext';
 
-import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
 
 import { IncentivesCard } from '../../components/incentives/IncentivesCard';
 import { AMPLToolTip } from '../../components/infoTooltips/AMPLToolTip';
@@ -17,14 +16,14 @@ import { Link, ROUTES } from '../../components/primitives/Link';
 import { TokenIcon } from '../../components/primitives/TokenIcon';
 import { MerklRewardsIndicator } from '../../components/rewards/MerklRewardsIndicator';
 import { ComputedReserveData } from '../../hooks/app-data-provider/useAppDataProvider';
-// import { hasMerklRewards, useMerklAprMap } from '../../hooks/useMerklAprMap';
+import { hasMerklRewards, useMerklApyMap } from '@/hooks/useMerklApyMap';
 import { SpkAirdropNoteInline } from '../dashboard/lists/BorrowAssetsList/BorrowAssetsListItem';
 import { ListAPRColumn } from '../dashboard/lists/ListAPRColumn';
 
 export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
   const router = useRouter();
   const { currentMarket } = useProtocolDataContext();
-  const { aprMap, isLoading } = useMerklAprMap();
+  const { apyMap, isLoading } = useMerklApyMap();
 
   const hasRewards = hasMerklRewards(reserve.symbol);
   // Always show apple rewards in market list (it's always the supply tab)
@@ -34,7 +33,7 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
   const displayValue = showAppleReward
     ? isLoading
       ? reserve.supplyAPY // Show base APY while loading
-      : Number(aprMap[reserve.symbol as keyof typeof aprMap]) / 100 + Number(reserve.supplyAPY)
+      : Number(apyMap[reserve.symbol as keyof typeof apyMap]) / 100 + Number(reserve.supplyAPY)
     : reserve.supplyAPY;
 
   return (
