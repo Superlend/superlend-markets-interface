@@ -90,7 +90,7 @@ export default function MyApp(props: MyAppProps) {
           "Explore Superlend's Etherlink Markets — lend or borrow USDC, USDT, XTZ & more seamlessly through our high-yield DeFi money markets."
         }
         imageUrl="/superlend_banner.png"
-        iconUrl="/logos/superlend-square-logo.webp"
+        iconUrl="/superlend-square-logo.png"
         cardType="summary"
       />
       <AnalyticsProvider>
