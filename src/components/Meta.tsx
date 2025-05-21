@@ -9,18 +9,17 @@ type MetaProps = {
 };
 
 export function Meta({ title, description, imageUrl, timestamp }: MetaProps) {
-  const fullTitle = `Superlend - ${title}`;
   // Convert relative URLs to absolute
   const absoluteImageUrl = imageUrl?.startsWith('https') ? imageUrl : `https://markets.superlend.xyz${imageUrl}`;
 
   return (
     <Head>
-      <title>{fullTitle}</title>
+      <title>{title}</title>
       <meta name="description" content={description} key="description" />
       
       {/* Open Graph Meta Tags */}
       <meta property="og:type" content="website" key="ogtype" />
-      <meta property="og:title" content={fullTitle} key="title" />
+      <meta property="og:title" content={title} key="title" />
       <meta property="og:description" content={description} key="ogdescription" />
       <meta property="og:url" content="https://markets.superlend.xyz/" key="ogurl" />
       {imageUrl && <meta property="og:image" content={absoluteImageUrl} key="ogimage" />}
@@ -29,7 +28,7 @@ export function Meta({ title, description, imageUrl, timestamp }: MetaProps) {
       <meta name="twitter:card" content="summary_large_image" key="twittercard" />
       <meta name="twitter:site" content="@SuperlendHQ" key="twittersite" />
       <meta name="twitter:creator" content="@SuperlendHQ" key="twittercreator" />
-      <meta name="twitter:title" content={fullTitle} key="twittertitle" />
+      <meta name="twitter:title" content={title} key="twittertitle" />
       <meta name="twitter:description" content={description} key="twitterdescription" />
       {imageUrl && <meta name="twitter:image" content={absoluteImageUrl} key="twitterimage" />}
       {imageUrl && <meta name="twitter:image:alt" content="Superlend logo" key="twitteralt" />}
