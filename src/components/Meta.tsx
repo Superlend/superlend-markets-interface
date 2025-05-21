@@ -5,12 +5,14 @@ type MetaProps = {
   title: string;
   description: string;
   imageUrl?: string;
+  iconUrl?: string;
   timestamp?: string;
 };
 
-export function Meta({ title, description, imageUrl, timestamp }: MetaProps) {
+export function Meta({ title, description, imageUrl, iconUrl, timestamp }: MetaProps) {
   // Convert relative URLs to absolute
   const absoluteImageUrl = imageUrl?.startsWith('https') ? imageUrl : `https://markets.superlend.xyz${imageUrl}`;
+  const absoluteIconUrl = iconUrl?.startsWith('https') ? iconUrl : `https://markets.superlend.xyz${iconUrl || '/favicon-196x196.png'}`;
 
   return (
     <Head>
@@ -23,6 +25,7 @@ export function Meta({ title, description, imageUrl, timestamp }: MetaProps) {
       <meta property="og:description" content={description} key="ogdescription" />
       <meta property="og:url" content="https://markets.superlend.xyz/" key="ogurl" />
       {imageUrl && <meta property="og:image" content={absoluteImageUrl} key="ogimage" />}
+      {iconUrl && <meta property="og:image" content={absoluteIconUrl} key="ogicon" />}
       
       {/* Twitter Card Meta Tags */}
       <meta name="twitter:card" content="summary_large_image" key="twittercard" />
@@ -31,7 +34,8 @@ export function Meta({ title, description, imageUrl, timestamp }: MetaProps) {
       <meta name="twitter:title" content={title} key="twittertitle" />
       <meta name="twitter:description" content={description} key="twitterdescription" />
       {imageUrl && <meta name="twitter:image" content={absoluteImageUrl} key="twitterimage" />}
-      {imageUrl && <meta name="twitter:image:alt" content="Superlend logo" key="twitteralt" />}
+      {iconUrl && <meta name="twitter:image" content={absoluteIconUrl} key="twittericon" />}
+      <meta name="twitter:image:alt" content="Superlend" key="twitteralt" />
 
       {timestamp && <meta name="revised" content={timestamp} key="timestamp" />}
       <meta
