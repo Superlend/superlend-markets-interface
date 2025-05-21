@@ -9,23 +9,31 @@ type MetaProps = {
 };
 
 export function Meta({ title, description, imageUrl, timestamp }: MetaProps) {
+  const fullTitle = `Superlend - ${title}`;
+  // Convert relative URLs to absolute
+  const absoluteImageUrl = imageUrl?.startsWith('https') ? imageUrl : `https://markets.superlend.xyz${imageUrl}`;
+
   return (
     <Head>
-      <title>Superlend - {title}</title>
+      <title>{fullTitle}</title>
       <meta name="description" content={description} key="description" />
-      <meta property="og:title" content={`Superlend - ${title}`} key="title" />
+      
+      {/* Open Graph Meta Tags */}
+      <meta property="og:type" content="website" key="ogtype" />
+      <meta property="og:title" content={fullTitle} key="title" />
       <meta property="og:description" content={description} key="ogdescription" />
-      {imageUrl && <meta property="og:image" content={imageUrl} key="ogimage" />}
-      {imageUrl && <meta name="twitter:image" content={imageUrl} key="twitterimage" />}
-      {imageUrl && <meta name="twitter:image:alt" content={`Superlend logo`} key="twitteralt" />}
-      <meta name="twitter:site" content="@AaveAave" key="twittersite" />
-      <meta
-        property="twitter:card"
-        content={imageUrl ? 'summary_large_image' : 'summary'}
-        key="twittercard"
-      />
-      <meta name="twitter:title" content={title} key="twittertitle" />
+      <meta property="og:url" content="https://markets.superlend.xyz/" key="ogurl" />
+      {imageUrl && <meta property="og:image" content={absoluteImageUrl} key="ogimage" />}
+      
+      {/* Twitter Card Meta Tags */}
+      <meta name="twitter:card" content="summary_large_image" key="twittercard" />
+      <meta name="twitter:site" content="@SuperlendHQ" key="twittersite" />
+      <meta name="twitter:creator" content="@SuperlendHQ" key="twittercreator" />
+      <meta name="twitter:title" content={fullTitle} key="twittertitle" />
       <meta name="twitter:description" content={description} key="twitterdescription" />
+      {imageUrl && <meta name="twitter:image" content={absoluteImageUrl} key="twitterimage" />}
+      {imageUrl && <meta name="twitter:image:alt" content="Superlend logo" key="twitteralt" />}
+
       {timestamp && <meta name="revised" content={timestamp} key="timestamp" />}
       <meta
         name="keywords"
