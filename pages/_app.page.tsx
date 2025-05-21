@@ -91,6 +91,7 @@ export default function MyApp(props: MyAppProps) {
         }
         imageUrl="/superlend_banner.png"
         iconUrl="/logos/superlend-square-logo.webp"
+        cardType="summary"
       />
       <AnalyticsProvider>
         <LanguageProvider>
