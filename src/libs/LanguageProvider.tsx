@@ -12,7 +12,7 @@ i18n.loadLocaleData({
   fr: { plurals: fr },
   el: { plurals: el },
 });
-i18n.load('en', messages);
+i18n.load('en', messages as any);
 i18n.activate('en');
 
 export const DEFAULT_LOCALE = 'en';
@@ -40,7 +40,7 @@ export const LanguageProvider: React.FunctionComponent = (props) => {
   useEffect(() => {
     // With this method we dynamically load the catalogs
     const savedLocale = localStorage.getItem('LOCALE') || DEFAULT_LOCALE;
-    if (i18n._locale !== savedLocale) dynamicActivateLanguage(savedLocale);
+    if (i18n.locale !== savedLocale) dynamicActivateLanguage(savedLocale);
   }, []);
 
   return (

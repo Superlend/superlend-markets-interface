@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 
-import { SUPPORTED_INTRINSIC_TOKENS, hasIntrinsicApy } from '../store/intrinsicApySlice';
 import { useIntrinsicApySubscription, useRootStore } from '../store/root';
 
 export { SUPPORTED_INTRINSIC_TOKENS, hasIntrinsicApy } from '../store/intrinsicApySlice';

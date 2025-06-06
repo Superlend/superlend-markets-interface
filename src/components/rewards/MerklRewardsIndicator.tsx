@@ -28,14 +28,12 @@ function getTooltipContentUI({
   apr,
   netApy,
   intrinsicApyValue,
-  symbol,
   shouldIncludeIntrinsicApy,
 }: {
   baseRate: number;
   apr: number;
   netApy: number;
   intrinsicApyValue?: number;
-  symbol: string;
   shouldIncludeIntrinsicApy: boolean;
 }) {
   return (
@@ -258,7 +256,6 @@ export const MerklRewardsIndicator = ({
                     baseRate: baseValue * 100,
                     netApy: merklApr + baseValue * 100 + (shouldIncludeIntrinsicApy ? intrinsicApyValue : 0),
                     intrinsicApyValue: intrinsicApyValue,
-                    symbol: symbol,
                     shouldIncludeIntrinsicApy: shouldIncludeIntrinsicApy,
                   })}
                   arrow
