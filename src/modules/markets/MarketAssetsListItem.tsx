@@ -19,21 +19,24 @@ import { ComputedReserveData } from '../../hooks/app-data-provider/useAppDataPro
 import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
 import { SpkAirdropNoteInline } from '../dashboard/lists/BorrowAssetsList/BorrowAssetsListItem';
 import { ListAPRColumn } from '../dashboard/lists/ListAPRColumn';
+import { hasIntrinsicApy, useIntrinsicApy } from '@/hooks/useIntrinsicApy';
 
 export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
   const router = useRouter();
   const { currentMarket } = useProtocolDataContext();
   const { aprMap, isLoading } = useMerklAprMap();
-
+  const { apyMap: intrinsicApyMap, isLoading: intrinsicApyLoading } = useIntrinsicApy();
   const hasRewards = hasMerklRewards(reserve.symbol);
   // Always show apple rewards in market list (it's always the supply tab)
   const showAppleReward = hasRewards;
+  const showIntrinsicApy = hasIntrinsicApy(reserve.symbol);
+  const intrinsicApyValue = showIntrinsicApy ? intrinsicApyMap[reserve.symbol as keyof typeof intrinsicApyMap] || 0 : 0;
 
   // If asset has Merkl rewards, use the APR value from Merkl divided by 100
   const displayValue = showAppleReward
-    ? isLoading
+    ? isLoading || intrinsicApyLoading
       ? reserve.supplyAPY // Show base APY while loading
-      : Number(aprMap[reserve.symbol as keyof typeof aprMap]) / 100 + Number(reserve.supplyAPY)
+      : (Number(aprMap[reserve.symbol as keyof typeof aprMap]) / 100) + Number(reserve.supplyAPY) + (intrinsicApyValue / 100)
     : reserve.supplyAPY;
 
   return (
