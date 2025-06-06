@@ -11,7 +11,9 @@ import {
 import { ReactNode, useRef, useState } from 'react';
 import PercentIcon from '@mui/icons-material/Percent';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import DiamondIcon from '@mui/icons-material/Diamond';
 import { hasMerklRewards, useMerklAprMap } from '../../hooks/useMerklAprMap';
+import { hasIntrinsicApy, useIntrinsicApy } from '../../hooks/useIntrinsicApy';
 import { FormattedNumber } from '../primitives/FormattedNumber';
 
 interface MerklRewardsIndicatorProps {
@@ -25,10 +27,16 @@ function getTooltipContentUI({
   baseRate,
   apr,
   netApy,
+  intrinsicApyValue,
+  symbol,
+  shouldIncludeIntrinsicApy,
 }: {
   baseRate: number;
   apr: number;
   netApy: number;
+  intrinsicApyValue?: number;
+  symbol: string;
+  shouldIncludeIntrinsicApy: boolean;
 }) {
   return (
     <Box
@@ -115,6 +123,36 @@ function getTooltipContentUI({
           + <FormattedNumber compact value={apr} visibleDecimals={2} symbolsColor="text.white" />%
         </Typography>
       </Box>
+      {shouldIncludeIntrinsicApy && (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 1,
+            width: '100%',
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <DiamondIcon sx={{ fontSize: 16, color: (theme) => theme.palette.mode === 'light' ? '#8B5CF6' : '#A78BFA' }} />
+            <Typography
+              sx={(theme) => ({
+                color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
+              })}
+            >
+              Intrinsic APY
+            </Typography>
+          </Box>
+          <Typography
+            sx={(theme) => ({
+              color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
+            })}
+          >
+            + <FormattedNumber compact value={intrinsicApyValue || 0} visibleDecimals={2} symbolsColor="text.white" />%
+          </Typography>
+        </Box>
+      )}
       <Divider
         sx={(theme) => ({
           width: '100%',
@@ -162,8 +200,12 @@ export const MerklRewardsIndicator = ({
   children,
 }: MerklRewardsIndicatorProps) => {
   const { aprMap, isLoading } = useMerklAprMap();
+  const { apyMap: intrinsicApyMap, isLoading: intrinsicApyLoading } = useIntrinsicApy();
   const showRewards = hasMerklRewards(symbol) && isSupplyTab;
   const merklApr = showRewards ? aprMap[symbol as keyof typeof aprMap] || 0 : 0;
+  const showIntrinsicApy = hasIntrinsicApy(symbol) && isSupplyTab;
+  const intrinsicApyValue = showIntrinsicApy ? intrinsicApyMap[symbol as keyof typeof intrinsicApyMap] || 0 : 0;
+  const shouldIncludeIntrinsicApy = Boolean((symbol === 'mBASIS' || symbol === 'mTBILL') && intrinsicApyValue && intrinsicApyValue > 0);
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -203,9 +245,9 @@ export const MerklRewardsIndicator = ({
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
       {children}
-      {showRewards && (
+      {(showRewards || showIntrinsicApy) && (
         <>
-          {isLoading ? (
+          {(isLoading || intrinsicApyLoading) ? (
             <CircularProgress size={18} />
           ) : (
             <ClickAwayListener onClickAway={handleTooltipClose}>
@@ -214,7 +256,10 @@ export const MerklRewardsIndicator = ({
                   title={getTooltipContentUI({
                     apr: merklApr,
                     baseRate: baseValue * 100,
-                    netApy: merklApr + baseValue * 100,
+                    netApy: merklApr + baseValue * 100 + (shouldIncludeIntrinsicApy ? intrinsicApyValue : 0),
+                    intrinsicApyValue: intrinsicApyValue,
+                    symbol: symbol,
+                    shouldIncludeIntrinsicApy: shouldIncludeIntrinsicApy,
                   })}
                   arrow
                   placement="top"

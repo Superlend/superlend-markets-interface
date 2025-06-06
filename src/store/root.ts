@@ -7,6 +7,7 @@ import { devtools, subscribeWithSelector } from 'zustand/middleware';
 
 import { createGovernanceSlice, GovernanceSlice } from './governanceSlice';
 import { createIncentiveSlice, IncentiveSlice } from './incentiveSlice';
+import { createIntrinsicApySlice, IntrinsicApySlice } from './intrinsicApySlice';
 import { createMerklRewardsSlice, MerklRewardsSlice } from './merklRewardsSlice';
 import { createPoolSlice, PoolSlice } from './poolSlice';
 import { createProtocolDataSlice, ProtocolDataSlice } from './protocolDataSlice';
@@ -25,7 +26,8 @@ export type RootStore = StakeSlice &
   IncentiveSlice &
   GovernanceSlice &
   V3MigrationSlice &
-  MerklRewardsSlice;
+  MerklRewardsSlice &
+  IntrinsicApySlice;
 
 export const useRootStore = create<RootStore>()(
   subscribeWithSelector(
@@ -39,6 +41,7 @@ export const useRootStore = create<RootStore>()(
         ...createGovernanceSlice(...args),
         ...createV3MigrationSlice(...args),
         ...createMerklRewardsSlice(...args),
+        ...createIntrinsicApySlice(...args),
       };
     })
   )
@@ -94,6 +97,10 @@ export const useMerklRewardsSubscription = createSingletonSubscriber(() => {
   return useRootStore.getState().fetchMerklRewards();
 }, 5 * 60 * 1000); // Refresh every 5 minutes
 
+export const useIntrinsicApySubscription = createSingletonSubscriber(() => {
+  return useRootStore.getState().fetchIntrinsicApy();
+}, 5 * 60 * 1000); // Refresh every 5 minutes
+
 // let latest: V3FaucetService;
 useRootStore.subscribe(
   (state) => state.currentMarketData,
@@ -130,3 +137,6 @@ useRootStore.subscribe(
 
 // Initialize Merkl rewards data
 useRootStore.getState().fetchMerklRewards();
+
+// Initialize Intrinsic APY data
+useRootStore.getState().fetchIntrinsicApy();

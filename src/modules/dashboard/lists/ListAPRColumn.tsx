@@ -7,6 +7,7 @@ import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
 import { IncentivesCard } from '../../../components/incentives/IncentivesCard';
 import { ListColumn } from '../../../components/lists/ListColumn';
 import { MerklRewardsIndicator } from '../../../components/rewards/MerklRewardsIndicator';
+import { hasIntrinsicApy, useIntrinsicApy } from '@/hooks/useIntrinsicApy';
 
 interface ListAPRColumnProps {
   value: number;
@@ -26,14 +27,18 @@ export const ListAPRColumn = ({
   children,
 }: ListAPRColumnProps) => {
   const { aprMap, isLoading } = useMerklAprMap();
+  const { apyMap: intrinsicApyMap, isLoading: intrinsicApyLoading } = useIntrinsicApy();
+
   const hasRewards = hasMerklRewards(symbol);
   const showAppleReward = hasRewards && isSupplyTab;
+  const showIntrinsicApy = hasIntrinsicApy(symbol) && isSupplyTab;
+  const intrinsicApyValue = showIntrinsicApy ? intrinsicApyMap[symbol as keyof typeof intrinsicApyMap] || 0 : 0;
 
   // If asset has Merkl rewards and we're on the supply tab, use the APR value
   const displayValue = showAppleReward
-    ? isLoading
+    ? (isLoading || intrinsicApyLoading)
       ? value // Show base value while loading
-      : aprMap[symbol as keyof typeof aprMap] / 100 + value
+      : (aprMap[symbol as keyof typeof aprMap] / 100) + value + (intrinsicApyValue / 100)
     : value;
 
   return (

@@ -16,6 +16,7 @@ import { SpkAirdropNoteInline } from '../BorrowAssetsList/BorrowAssetsListItem';
 import { ListItemUsedAsCollateral } from '../ListItemUsedAsCollateral';
 import { ListMobileItemWrapper } from '../ListMobileItemWrapper';
 import { ListValueRow } from '../ListValueRow';
+import { hasIntrinsicApy, useIntrinsicApy } from '@/hooks/useIntrinsicApy';
 
 export const SuppliedPositionsListMobileItem = ({
   reserve,
@@ -32,14 +33,17 @@ export const SuppliedPositionsListMobileItem = ({
   const { symbol, iconSymbol, name, supplyAPY, isIsolated, aIncentivesData, isFrozen, isActive } =
     reserve;
   const { aprMap, isLoading } = useMerklAprMap();
+  const { apyMap: intrinsicApyMap, isLoading: intrinsicApyLoading } = useIntrinsicApy();
   const hasRewards = hasMerklRewards(symbol);
   const showAppleReward = hasRewards;
+  const showIntrinsicApy = hasIntrinsicApy(symbol);
+  const intrinsicApyValue = showIntrinsicApy ? intrinsicApyMap[symbol as keyof typeof intrinsicApyMap] || 0 : 0;
 
   // If asset has Merkl rewards and we're on the supply tab, use the APR value
   const displayValue = showAppleReward
-    ? isLoading
+    ? isLoading || intrinsicApyLoading
       ? Number(supplyAPY) // Show base supplyAPY while loading
-      : aprMap[symbol as keyof typeof aprMap] / 100 + Number(supplyAPY)
+      : (aprMap[symbol as keyof typeof aprMap] / 100) + Number(supplyAPY) + (intrinsicApyValue / 100)
     : Number(supplyAPY);
 
   const canBeEnabledAsCollateral =
