@@ -62,7 +62,7 @@ export const InfoTooltip = ({ children, tooltipContent }: InfoTooltipProps) => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'start',
-                gap: 1,
+                gap: 1.5,
                 minWidth: 200,
                 backgroundColor: theme.palette.mode === 'light' ? '#ffffff' : 'inherit',
                 p: 2,
