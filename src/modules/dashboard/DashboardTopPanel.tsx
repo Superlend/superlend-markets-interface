@@ -128,7 +128,7 @@ export const DashboardTopPanel = () => {
         >
           {currentAccount && Number(user?.netWorthUSD) > 0 ? (
             <FormattedNumber
-              value={user.netAPY}
+              value={user.netAPYWithRewards}
               variant={valueTypographyVariant}
               visibleDecimals={2}
               percent

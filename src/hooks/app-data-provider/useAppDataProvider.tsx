@@ -31,6 +31,7 @@ import {
   selectUserSummaryAndIncentives,
 } from '../../store/poolSelectors';
 import { useCurrentTimestamp } from '../useCurrentTimestamp';
+import { hasMerklRewards, useMerklAprMap } from '../useMerklAprMap';
 
 /**
  * removes the marketPrefix from a symbol
@@ -54,6 +55,7 @@ export type ExtendedFormattedUser = FormatUserSummaryAndIncentivesResponse<Compu
   earnedAPY: number;
   debtAPY: number;
   netAPY: number;
+  netAPYWithRewards: number;
   isInEmode: boolean;
   userEmodeCategoryId: number;
 };
@@ -92,6 +94,8 @@ const AppDataContext = React.createContext<AppDataContextType>({} as AppDataCont
 export const AppDataProvider: React.FC = ({ children }) => {
   const currentTimestamp = useCurrentTimestamp(5);
   const { currentAccount } = useWeb3Context();
+  const { aprMap } = useMerklAprMap();
+
   const [
     reserves,
     baseCurrencyData,
@@ -135,9 +139,18 @@ export const AppDataProvider: React.FC = ({ children }) => {
       );
 
       if (reserve) {
+        let rewardApy = 0;
+        if (hasMerklRewards(reserve.symbol)) {
+          rewardApy = (aprMap[reserve.symbol as keyof typeof aprMap] ?? 0) / 100;
+        }
         if (value.underlyingBalanceUSD !== '0') {
           acc.positiveProportion = acc.positiveProportion.plus(
             new BigNumber(reserve.supplyAPY).multipliedBy(value.underlyingBalanceUSD)
+          );
+          acc.positiveProportionWithRewards = acc.positiveProportionWithRewards.plus(
+            new BigNumber(reserve.supplyAPY)
+              .plus(rewardApy)
+              .multipliedBy(value.underlyingBalanceUSD)
           );
           if (reserve.aIncentivesData) {
             reserve.aIncentivesData.forEach((incentive) => {
@@ -180,6 +193,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
     {
       positiveProportion: new BigNumber(0),
       negativeProportion: new BigNumber(0),
+      positiveProportionWithRewards: new BigNumber(0),
     }
   );
 
@@ -188,12 +202,24 @@ export const AppDataProvider: React.FC = ({ children }) => {
   );
 
   const earnedAPY = proportions.positiveProportion.dividedBy(user.totalLiquidityUSD).toNumber();
+  const earnedAPYWithRewards = proportions.positiveProportionWithRewards
+    .dividedBy(user.totalLiquidityUSD)
+    .toNumber();
   const debtAPY = proportions.negativeProportion.dividedBy(user.totalBorrowsUSD).toNumber();
   const netAPY =
     (earnedAPY || 0) *
       (Number(user.totalLiquidityUSD) / Number(user.netWorthUSD !== '0' ? user.netWorthUSD : '1')) -
     (debtAPY || 0) *
       (Number(user.totalBorrowsUSD) / Number(user.netWorthUSD !== '0' ? user.netWorthUSD : '1'));
+  const netAPYWithRewards =
+    (earnedAPYWithRewards || 0) *
+      (Number(user.totalLiquidityUSD) / Number(user.netWorthUSD !== '0' ? user.netWorthUSD : '1')) -
+    (debtAPY || 0) *
+      (Number(user.totalBorrowsUSD) / Number(user.netWorthUSD !== '0' ? user.netWorthUSD : '1'));
+
+  console.log('--------------------------------');
+  console.log('netAPY', netAPY);
+  console.log('netAPYWithRewards', netAPYWithRewards);
 
   return (
     <AppDataContext.Provider
@@ -211,6 +237,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
           earnedAPY,
           debtAPY,
           netAPY,
+          netAPYWithRewards,
         },
         userReserves,
         isUserHasDeposits,
