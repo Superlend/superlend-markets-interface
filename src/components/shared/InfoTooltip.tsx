@@ -1,6 +1,7 @@
 import {
   Box,
   ClickAwayListener,
+  Divider,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -21,9 +22,14 @@ interface InfoTooltipProps {
       showPlus?: boolean;
     }>;
   };
+  hasSeparatorBeforeLastItem?: boolean;
 }
 
-export const InfoTooltip = ({ children, tooltipContent }: InfoTooltipProps) => {
+export const InfoTooltip = ({
+  children,
+  tooltipContent,
+  hasSeparatorBeforeLastItem = true,
+}: InfoTooltipProps) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -62,7 +68,7 @@ export const InfoTooltip = ({ children, tooltipContent }: InfoTooltipProps) => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'start',
-                gap: 1.5,
+                gap: 2,
                 minWidth: 200,
                 backgroundColor: theme.palette.mode === 'light' ? '#ffffff' : 'inherit',
                 p: 2,
@@ -78,45 +84,61 @@ export const InfoTooltip = ({ children, tooltipContent }: InfoTooltipProps) => {
               >
                 {tooltipContent.title}
               </Typography>
-              {tooltipContent.items.map((item, index) => (
-                <Box
-                  key={index}
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    gap: 1,
-                    width: '100%',
-                  }}
-                >
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    {item.icon}
-                    <Typography
-                      sx={(theme) => ({
-                        color:
-                          theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
-                      })}
+              {tooltipContent.items.map((item, index) => {
+                const isLastItem = index === tooltipContent.items.length - 1;
+                return (
+                  <>
+                    {isLastItem && hasSeparatorBeforeLastItem && (
+                      <Divider
+                        sx={(theme) => ({
+                          borderColor:
+                            theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : '#ffffff',
+                          width: '100%',
+                          height: '0.1px',
+                          borderWidth: '0.1px',
+                        })}
+                      />
+                    )}
+                    <Box
+                      key={index}
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: 1,
+                        width: '100%',
+                      }}
                     >
-                      {item.label}
-                    </Typography>
-                  </Box>
-                  <Typography
-                    sx={(theme) => ({
-                      color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
-                    })}
-                  >
-                    {item.showPlus && '+'}
-                    <FormattedNumber
-                      compact
-                      value={item.value}
-                      visibleDecimals={2}
-                      symbolsColor="text.white"
-                    />
-                    %
-                  </Typography>
-                </Box>
-              ))}
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        {item.icon}
+                        <Typography
+                          sx={(theme) => ({
+                            color:
+                              theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
+                          })}
+                        >
+                          {item.label}
+                        </Typography>
+                      </Box>
+                      <Typography
+                        sx={(theme) => ({
+                          color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
+                        })}
+                      >
+                        {item.showPlus && '+'}
+                        <FormattedNumber
+                          compact
+                          value={item.value}
+                          visibleDecimals={2}
+                          symbolsColor="text.white"
+                        />
+                        %
+                      </Typography>
+                    </Box>
+                  </>
+                );
+              })}
             </Box>
           }
           arrow
