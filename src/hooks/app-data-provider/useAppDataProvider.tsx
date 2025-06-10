@@ -217,10 +217,6 @@ export const AppDataProvider: React.FC = ({ children }) => {
     (debtAPY || 0) *
       (Number(user.totalBorrowsUSD) / Number(user.netWorthUSD !== '0' ? user.netWorthUSD : '1'));
 
-  console.log('--------------------------------');
-  console.log('netAPY', netAPY);
-  console.log('netAPYWithRewards', netAPYWithRewards);
-
   return (
     <AppDataContext.Provider
       value={{

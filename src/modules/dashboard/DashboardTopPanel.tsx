@@ -1,15 +1,23 @@
 import { normalize, UserIncentiveData, valueToBigNumber } from '@aave/math-utils';
 import { Trans } from '@lingui/macro';
-import { Box, Button, useMediaQuery, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  useMediaQuery,
+  useTheme,
+  Tooltip,
+  Typography,
+  ClickAwayListener,
+} from '@mui/material';
 import * as React from 'react';
-import { useState } from 'react';
-import { NetAPYTooltip } from 'src/components/infoTooltips/NetAPYTooltip';
+import { useState, useRef } from 'react';
 import { PageTitle } from 'src/components/TopInfoPanel/PageTitle';
 import { useModalContext } from 'src/hooks/useModal';
 import { useProtocolDataContext } from 'src/hooks/useProtocolDataContext';
 import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
 import { usePoolDataV2Subscription } from 'src/store/root';
 import { ChainId } from 'src/ui-config/networksConfig';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 
 import ClaimGiftIcon from '../../../public/icons/markets/claim-gift-icon.svg';
 import EmptyHeartIcon from '../../../public/icons/markets/empty-heart-icon.svg';
@@ -29,16 +37,120 @@ import { TopInfoPanelItem } from '../../components/TopInfoPanel/TopInfoPanelItem
 import { useAppDataContext } from '../../hooks/app-data-provider/useAppDataProvider';
 import { LiquidationRiskParametresInfoModal } from './LiquidationRiskParametresModal/LiquidationRiskParametresModal';
 
+function getNetAPYTooltipContentUI({
+  netAPY,
+  netAPYWithRewards,
+}: {
+  netAPY: number;
+  netAPYWithRewards: number;
+}) {
+  const rewardAPY = netAPYWithRewards - netAPY;
+  return (
+    <Box
+      sx={(theme) => ({
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'start',
+        gap: 1,
+        minWidth: 200,
+        backgroundColor: theme.palette.mode === 'light' ? '#ffffff' : 'inherit',
+        p: 2,
+        borderRadius: 1,
+      })}
+    >
+      <Typography
+        sx={(theme) => ({
+          fontWeight: 600,
+          color: theme.palette.mode === 'light' ? '#166534' : 'text.primary',
+          mb: 1,
+        })}
+      >
+        Net APY Details
+      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 1,
+          width: '100%',
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <TrendingUpIcon
+            sx={{
+              fontSize: 16,
+              color: (theme) => (theme.palette.mode === 'light' ? '#166534' : 'primary.main'),
+            }}
+          />
+          <Typography
+            sx={(theme) => ({
+              color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
+            })}
+          >
+            Base APY
+          </Typography>
+        </Box>
+        <Typography
+          sx={(theme) => ({
+            color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
+          })}
+        >
+          <FormattedNumber compact value={netAPY} visibleDecimals={2} symbolsColor="text.white" />%
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 1,
+          width: '100%',
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <img src="/logos/apple-green.png" alt="APR" width={16} height={16} />
+          <Typography
+            sx={(theme) => ({
+              color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
+            })}
+          >
+            Rewards APY
+          </Typography>
+        </Box>
+        <Typography
+          sx={(theme) => ({
+            color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
+          })}
+        >
+          <FormattedNumber
+            compact
+            value={rewardAPY}
+            visibleDecimals={2}
+            symbolsColor="text.white"
+          />
+          %
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
 export const DashboardTopPanel = () => {
+  const theme = useTheme();
+  const [open, setOpen] = useState(false);
+  const { openClaimRewards } = useModalContext();
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const iconRef = useRef<HTMLDivElement>(null);
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   usePoolDataV2Subscription();
   const { currentNetworkConfig, currentMarketData } = useProtocolDataContext();
   const { user, reserves, loading } = useAppDataContext();
   const { currentAccount } = useWeb3Context();
-  const [open, setOpen] = useState(false);
-  const { openClaimRewards } = useModalContext();
-
-  const theme = useTheme();
-  const downToSM = useMediaQuery(theme.breakpoints.down('sm'));
+  const isRewardsPresent = user ? user?.netAPYWithRewards > user?.netAPY : false;
 
   const { claimableRewardsUsd } = Object.keys(user.calculatedUserIncentives).reduce(
     (acc, rewardTokenAddress) => {
@@ -84,8 +196,31 @@ export const DashboardTopPanel = () => {
           .dividedBy(user?.totalCollateralMarketReferenceCurrency || '1')
           .toFixed();
 
-  const valueTypographyVariant = downToSM ? 'main16' : 'main21';
-  const noDataTypographyVariant = downToSM ? 'secondary16' : 'secondary21';
+  const valueTypographyVariant = isMobile ? 'main16' : 'main21';
+  const noDataTypographyVariant = isMobile ? 'secondary16' : 'secondary21';
+
+  const handleTooltipToggle = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+    setTooltipOpen(!tooltipOpen);
+  };
+
+  const handleTooltipClose = (event: Event | React.SyntheticEvent) => {
+    if (iconRef.current && iconRef.current.contains(event.target as Node)) {
+      return;
+    }
+    setTooltipOpen(false);
+  };
+
+  const handleTooltipOpen = () => {
+    setTooltipOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (!isMobile) {
+      setTooltipOpen(false);
+    }
+  };
 
   return (
     <>
@@ -119,9 +254,86 @@ export const DashboardTopPanel = () => {
         <TopInfoPanelItem
           icon={<NetAPYIcon />}
           title={
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Trans>Net APY</Trans>
-              <NetAPYTooltip />
+              {isRewardsPresent && (
+                <ClickAwayListener onClickAway={handleTooltipClose}>
+                  <Box sx={{ position: 'relative', display: 'inline-block' }}>
+                    <Tooltip
+                      title={getNetAPYTooltipContentUI({
+                        netAPY: user.netAPY * 100,
+                        netAPYWithRewards: user.netAPYWithRewards * 100,
+                      })}
+                      arrow
+                      placement="top"
+                      open={tooltipOpen}
+                      disableFocusListener
+                      disableTouchListener
+                      disableHoverListener
+                      componentsProps={{
+                        tooltip: {
+                          sx: (theme) => ({
+                            backgroundColor: theme.palette.mode === 'light' ? '#ffffff' : '#1e293b',
+                            '& .MuiTooltip-arrow': {
+                              color: theme.palette.mode === 'light' ? '#ffffff' : '#1e293b',
+                              '&::before': {
+                                border:
+                                  theme.palette.mode === 'light'
+                                    ? '1px solid rgba(0, 0, 0, 0.15)'
+                                    : 'none',
+                              },
+                            },
+                            boxShadow:
+                              theme.palette.mode === 'light'
+                                ? '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
+                                : 'none',
+                            border:
+                              theme.palette.mode === 'light'
+                                ? '1px solid rgba(0, 0, 0, 0.15)'
+                                : 'none',
+                            p: 0,
+                          }),
+                        },
+                      }}
+                      PopperProps={{
+                        disablePortal: false,
+                        modifiers: [
+                          {
+                            name: 'preventOverflow',
+                            enabled: true,
+                            options: {
+                              boundary: 'window',
+                            },
+                          },
+                        ],
+                      }}
+                    >
+                      <Box
+                        component="span"
+                        ref={iconRef}
+                        sx={{
+                          display: 'inline-block',
+                          cursor: 'pointer',
+                          position: 'relative',
+                          zIndex: 1,
+                          padding: '8px',
+                          margin: '-8px',
+                        }}
+                        onClick={handleTooltipToggle}
+                        onMouseEnter={isMobile ? undefined : handleTooltipOpen}
+                        onMouseLeave={isMobile ? undefined : handleMouseLeave}
+                      >
+                        <img
+                          src="/logos/apple-green.png"
+                          alt="Green Apple"
+                          width={18}
+                          height={18}
+                        />
+                      </Box>
+                    </Tooltip>
+                  </Box>
+                </ClickAwayListener>
+              )}
             </div>
           }
           loading={loading}
