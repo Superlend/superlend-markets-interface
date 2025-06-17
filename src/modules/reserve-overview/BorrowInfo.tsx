@@ -203,6 +203,7 @@ export const BorrowInfo = ({
           collectorContract={currentMarketData.addresses.COLLECTOR}
           explorerLinkBuilder={currentNetworkConfig.explorerLinkBuilder}
           reserveFactor={reserve.reserveFactor}
+          underlyingAsset={reserve.underlyingAsset}
         />
       )}
     </Box>
