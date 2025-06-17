@@ -7,16 +7,23 @@ import { Link } from 'src/components/primitives/Link';
 import { ReserveOverviewBox } from 'src/components/ReserveOverviewBox';
 import { ExplorerLinkBuilderProps } from 'src/ui-config/networksConfig';
 
+const RANGE_RESERVE_FACTOR_ASSETS = [
+  '0x796ea11fa2dd751ed01b53c372ffdb4aaa8f00f9',
+  '0x2c03058c8afc06713be23e58d2febc8337dbfe6a',
+];
+
 interface ReserveFactorOverviewProps {
   collectorContract: string;
   explorerLinkBuilder: (props: ExplorerLinkBuilderProps) => string;
   reserveFactor: string;
+  underlyingAsset: string;
 }
 
 export const ReserveFactorOverview = ({
   collectorContract,
   explorerLinkBuilder,
   reserveFactor,
+  underlyingAsset,
 }: ReserveFactorOverviewProps) => {
   return (
     <Box
@@ -42,7 +49,18 @@ export const ReserveFactorOverview = ({
           />
         }
       >
-        <FormattedNumber value={reserveFactor} percent variant="secondary14" visibleDecimals={2} />
+        {RANGE_RESERVE_FACTOR_ASSETS.includes(underlyingAsset.toLowerCase()) ? (
+          <Typography variant="secondary14" color="text.secondary">
+            15.00% - 25.00%
+          </Typography>
+        ) : (
+          <FormattedNumber
+            value={reserveFactor}
+            percent
+            variant="secondary14"
+            visibleDecimals={2}
+          />
+        )}
       </ReserveOverviewBox>
 
       <ReserveOverviewBox
