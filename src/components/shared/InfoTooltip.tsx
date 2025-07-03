@@ -95,7 +95,7 @@ export const InfoTooltip = ({
                       <Divider
                         sx={(theme) => ({
                           borderColor:
-                            theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : '#e5e7eb',
+                            theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : '#ffffff',
                           width: '100%',
                           height: '0.1px',
                           borderWidth: '0.1px',

@@ -3,13 +3,14 @@ import { Trans } from '@lingui/macro';
 import { Box, Button, useMediaQuery, useTheme } from '@mui/material';
 import * as React from 'react';
 import { useState } from 'react';
-import { NetAPYTooltip } from 'src/components/infoTooltips/NetAPYTooltip';
 import { PageTitle } from 'src/components/TopInfoPanel/PageTitle';
 import { useModalContext } from 'src/hooks/useModal';
 import { useProtocolDataContext } from 'src/hooks/useProtocolDataContext';
 import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
 import { usePoolDataV2Subscription } from 'src/store/root';
 import { ChainId } from 'src/ui-config/networksConfig';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import { InfoTooltip } from 'src/components/shared/InfoTooltip';
 
 import ClaimGiftIcon from '../../../public/icons/markets/claim-gift-icon.svg';
 import EmptyHeartIcon from '../../../public/icons/markets/empty-heart-icon.svg';
@@ -28,17 +29,19 @@ import { TopInfoPanel } from '../../components/TopInfoPanel/TopInfoPanel';
 import { TopInfoPanelItem } from '../../components/TopInfoPanel/TopInfoPanelItem';
 import { useAppDataContext } from '../../hooks/app-data-provider/useAppDataProvider';
 import { LiquidationRiskParametresInfoModal } from './LiquidationRiskParametresModal/LiquidationRiskParametresModal';
+import PercentIcon from '@mui/icons-material/Percent';
 
 export const DashboardTopPanel = () => {
+  const theme = useTheme();
+  const [open, setOpen] = useState(false);
+  const { openClaimRewards } = useModalContext();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   usePoolDataV2Subscription();
   const { currentNetworkConfig, currentMarketData } = useProtocolDataContext();
   const { user, reserves, loading } = useAppDataContext();
   const { currentAccount } = useWeb3Context();
-  const [open, setOpen] = useState(false);
-  const { openClaimRewards } = useModalContext();
-
-  const theme = useTheme();
-  const downToSM = useMediaQuery(theme.breakpoints.down('sm'));
+  const isRewardsPresent = user ? user?.netAPYWithRewards > user?.netAPY : false;
 
   const { claimableRewardsUsd } = Object.keys(user.calculatedUserIncentives).reduce(
     (acc, rewardTokenAddress) => {
@@ -84,8 +87,8 @@ export const DashboardTopPanel = () => {
           .dividedBy(user?.totalCollateralMarketReferenceCurrency || '1')
           .toFixed();
 
-  const valueTypographyVariant = downToSM ? 'main16' : 'main21';
-  const noDataTypographyVariant = downToSM ? 'secondary16' : 'secondary21';
+  const valueTypographyVariant = isMobile ? 'main16' : 'main21';
+  const noDataTypographyVariant = isMobile ? 'secondary16' : 'secondary21';
 
   return (
     <>
@@ -119,16 +122,59 @@ export const DashboardTopPanel = () => {
         <TopInfoPanelItem
           icon={<NetAPYIcon />}
           title={
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Trans>Net APY</Trans>
-              <NetAPYTooltip />
+              {isRewardsPresent && (
+                <InfoTooltip
+                  title="Net APY Details"
+                  tooltipContent={{
+                    title: 'Net APY Details',
+                    items: [
+                      {
+                        label: 'Base APY',
+                        value: user.netAPY * 100,
+                        icon: (
+                          <PercentIcon
+                            sx={{
+                              fontSize: 16,
+                              color: (theme) =>
+                                theme.palette.mode === 'light' ? '#166534' : 'primary.main',
+                            }}
+                          />
+                        ),
+                      },
+                      {
+                        label: 'Rewards APY',
+                        value: (user.netAPYWithRewards - user.netAPY) * 100,
+                        icon: <img src="/logos/apple-green.png" alt="APR" width={16} height={16} />,
+                        showPlus: true,
+                      },
+                      {
+                        label: 'Net APY',
+                        value: user.netAPYWithRewards * 100,
+                        icon: (
+                          <TrendingUpIcon
+                            sx={{
+                              fontSize: 16,
+                              color: (theme) =>
+                                theme.palette.mode === 'light' ? '#166534' : 'primary.main',
+                            }}
+                          />
+                        ),
+                      },
+                    ],
+                  }}
+                >
+                  <img src="/logos/apple-green.png" alt="Green Apple" width={18} height={18} />
+                </InfoTooltip>
+              )}
             </div>
           }
           loading={loading}
         >
           {currentAccount && Number(user?.netWorthUSD) > 0 ? (
             <FormattedNumber
-              value={user.netAPY}
+              value={user.netAPYWithRewards}
               variant={valueTypographyVariant}
               visibleDecimals={2}
               percent
