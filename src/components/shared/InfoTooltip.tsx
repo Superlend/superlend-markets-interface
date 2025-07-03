@@ -20,6 +20,7 @@ interface InfoTooltipProps {
       value: number;
       icon?: ReactNode;
       showPlus?: boolean;
+      showItem?: boolean;
     }>;
   };
   hasSeparatorBeforeLastItem?: boolean;
@@ -58,6 +59,8 @@ export const InfoTooltip = ({
     }
   };
 
+  const filteredTooltipContentItems = tooltipContent.items.filter((item) => item.showItem ?? true);
+
   return (
     <ClickAwayListener onClickAway={handleTooltipClose}>
       <Box sx={{ position: 'relative', display: 'inline-block' }}>
@@ -84,8 +87,8 @@ export const InfoTooltip = ({
               >
                 {tooltipContent.title}
               </Typography>
-              {tooltipContent.items.map((item, index) => {
-                const isLastItem = index === tooltipContent.items.length - 1;
+              {filteredTooltipContentItems.map((item, index) => {
+                const isLastItem = index === filteredTooltipContentItems.length - 1;
                 return (
                   <>
                     {isLastItem && hasSeparatorBeforeLastItem && (

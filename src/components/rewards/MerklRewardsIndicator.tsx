@@ -50,6 +50,7 @@ export const MerklRewardsIndicator = ({
       value: merklApr,
       icon: <img src="/logos/apple-green.png" alt="APR" width={16} height={16} />,
       showPlus: true,
+      showItem: merklApr > 0,
     },
   ];
 
@@ -66,6 +67,7 @@ export const MerklRewardsIndicator = ({
         />
       ),
       showPlus: true,
+      showItem: true,
     });
   }
 
