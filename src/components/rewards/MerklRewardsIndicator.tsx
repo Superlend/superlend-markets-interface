@@ -218,6 +218,45 @@ export const MerklRewardsIndicator = ({
     setTooltipOpen(!tooltipOpen);
   };
 
+  const tooltipItems = [
+    {
+      label: 'Base Rate',
+      value: baseValue * 100,
+      icon: (
+        <PercentIcon
+          sx={{
+            fontSize: 16,
+            color: (theme) => (theme.palette.mode === 'light' ? '#166534' : 'primary.main'),
+          }}
+        />
+      ),
+    },
+    {
+      label: 'APR',
+      value: merklApr,
+      icon: <img src="/logos/apple-green.png" alt="APR" width={16} height={16} />,
+      showPlus: true,
+      showItem: merklApr > 0,
+    },
+  ];
+
+  if (shouldIncludeIntrinsicApy) {
+    tooltipItems.push({
+      label: 'Intrinsic APY',
+      value: intrinsicApyValue,
+      icon: (
+        <DiamondIcon
+          sx={{
+            fontSize: 16,
+            color: (theme) => (theme.palette.mode === 'light' ? '#8B5CF6' : '#A78BFA'),
+          }}
+        />
+      ),
+      showPlus: true,
+      showItem: true,
+    });
+  }
+
   const handleTooltipClose = (event: Event | React.SyntheticEvent) => {
     // Check if the click was on the icon itself
     if (iconRef.current && iconRef.current.contains(event.target as Node)) {
