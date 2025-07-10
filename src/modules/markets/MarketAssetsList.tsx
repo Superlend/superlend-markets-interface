@@ -46,6 +46,10 @@ const listHeaders = [
   },
 ];
 
+function filterReserveBasisLiquidityThreshold(reserve: ComputedReserveData, threshold: number = 10) {
+  return Number(reserve.totalLiquidityUSD ?? 0) > threshold;
+}
+
 export default function MarketAssetsList({ reserves, loading }: MarketAssetsListProps) {
   const isTableChangedToCards = useMediaQuery('(max-width:1125px)');
   const [sortName, setSortName] = useState('');
@@ -114,13 +118,15 @@ export default function MarketAssetsList({ reserves, loading }: MarketAssetsList
           <ListColumn maxWidth={95} minWidth={95} />
         </ListHeaderWrapper>
       )}
-      {reserves.map((reserve) =>
-        isTableChangedToCards ? (
-          <MarketAssetsListMobileItem {...reserve} key={reserve.id} />
-        ) : (
-          <MarketAssetsListItem {...reserve} key={reserve.id} />
-        )
-      )}
+      {reserves
+        .filter((reserve) => filterReserveBasisLiquidityThreshold(reserve, 10))
+        .map((reserve) =>
+          isTableChangedToCards ? (
+            <MarketAssetsListMobileItem {...reserve} key={reserve.id} />
+          ) : (
+            <MarketAssetsListItem {...reserve} key={reserve.id} />
+          )
+        )}
     </>
   );
 }
