@@ -10,10 +10,21 @@ type MetaProps = {
   cardType?: 'summary' | 'summary_large_image';
 };
 
-export function Meta({ title, description, imageUrl, iconUrl, timestamp, cardType = 'summary_large_image' }: MetaProps) {
+export function Meta({
+  title,
+  description,
+  imageUrl,
+  iconUrl,
+  timestamp,
+  cardType = 'summary_large_image',
+}: MetaProps) {
   // Convert relative URLs to absolute
-  const absoluteImageUrl = imageUrl?.startsWith('http') ? imageUrl : `https://markets.superlend.xyz${imageUrl}`;
-  const absoluteIconUrl = iconUrl?.startsWith('http') ? iconUrl : `https://markets.superlend.xyz${iconUrl}`;
+  const absoluteImageUrl = imageUrl?.startsWith('http')
+    ? imageUrl
+    : `https://markets.superlend.xyz${imageUrl}`;
+  const absoluteIconUrl = iconUrl?.startsWith('http')
+    ? iconUrl
+    : `https://markets.superlend.xyz${iconUrl}`;
 
   // Use icon for summary cards, banner for large cards
   const twitterImageUrl = cardType === 'summary' ? absoluteIconUrl : absoluteImageUrl;
@@ -22,7 +33,7 @@ export function Meta({ title, description, imageUrl, iconUrl, timestamp, cardTyp
     <Head>
       <title>{title}</title>
       <meta name="description" content={description} key="description" />
-      
+
       {/* Open Graph Meta Tags */}
       <meta property="og:type" content="website" key="ogtype" />
       <meta property="og:title" content={title} key="title" />
@@ -30,7 +41,7 @@ export function Meta({ title, description, imageUrl, iconUrl, timestamp, cardTyp
       <meta property="og:url" content="https://markets.superlend.xyz/" key="ogurl" />
       {imageUrl && <meta property="og:image" content={absoluteImageUrl} key="ogimage" />}
       {iconUrl && <meta property="og:image" content={absoluteIconUrl} key="ogicon" />}
-      
+
       {/* Twitter Card Meta Tags */}
       <meta name="twitter:card" content={cardType} key="twittercard" />
       <meta name="twitter:site" content="@SuperlendHQ" key="twittersite" />

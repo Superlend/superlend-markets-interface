@@ -46,7 +46,10 @@ const listHeaders = [
   },
 ];
 
-function filterReserveBasisLiquidityThreshold(reserve: ComputedReserveData, threshold: number = 10) {
+function filterReserveBasisLiquidityThreshold(
+  reserve: ComputedReserveData,
+  threshold: number = 10
+) {
   return Number(reserve.totalLiquidityUSD ?? 0) > threshold;
 }
 

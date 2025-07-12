@@ -46,13 +46,15 @@ export const SupplyAssetsListMobileItem = ({
   const hasRewards = hasMerklRewards(symbol);
   const showAppleReward = hasRewards;
   const showIntrinsicApy = hasIntrinsicApy(symbol);
-  const intrinsicApyValue = showIntrinsicApy ? intrinsicApyMap[symbol as keyof typeof intrinsicApyMap] || 0 : 0;
+  const intrinsicApyValue = showIntrinsicApy
+    ? intrinsicApyMap[symbol as keyof typeof intrinsicApyMap] || 0
+    : 0;
 
   // If asset has Merkl rewards and we're on the supply tab, use the APR value
   const displayValue = showAppleReward
     ? isLoading || intrinsicApyLoading
       ? Number(supplyAPY) // Show base value while loading
-      : (aprMap[symbol as keyof typeof aprMap] / 100) + Number(supplyAPY) + (intrinsicApyValue / 100)
+      : aprMap[symbol as keyof typeof aprMap] / 100 + Number(supplyAPY) + intrinsicApyValue / 100
     : Number(supplyAPY);
 
   // Hide the asset to prevent it from being supplied if supply cap has been reached
