@@ -86,7 +86,7 @@ export const createMerklRewardsSlice: StateCreator<
       // Extract APR values from responses
       const extractApr = (data: any) => {
         if (!data) return 0;
-        return (data[0]?.Opportunity?.apr || 0);
+        return data[0]?.Opportunity?.apr || 0;
       };
 
       // const getApyFromApr = (apr: number) => {

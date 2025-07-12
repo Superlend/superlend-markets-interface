@@ -30,4 +30,4 @@ export const useIntrinsicApy = () => {
     apyMap: intrinsicApyMap,
     isLoading: intrinsicApyLoading,
   };
-}; 
+};
