@@ -46,11 +46,11 @@ const listHeaders = [
   },
 ];
 
-function filterReserveBasisLiquidityThreshold(
-  reserve: ComputedReserveData,
-  threshold: number = 10
-) {
-  return Number(reserve.totalLiquidityUSD ?? 0) > threshold;
+function filterReserveBasisLiquidityThreshold(reserve: ComputedReserveData, threshold = 10) {
+  if (reserve.name.toLowerCase().includes('hanji')) {
+    return Number(reserve.totalLiquidityUSD ?? 0) > threshold;
+  }
+  return true;
 }
 
 export default function MarketAssetsList({ reserves, loading }: MarketAssetsListProps) {
