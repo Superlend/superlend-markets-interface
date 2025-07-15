@@ -25,12 +25,16 @@ export const MarketAssetsListMobileItem = ({ ...reserve }: ComputedReserveData) 
   // Always show apple rewards in market list (it's always the supply tab)
   const showAppleReward = hasRewards;
   const showIntrinsicApy = hasIntrinsicApy(reserve.symbol);
-  const intrinsicApyValue = showIntrinsicApy ? intrinsicApyMap[reserve.symbol as keyof typeof intrinsicApyMap] || 0 : 0;
+  const intrinsicApyValue = showIntrinsicApy
+    ? intrinsicApyMap[reserve.symbol as keyof typeof intrinsicApyMap] || 0
+    : 0;
   // If asset has Merkl rewards, use the APR value from Merkl divided by 100
   const displayValue = showAppleReward
     ? isLoading || intrinsicApyLoading
       ? reserve.supplyAPY // Show base APY while loading
-      : (Number(aprMap[reserve.symbol as keyof typeof aprMap]) / 100) + Number(reserve.supplyAPY) + (intrinsicApyValue / 100)
+      : Number(aprMap[reserve.symbol as keyof typeof aprMap]) / 100 +
+        Number(reserve.supplyAPY) +
+        intrinsicApyValue / 100
     : reserve.supplyAPY;
 
   return (

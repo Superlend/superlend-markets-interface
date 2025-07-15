@@ -118,7 +118,9 @@ export const InfoTooltip = ({
                         <Typography
                           sx={(theme) => ({
                             color:
-                              theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
+                              theme.palette.mode === 'light'
+                                ? 'rgba(0, 0, 0, 0.8)'
+                                : 'text.primary',
                           })}
                         >
                           {item.label}
@@ -126,7 +128,8 @@ export const InfoTooltip = ({
                       </Box>
                       <Typography
                         sx={(theme) => ({
-                          color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
+                          color:
+                            theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
                         })}
                       >
                         {item.showPlus && '+'}

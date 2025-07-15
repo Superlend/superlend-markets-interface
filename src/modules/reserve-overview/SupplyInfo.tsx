@@ -48,12 +48,16 @@ export const SupplyInfo = ({
   const hasRewards = hasMerklRewards(reserve.symbol);
   const showAppleReward = hasRewards;
   const showIntrinsicApy = hasIntrinsicApy(reserve.symbol);
-  const intrinsicApyValue = showIntrinsicApy ? intrinsicApyMap[reserve.symbol as keyof typeof intrinsicApyMap] || 0 : 0;
+  const intrinsicApyValue = showIntrinsicApy
+    ? intrinsicApyMap[reserve.symbol as keyof typeof intrinsicApyMap] || 0
+    : 0;
 
   const displayValue = showAppleReward
     ? isLoading || intrinsicApyLoading
       ? reserve.supplyAPY // Show base value while loading
-      : (aprMap[reserve.symbol as keyof typeof aprMap] / 100) + Number(reserve.supplyAPY) + (intrinsicApyValue / 100)
+      : aprMap[reserve.symbol as keyof typeof aprMap] / 100 +
+        Number(reserve.supplyAPY) +
+        intrinsicApyValue / 100
     : reserve.supplyAPY;
 
   return (

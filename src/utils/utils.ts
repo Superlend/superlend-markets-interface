@@ -2,7 +2,6 @@ import { ChainId } from '@aave/contract-helpers';
 import { BigNumberValue, USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 export const SEC_IN_YEAR = 31536000;
 
-
 export function hexToAscii(_hex: string): string {
   const hex = _hex.toString();
   let str = '';
