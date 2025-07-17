@@ -1,4 +1,4 @@
-import { Box, CircularProgress } from '@mui/material';
+import { Box, CircularProgress, Link } from '@mui/material';
 import { ReactNode } from 'react';
 import PercentIcon from '@mui/icons-material/Percent';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
@@ -50,7 +50,7 @@ export const MerklRewardsIndicator = ({
       value: merklApr,
       icon: <img src="/logos/apple-green.png" alt="APR" width={16} height={16} />,
       showPlus: true,
-      showItem: merklApr > 0,
+      showItem: false,
     },
   ];
 
@@ -66,8 +66,6 @@ export const MerklRewardsIndicator = ({
           }}
         />
       ),
-      showPlus: true,
-      showItem: true,
     });
   }
 
@@ -87,7 +85,7 @@ export const MerklRewardsIndicator = ({
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
       {children}
-      {(showRewards || showIntrinsicApy) && (
+      {(showIntrinsicApy && !showRewards) && (
         <>
           {isLoading || intrinsicApyLoading ? (
             <CircularProgress size={18} />
@@ -98,6 +96,43 @@ export const MerklRewardsIndicator = ({
                 title: 'Rate & Rewards',
                 items: tooltipItems,
               }}
+            >
+              <DiamondIcon
+                sx={{
+                  fontSize: 16,
+                  color: (theme) => (theme.palette.mode === 'light' ? '#8B5CF6' : '#A78BFA'),
+                }}
+              />
+            </InfoTooltip>
+          )}
+        </>
+      )}
+      {(showRewards && !showIntrinsicApy) && (
+        <>
+          {isLoading || intrinsicApyLoading ? (
+            <CircularProgress size={18} />
+          ) : (
+            <InfoTooltip
+              title="Rate & Rewards"
+              tooltipContentNode={
+                <Box component="p" sx={{ fontSize: 14, fontWeight: 400, color: 'text.primary' }}>
+                  Earn retroactive rewards by supplying XTZ (WXTZ)
+                  <Link
+                    href='https://x.com/etherlink/status/1945151432224862441?t=h3ADH9AyuHivPaQeSwbMvA&s=19'
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{
+                      fontSize: 14,
+                      fontWeight: 400,
+                      color: 'text.primary',
+                      textDecoration: 'underline',
+                      ml: 1,
+                    }}
+                  >
+                    Learn more
+                  </Link>
+                </Box>
+              }
             >
               <img src="/logos/apple-green.png" alt="Green Apple" width={18} height={18} />
             </InfoTooltip>
