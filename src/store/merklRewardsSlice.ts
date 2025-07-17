@@ -14,13 +14,13 @@ export const CAMPAIGN_IDS = {
 };
 
 export const SUPPORTED_MERKL_TOKENS = [
-  'mTBILL',
-  'mBASIS',
+  // 'mTBILL',
+  // 'mBASIS',
   'WXTZ',
-  'WBTC',
-  'USDC',
-  'USDT',
-  'WETH',
+  // 'WBTC',
+  // 'USDC',
+  // 'USDT',
+  // 'WETH',
   'XTZ',
 ];
 

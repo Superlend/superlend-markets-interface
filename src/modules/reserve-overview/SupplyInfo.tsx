@@ -45,12 +45,13 @@ export const SupplyInfo = ({
   const isDAI = reserve.symbol !== 'DAI';
   const { aprMap, isLoading } = useMerklAprMap();
   const { apyMap: intrinsicApyMap, isLoading: intrinsicApyLoading } = useIntrinsicApy();
-  const hasRewards = hasMerklRewards(reserve.symbol);
-  const showAppleReward = hasRewards;
+  // const hasAppleRewards = hasMerklRewards(reserve.symbol);
+  // const showAppleReward = hasAppleRewards;
   const showIntrinsicApy = hasIntrinsicApy(reserve.symbol);
   const intrinsicApyValue = showIntrinsicApy ? intrinsicApyMap[reserve.symbol as keyof typeof intrinsicApyMap] || 0 : 0;
+  const hasRewards = hasMerklRewards(reserve.symbol) || hasIntrinsicApy(reserve.symbol);
 
-  const displayValue = showAppleReward
+  const displayValue = hasRewards
     ? isLoading || intrinsicApyLoading
       ? reserve.supplyAPY // Show base value while loading
       : (aprMap[reserve.symbol as keyof typeof aprMap] / 100) + Number(reserve.supplyAPY) + (intrinsicApyValue / 100)

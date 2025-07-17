@@ -13,9 +13,9 @@ import { FormattedNumber } from '../primitives/FormattedNumber';
 interface InfoTooltipProps {
   title: string;
   children: ReactNode;
-  tooltipContent: {
+  tooltipContent?: {
     title: string;
-    items: Array<{
+    items?: Array<{
       label: string;
       value: number;
       icon?: ReactNode;
@@ -82,10 +82,10 @@ export const InfoTooltip = ({
                   mb: 1,
                 })}
               >
-                {tooltipContent.title}
+                {tooltipContent?.title}
               </Typography>
-              {tooltipContent.items.map((item, index) => {
-                const isLastItem = index === tooltipContent.items.length - 1;
+              {tooltipContent?.items?.map((item, index) => {
+                const isLastItem = index === (tooltipContent?.items?.length || 0) - 1;
                 return (
                   <>
                     {isLastItem && hasSeparatorBeforeLastItem && (

@@ -84,7 +84,7 @@ export const MerklRewardsIndicator = ({
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
       {children}
-      {(showIntrinsicApy) && (
+      {(showIntrinsicApy && !showRewards) && (
         <>
           {isLoading || intrinsicApyLoading ? (
             <CircularProgress size={18} />
@@ -101,11 +101,12 @@ export const MerklRewardsIndicator = ({
                   fontSize: 16,
                   color: (theme) => (theme.palette.mode === 'light' ? '#8B5CF6' : '#A78BFA'),
                 }}
-              />            </InfoTooltip>
+              />
+            </InfoTooltip>
           )}
         </>
       )}
-      {/* {(showRewards || showIntrinsicApy) && (
+      {(showRewards && !showIntrinsicApy) && (
         <>
           {isLoading || intrinsicApyLoading ? (
             <CircularProgress size={18} />
@@ -113,15 +114,14 @@ export const MerklRewardsIndicator = ({
             <InfoTooltip
               title="Rate & Rewards"
               tooltipContent={{
-                title: 'Rate & Rewards',
-                items: tooltipItems,
+                title: 'Earn retroactive rewards by supplying XTZ (WXTZ). Carry over your season 1 rewards for a head start earning apple XTZ in season 2!',
               }}
             >
               <img src="/logos/apple-green.png" alt="Green Apple" width={18} height={18} />
             </InfoTooltip>
           )}
         </>
-      )} */}
+      )}
     </Box>
   );
 };

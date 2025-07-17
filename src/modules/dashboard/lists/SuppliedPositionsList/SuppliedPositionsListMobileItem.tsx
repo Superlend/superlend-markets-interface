@@ -34,13 +34,14 @@ export const SuppliedPositionsListMobileItem = ({
     reserve;
   const { aprMap, isLoading } = useMerklAprMap();
   const { apyMap: intrinsicApyMap, isLoading: intrinsicApyLoading } = useIntrinsicApy();
-  const hasRewards = hasMerklRewards(symbol);
-  const showAppleReward = hasRewards;
+  // const hasAppleRewards = hasMerklRewards(symbol);
+  // const showAppleReward = hasAppleRewards;
   const showIntrinsicApy = hasIntrinsicApy(symbol);
   const intrinsicApyValue = showIntrinsicApy ? intrinsicApyMap[symbol as keyof typeof intrinsicApyMap] || 0 : 0;
+  const hasRewards = hasMerklRewards(symbol) || hasIntrinsicApy(symbol);
 
   // If asset has Merkl rewards and we're on the supply tab, use the APR value
-  const displayValue = showAppleReward
+  const displayValue = hasRewards
     ? isLoading || intrinsicApyLoading
       ? Number(supplyAPY) // Show base supplyAPY while loading
       : (aprMap[symbol as keyof typeof aprMap] / 100) + Number(supplyAPY) + (intrinsicApyValue / 100)
