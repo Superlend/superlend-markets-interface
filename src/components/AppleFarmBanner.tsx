@@ -1,12 +1,12 @@
-import { BigNumber } from '@ethersproject/bignumber';
+// import { BigNumber } from '@ethersproject/bignumber';
 import { Box, Card as MuiCard, Typography, useTheme } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { ArrowRightIcon } from 'lucide-react';
 import React from 'react';
-import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
+// import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
 
 import ImageWithDefault from '@/components/ImageWithDefault';
-import { useMerklUserRewards } from '@/hooks/useMerklUserRewards';
+// import { useMerklUserRewards } from '@/hooks/useMerklUserRewards';
 
 const StyledCard = styled(MuiCard)(({ theme }) => ({
   position: 'relative',
@@ -73,24 +73,24 @@ const RewardsText = styled(Box)(({ theme }) => ({
   },
 }));
 
-const RewardsInfoBox = styled(Box)({
-  display: 'flex',
-  // flexDirection: 'column',
-  // alignItems: 'flex-end',
-  gap: '8px',
-  // marginTop: '12px',
-  textTransform: 'capitalize',
-});
+// const RewardsInfoBox = styled(Box)({
+//   display: 'flex',
+//   // flexDirection: 'column',
+//   // alignItems: 'flex-end',
+//   gap: '8px',
+//   // marginTop: '12px',
+//   textTransform: 'capitalize',
+// });
 
-const RewardItem = styled(Typography)(({ theme }) => ({
-  fontSize: '0.875rem',
-  color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '4px',
-  fontWeight: 600,
-  textTransform: 'capitalize',
-}));
+// const RewardItem = styled(Typography)(({ theme }) => ({
+//   fontSize: '0.875rem',
+//   color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+//   display: 'flex',
+//   alignItems: 'center',
+//   gap: '4px',
+//   fontWeight: 600,
+//   textTransform: 'capitalize',
+// }));
 
 const StyledButton = styled('button')(({ theme }) => ({
   background: theme.palette.mode === 'light' ? 'rgba(22, 163, 74, 0.1)' : 'rgba(22, 163, 74, 0.1)',
@@ -121,13 +121,13 @@ const StyledButton = styled('button')(({ theme }) => ({
 
 export default function AppleFarmBanner() {
   const theme = useTheme();
-  const { currentAccount: address } = useWeb3Context();
-  const { userRewards, loading } = useMerklUserRewards(address || '', 42793);
+  // const { currentAccount: address } = useWeb3Context();
+  // const { userRewards } = useMerklUserRewards(address || '', 42793);
 
-  const totalRewards = BigNumber.from(userRewards?.[0]?.rewards?.[0]?.amount ?? '0').div(
-    BigNumber.from(10).pow(18)
-  );
-  const totalRewardsNumber = parseFloat(totalRewards.toString());
+  // const totalRewards = BigNumber.from(userRewards?.[0]?.rewards?.[0]?.amount ?? '0').div(
+  //   BigNumber.from(10).pow(18)
+  // );
+  // const totalRewardsNumber = parseFloat(totalRewards.toString());
 
   return (
     <div style={{ textDecoration: 'none', marginBottom: '-60px' }}>
@@ -229,14 +229,14 @@ export default function AppleFarmBanner() {
   );
 }
 
-function formatRewards(rewards: number) {
-  if (rewards > 1000000) {
-    return `${(rewards / 1000000).toFixed(2)}M`;
-  } else if (rewards > 1000) {
-    return `${(rewards / 1000).toFixed(2)}K`;
-  } else if (rewards > 0 && rewards < 0.01) {
-    return `<0.01`;
-  } else {
-    return rewards.toFixed(2);
-  }
-}
+// function formatRewards(rewards: number) {
+//   if (rewards > 1000000) {
+//     return `${(rewards / 1000000).toFixed(2)}M`;
+//   } else if (rewards > 1000) {
+//     return `${(rewards / 1000).toFixed(2)}K`;
+//   } else if (rewards > 0 && rewards < 0.01) {
+//     return `<0.01`;
+//   } else {
+//     return rewards.toFixed(2);
+//   }
+// }
