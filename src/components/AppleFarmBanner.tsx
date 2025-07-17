@@ -159,16 +159,16 @@ export default function AppleFarmBanner() {
                     color: theme.palette.mode === 'light' ? '#166534' : '#ffffff',
                   }}
                 >
-                  Apple Farm is Live on Etherlink!
+                  Apple Farm has ended on Etherlink!
                 </Typography>
                 <a
-                  href="https://www.applefarm.xyz"
+                  href="https://x.com/etherlink/status/1944766446472745064"
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ textDecoration: 'none', color: '#4ade80' }}
                 >
                   <RewardsText>
-                    Season One Rewards: $3,000,000
+                    Season Two Rewards: Coming Soon
                     <ArrowRightIcon size={16} />
                   </RewardsText>
                 </a>
@@ -186,8 +186,8 @@ export default function AppleFarmBanner() {
               right: 24,
             }}
           >
-            {loading && <RewardItem>Loading rewards...</RewardItem>}
-            {!loading && address && totalRewardsNumber > 0 && (
+            {/* {loading && <RewardItem>Loading rewards...</RewardItem>} */}
+            {/* {!loading && address && totalRewardsNumber > 0 && (
               <RewardsInfoBox>
                 <RewardItem
                   sx={{
@@ -199,24 +199,26 @@ export default function AppleFarmBanner() {
                 </RewardItem>
                 <RewardItem>{formatRewards(totalRewardsNumber)}</RewardItem>
               </RewardsInfoBox>
-            )}
-            {!loading && address && totalRewardsNumber === 0 && (
+            )} */}
+            {/* {!loading && address && totalRewardsNumber === 0 && (
               <RewardsInfoBox>
                 <RewardItem sx={{ fontWeight: 600 }}>No rewards found</RewardItem>
               </RewardsInfoBox>
-            )}
+            )} */}
             <a
-              href={
-                totalRewardsNumber > 0 || !address
-                  ? 'https://app.applefarm.xyz/users'
-                  : 'https://app.applefarm.xyz/opportunities'
-              }
+              href={'https://x.com/etherlink/status/1944766446472745064'}
+              // href={
+              //   totalRewardsNumber > 0 || !address
+              //     ? 'https://app.applefarm.xyz/users'
+              //     : 'https://app.applefarm.xyz/opportunities'
+              // }
               target="_blank"
               rel="noopener noreferrer"
               style={{ textDecoration: 'none', color: '#4ade80' }}
             >
               <StyledButton>
-                {totalRewardsNumber > 0 || !address ? 'Claim Rewards' : 'Supply to gain rewards'}{' '}
+                {/* {totalRewardsNumber > 0 || !address ? 'Claim Rewards' : 'Supply to gain rewards'}{' '} */}
+                Learn More
                 <ArrowRightIcon size={16} />
               </StyledButton>
             </a>

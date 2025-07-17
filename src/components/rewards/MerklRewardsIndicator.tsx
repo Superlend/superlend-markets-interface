@@ -45,12 +45,12 @@ export const MerklRewardsIndicator = ({
         />
       ),
     },
-    {
-      label: 'APR',
-      value: merklApr,
-      icon: <img src="/logos/apple-green.png" alt="APR" width={16} height={16} />,
-      showPlus: true,
-    },
+    // {
+    //   label: 'APR',
+    //   value: merklApr,
+    //   icon: <img src="/logos/apple-green.png" alt="APR" width={16} height={16} />,
+    //   showPlus: true,
+    // },
   ];
 
   if (shouldIncludeIntrinsicApy) {
@@ -65,7 +65,6 @@ export const MerklRewardsIndicator = ({
           }}
         />
       ),
-      showPlus: true,
     });
   }
 
@@ -85,7 +84,28 @@ export const MerklRewardsIndicator = ({
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
       {children}
-      {(showRewards || showIntrinsicApy) && (
+      {(showIntrinsicApy) && (
+        <>
+          {isLoading || intrinsicApyLoading ? (
+            <CircularProgress size={18} />
+          ) : (
+            <InfoTooltip
+              title="Rate & Rewards"
+              tooltipContent={{
+                title: 'Rate & Rewards',
+                items: tooltipItems,
+              }}
+            >
+              <DiamondIcon
+                sx={{
+                  fontSize: 16,
+                  color: (theme) => (theme.palette.mode === 'light' ? '#8B5CF6' : '#A78BFA'),
+                }}
+              />            </InfoTooltip>
+          )}
+        </>
+      )}
+      {/* {(showRewards || showIntrinsicApy) && (
         <>
           {isLoading || intrinsicApyLoading ? (
             <CircularProgress size={18} />
@@ -101,7 +121,7 @@ export const MerklRewardsIndicator = ({
             </InfoTooltip>
           )}
         </>
-      )}
+      )} */}
     </Box>
   );
 };
