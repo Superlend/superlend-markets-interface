@@ -54,7 +54,9 @@ export const SupplyInfo = ({
   const displayValue = hasRewards
     ? isLoading || intrinsicApyLoading
       ? reserve.supplyAPY // Show base value while loading
-      : (aprMap[reserve.symbol as keyof typeof aprMap] / 100) + Number(reserve.supplyAPY) + (intrinsicApyValue / 100)
+      : aprMap[reserve.symbol as keyof typeof aprMap] / 100 +
+        Number(reserve.supplyAPY) +
+        intrinsicApyValue / 100
     : reserve.supplyAPY;
 
   return (

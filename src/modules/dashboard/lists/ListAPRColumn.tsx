@@ -39,7 +39,7 @@ export const ListAPRColumn = ({
   const displayValue = hasRewards
     ? (isLoading || intrinsicApyLoading)
       ? value // Show base value while loading
-      : (aprMap[symbol as keyof typeof aprMap] / 100) + value + (intrinsicApyValue / 100)
+      : aprMap[symbol as keyof typeof aprMap] / 100 + value + intrinsicApyValue / 100
     : value;
 
   return (

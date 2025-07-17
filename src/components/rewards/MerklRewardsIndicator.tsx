@@ -45,12 +45,13 @@ export const MerklRewardsIndicator = ({
         />
       ),
     },
-    // {
-    //   label: 'APR',
-    //   value: merklApr,
-    //   icon: <img src="/logos/apple-green.png" alt="APR" width={16} height={16} />,
-    //   showPlus: true,
-    // },
+    {
+      label: 'APR',
+      value: merklApr,
+      icon: <img src="/logos/apple-green.png" alt="APR" width={16} height={16} />,
+      showPlus: true,
+      showItem: false,
+    },
   ];
 
   if (shouldIncludeIntrinsicApy) {

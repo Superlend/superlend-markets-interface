@@ -44,7 +44,7 @@ export const SuppliedPositionsListMobileItem = ({
   const displayValue = hasRewards
     ? isLoading || intrinsicApyLoading
       ? Number(supplyAPY) // Show base supplyAPY while loading
-      : (aprMap[symbol as keyof typeof aprMap] / 100) + Number(supplyAPY) + (intrinsicApyValue / 100)
+      : aprMap[symbol as keyof typeof aprMap] / 100 + Number(supplyAPY) + intrinsicApyValue / 100
     : Number(supplyAPY);
 
   const canBeEnabledAsCollateral =

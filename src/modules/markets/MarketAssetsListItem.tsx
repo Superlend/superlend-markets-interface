@@ -6,7 +6,6 @@ import { NoData } from 'src/components/primitives/NoData';
 import { ReserveSubheader } from 'src/components/ReserveSubheader';
 import { useProtocolDataContext } from 'src/hooks/useProtocolDataContext';
 
-
 import { IncentivesCard } from '../../components/incentives/IncentivesCard';
 import { AMPLToolTip } from '../../components/infoTooltips/AMPLToolTip';
 import { ListColumn } from '../../components/lists/ListColumn';
@@ -37,7 +36,9 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
   const displayValue = hasRewards
     ? (isLoading || intrinsicApyLoading)
       ? reserve.supplyAPY // Show base APY while loading
-      : (Number(aprMap[reserve.symbol as keyof typeof aprMap]) / 100) + Number(reserve.supplyAPY) + (intrinsicApyValue / 100)
+      : Number(aprMap[reserve.symbol as keyof typeof aprMap]) / 100 +
+        Number(reserve.supplyAPY) +
+        intrinsicApyValue / 100
     : reserve.supplyAPY;
 
   return (
@@ -53,7 +54,9 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
         <TokenIcon symbol={reserve.iconSymbol} fontSize="large" />
         <Box sx={{ pl: 3.5, overflow: 'hidden' }}>
           <Typography variant="h4" noWrap>
-            {reserve.name}
+            {reserve.name?.toLowerCase()?.includes('stxtz') ?? false
+              ? 'Stacy Staked XTZ'
+              : reserve.name}
           </Typography>
           <Box
             sx={{

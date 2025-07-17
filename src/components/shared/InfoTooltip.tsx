@@ -20,6 +20,7 @@ interface InfoTooltipProps {
       value: number;
       icon?: ReactNode;
       showPlus?: boolean;
+      showItem?: boolean;
     }>;
   };
   tooltipContentNode?: ReactNode;
@@ -60,6 +61,8 @@ export const InfoTooltip = ({
     }
   };
 
+  const filteredTooltipContentItems = tooltipContent?.items?.filter((item) => item.showItem ?? true) ?? [];
+
   return (
     <ClickAwayListener onClickAway={handleTooltipClose}>
       <Box sx={{ position: 'relative', display: 'inline-block' }}>
@@ -88,7 +91,7 @@ export const InfoTooltip = ({
                   >
                     {tooltipContent?.title}
                   </Typography>
-                  {tooltipContent?.items?.map((item, index) => {
+                  {filteredTooltipContentItems.map((item, index) => {
                     const isLastItem = index === (tooltipContent?.items?.length || 0) - 1;
                     return (
                       <>
