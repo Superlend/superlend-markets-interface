@@ -1,4 +1,4 @@
-import { Box, CircularProgress } from '@mui/material';
+import { Box, CircularProgress, Link } from '@mui/material';
 import { ReactNode } from 'react';
 import PercentIcon from '@mui/icons-material/Percent';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
@@ -113,9 +113,25 @@ export const MerklRewardsIndicator = ({
           ) : (
             <InfoTooltip
               title="Rate & Rewards"
-              tooltipContent={{
-                title: 'Earn retroactive rewards by supplying XTZ (WXTZ). Carry over your season 1 rewards for a head start earning apple XTZ in season 2!',
-              }}
+              tooltipContentNode={
+                <Box component="p" sx={{ fontSize: 14, fontWeight: 400, color: 'text.primary' }}>
+                  Earn retroactive rewards by supplying XTZ (WXTZ)
+                  <Link
+                    href='https://x.com/etherlink/status/1945151432224862441?t=h3ADH9AyuHivPaQeSwbMvA&s=19'
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{
+                      fontSize: 14,
+                      fontWeight: 400,
+                      color: 'text.primary',
+                      textDecoration: 'underline',
+                      ml: 1,
+                    }}
+                  >
+                    Learn more
+                  </Link>
+                </Box>
+              }
             >
               <img src="/logos/apple-green.png" alt="Green Apple" width={18} height={18} />
             </InfoTooltip>
