@@ -5,7 +5,7 @@ import { ArrowRightIcon } from 'lucide-react';
 import React from 'react';
 // import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
 
-import ImageWithDefault from '@/components/ImageWithDefault';
+// import ImageWithDefault from '@/components/ImageWithDefault';
 import { useMerklUserRewards } from '@/hooks/useMerklUserRewards';
 import { useWeb3Context } from '@/libs/hooks/useWeb3Context';
 import { BigNumber } from 'ethers';
