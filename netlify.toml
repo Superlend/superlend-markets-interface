@@ -1,0 +1,14 @@
+[build]
+  command = "git config --global url.'https://github.com/'.insteadOf 'git@github.com:' && git config --global url.'https://github.com/'.insteadOf 'ssh://git@github.com/' && yarn config set network-timeout 300000 && yarn config set network-retries 3 && (yarn install --pure-lockfile --network-timeout 300000 || yarn install --pure-lockfile --network-timeout 300000 || yarn install --pure-lockfile --network-timeout 300000) && npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "18"
+  YARN_VERSION = "1.22.22"
+  YARN_NETWORK_TIMEOUT = "300000"
+  YARN_CACHE_FOLDER = "/opt/buildhome/.yarn_cache"
+  NODE_OPTIONS = "--max_old_space_size=4096"
+
+# Enable Next.js plugin for server-side functionality and API routes
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
