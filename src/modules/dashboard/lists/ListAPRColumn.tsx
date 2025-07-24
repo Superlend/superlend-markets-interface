@@ -26,7 +26,7 @@ export const ListAPRColumn = ({
   isSupplyTab = false,
   children,
 }: ListAPRColumnProps) => {
-  const { aprMap, isLoading } = useMerklAprMap();
+  const { aprMap, isLoading: isLoadingAppleApr } = useMerklAprMap();
   const { apyMap: intrinsicApyMap, isLoading: intrinsicApyLoading } = useIntrinsicApy();
 
   // const hasAppleRewards = hasMerklRewards(symbol);
@@ -37,7 +37,7 @@ export const ListAPRColumn = ({
 
   // If asset has Merkl rewards and we're on the supply tab, use the APR value
   const displayValue = hasRewards
-    ? (isLoading || intrinsicApyLoading)
+    ? (isLoadingAppleApr || intrinsicApyLoading)
       ? value // Show base value while loading
       : aprMap[symbol as keyof typeof aprMap] / 100 + value + intrinsicApyValue / 100
     : value;
