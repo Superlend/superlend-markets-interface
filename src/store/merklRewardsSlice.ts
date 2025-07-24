@@ -4,22 +4,22 @@ import { getMerklCampaignUrl } from '../ui-config/merklConfig';
 // import { convertAPRtoAPY } from '@/utils/utils';
 
 export const CAMPAIGN_IDS = {
-  CAMPAIGN_MTBILL: '0x1ca455114be0e0264504f91192dbd86c2d94d509cb9d0ba5331b618952eec508',
-  CAMPAIGN_MBASIS: '0x9791b3456f84250db23c3b70182881d8d971f7549bd6d5fef9a43a4cc13f888e',
-  CAMPAIGN_WXTZ: '0xaeec3936c28d13cac746ab3d97997f838905d6e1d789b871a5f31187e3745c22',
-  CAMPAIGN_WBTC: '0x46cd8f91631692117fe8a1a993b5693940da473f48086415bfb8efb669dcdd4f',
-  CAMPAIGN_USDC: '0x1ca28225817aef341933e9ea1e09228d5b5ca3e1c1bb8c3281a5b2c225849238',
-  CAMPAIGN_USDT: '0xbebb1d216e5681060e35fc7e54dfbc6ec43bec52723e9afd1f262e187242bb94',
-  // CAMPAIGN_WETH: '0xd1cc7c4f0734f461cd74b65d163d65960760e57631016bc6bf0269f13212c40f',
+  CAMPAIGN_MTBILL: '0xb89cfe220406f4cb039241b8070350794eb6c445f61ceb85e5f045277c0db18f',
+  CAMPAIGN_MBASIS: '0xf21ca0bbc6dee4da47f35f1f8e3d88a9779e0e2ae8990392585fac6383671582',
+  CAMPAIGN_WXTZ: '0xe272b94ede07948f5e11de40f588f9607b1d25f72a0a68ff21ce95e911ab3046',
+  CAMPAIGN_WBTC: '0x15334bcb7b6a7d518f1ed2f57d23d0614ef540074e500600a31a72b36cd7fb67',
+  CAMPAIGN_USDC: '0x22b1631a0811fe1a14ca2554bf05eab15df5a2b8adbc607cb7c5330f804a9e8d',
+  CAMPAIGN_USDT: '0x3fa208effe1df2d25b546c9094e172df02a861d95136524306e18eb36d97ae28',
+  CAMPAIGN_WETH: '0xd1cc7c4f0734f461cd74b65d163d65960760e57631016bc6bf0269f13212c40f',
 };
 
 export const SUPPORTED_MERKL_TOKENS = [
-  'mTBILL',
-  'mBASIS',
+  // 'mTBILL',
+  // 'mBASIS',
   'WXTZ',
-  'WBTC',
-  'USDC',
-  'USDT',
+  // 'WBTC',
+  // 'USDC',
+  // 'USDT',
   // 'WETH',
   'XTZ',
 ];
@@ -102,7 +102,7 @@ export const createMerklRewardsSlice: StateCreator<
         WBTC: extractApr(responses[3]),
         USDC: extractApr(responses[4]),
         USDT: extractApr(responses[5]),
-        // WETH: extractApr(responses[6]),
+        WETH: extractApr(responses[6]),
       };
 
       set({

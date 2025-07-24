@@ -6,9 +6,7 @@ import { RotationProvider, RotationProviderConfig } from './rotationProvider';
  */
 export class EnhancedRotationProvider extends RotationProvider {
   // Time interval (ms) to check block heights
-  private readonly BLOCK_HEIGHT_CHECK_INTERVAL = 120000; // 2 minutes (increased from 30 seconds)
-  // Delay before starting block height monitoring
-  private readonly INITIAL_MONITORING_DELAY = 60000; // 1 minute delay on first load
+  private readonly BLOCK_HEIGHT_CHECK_INTERVAL = 30000; // 30 seconds
   // Maximum acceptable block difference
   private readonly MAX_BLOCK_HEIGHT_DIFFERENCE = 10;
   // Store latest block heights to avoid redundant requests
@@ -22,17 +20,14 @@ export class EnhancedRotationProvider extends RotationProvider {
   }
 
   private async startBlockHeightChecking() {
-    // Wait before starting monitoring to avoid immediate calls on page load
-    setTimeout(async () => {
-      // Check block heights after initial delay
-      await this.checkBlockHeights();
+    // Check block heights immediately
+    await this.checkBlockHeights();
 
-      // Schedule periodic checks
-      this.blockHeightCheckTimer = setInterval(
-        () => this.checkBlockHeights(),
-        this.BLOCK_HEIGHT_CHECK_INTERVAL
-      );
-    }, this.INITIAL_MONITORING_DELAY);
+    // Schedule periodic checks
+    this.blockHeightCheckTimer = setInterval(
+      () => this.checkBlockHeights(),
+      this.BLOCK_HEIGHT_CHECK_INTERVAL
+    );
   }
 
   private async checkBlockHeights() {

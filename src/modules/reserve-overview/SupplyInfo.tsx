@@ -43,7 +43,7 @@ export const SupplyInfo = ({
   debtCeiling,
 }: SupplyInfoProps) => {
   const isDAI = reserve.symbol !== 'DAI';
-  const { aprMap, isLoading: isLoadingAppleApr } = useMerklAprMap();
+  const { aprMap, isLoading } = useMerklAprMap();
   const { apyMap: intrinsicApyMap, isLoading: intrinsicApyLoading } = useIntrinsicApy();
   // const hasAppleRewards = hasMerklRewards(reserve.symbol);
   // const showAppleReward = hasAppleRewards;
@@ -52,7 +52,7 @@ export const SupplyInfo = ({
   const hasRewards = hasMerklRewards(reserve.symbol) || hasIntrinsicApy(reserve.symbol);
 
   const displayValue = hasRewards
-    ? (isLoadingAppleApr || intrinsicApyLoading)
+    ? isLoading || intrinsicApyLoading
       ? reserve.supplyAPY // Show base value while loading
       : aprMap[reserve.symbol as keyof typeof aprMap] / 100 +
         Number(reserve.supplyAPY) +
