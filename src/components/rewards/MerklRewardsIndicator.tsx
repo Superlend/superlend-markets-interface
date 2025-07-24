@@ -1,4 +1,4 @@
-import { Box, CircularProgress } from '@mui/material';
+import { Box, CircularProgress, Link } from '@mui/material';
 import { ReactNode } from 'react';
 import PercentIcon from '@mui/icons-material/Percent';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
@@ -20,8 +20,8 @@ export const MerklRewardsIndicator = ({
   isSupplyTab = false,
   children,
 }: MerklRewardsIndicatorProps) => {
-  const { aprMap, isLoading: isLoadingAppleApr } = useMerklAprMap();
-  const { apyMap: intrinsicApyMap, isLoading: isLoadingIntrinsicApy } = useIntrinsicApy();
+  const { aprMap, isLoading } = useMerklAprMap();
+  const { apyMap: intrinsicApyMap, isLoading: intrinsicApyLoading } = useIntrinsicApy();
   const showRewards = hasMerklRewards(symbol) && isSupplyTab;
   const merklApr = showRewards ? aprMap[symbol as keyof typeof aprMap] || 0 : 0;
   const showIntrinsicApy = hasIntrinsicApy(symbol) && isSupplyTab;
@@ -50,7 +50,7 @@ export const MerklRewardsIndicator = ({
       value: merklApr,
       icon: <img src="/logos/apple-green.png" alt="APR" width={16} height={16} />,
       showPlus: true,
-      showItem: merklApr > 0,
+      showItem: false,
     },
   ];
 
@@ -85,9 +85,9 @@ export const MerklRewardsIndicator = ({
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
       {children}
-      {(showIntrinsicApy || showRewards) && (
+      {(showIntrinsicApy && !showRewards) && (
         <>
-          {(isLoadingAppleApr || isLoadingIntrinsicApy) ? (
+          {isLoading || intrinsicApyLoading ? (
             <CircularProgress size={18} />
           ) : (
             <InfoTooltip
@@ -97,21 +97,17 @@ export const MerklRewardsIndicator = ({
                 items: tooltipItems,
               }}
             >
-              {merklApr > 0 &&
-                <img src="/logos/apple-green.png" alt="Green Apple" width={18} height={18} />
-              }
-              {(!merklApr && showIntrinsicApy) &&
-                <DiamondIcon
-                  sx={{
-                    fontSize: 16,
-                    color: (theme) => (theme.palette.mode === 'light' ? '#8B5CF6' : '#A78BFA'),
-                  }}
-                />}
+              <DiamondIcon
+                sx={{
+                  fontSize: 16,
+                  color: (theme) => (theme.palette.mode === 'light' ? '#8B5CF6' : '#A78BFA'),
+                }}
+              />
             </InfoTooltip>
           )}
         </>
       )}
-      {/* {(showRewards && !showIntrinsicApy) && (
+      {(showRewards && !showIntrinsicApy) && (
         <>
           {isLoading || intrinsicApyLoading ? (
             <CircularProgress size={18} />
@@ -142,7 +138,7 @@ export const MerklRewardsIndicator = ({
             </InfoTooltip>
           )}
         </>
-      )} */}
+      )}
     </Box>
   );
 };

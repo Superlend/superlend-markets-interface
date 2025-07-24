@@ -41,7 +41,7 @@ export const SupplyAssetsListMobileItem = ({
   const { currentMarket } = useProtocolDataContext();
   const { dsr } = useAppDataContext();
   const { openSupply } = useModalContext();
-  const { aprMap, isLoading: isLoadingAppleApr } = useMerklAprMap();
+  const { aprMap, isLoading } = useMerklAprMap();
   const { apyMap: intrinsicApyMap, isLoading: intrinsicApyLoading } = useIntrinsicApy();
   // const hasAppleRewards = hasMerklRewards(symbol);
   // const showAppleReward = hasAppleRewards;
@@ -51,7 +51,7 @@ export const SupplyAssetsListMobileItem = ({
 
   // If asset has Merkl rewards and we're on the supply tab, use the APR value
   const displayValue = hasRewards
-    ? (isLoadingAppleApr || intrinsicApyLoading)
+    ? isLoading || intrinsicApyLoading
       ? Number(supplyAPY) // Show base value while loading
       : aprMap[symbol as keyof typeof aprMap] / 100 + Number(supplyAPY) + intrinsicApyValue / 100
     : Number(supplyAPY);
