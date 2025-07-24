@@ -60,19 +60,19 @@ const TitleWrapper = styled(Box)({
   gap: '12px',
 });
 
-const RewardsText = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  color: theme.palette.mode === 'light' ? '#15803d' : '#4ade80',
-  fontWeight: 600,
-  '& svg': {
-    transition: 'transform 0.2s ease',
-  },
-  '&:hover svg': {
-    transform: 'translateX(4px)',
-  },
-}));
+// const RewardsText = styled(Box)(({ theme }) => ({
+//   display: 'flex',
+//   alignItems: 'center',
+//   gap: '8px',
+//   color: theme.palette.mode === 'light' ? '#15803d' : '#4ade80',
+//   fontWeight: 600,
+//   '& svg': {
+//     transition: 'transform 0.2s ease',
+//   },
+//   '&:hover svg': {
+//     transform: 'translateX(4px)',
+//   },
+// }));
 
 const RewardsInfoBox = styled(Box)({
   display: 'flex',
