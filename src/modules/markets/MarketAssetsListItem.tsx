@@ -23,7 +23,7 @@ import { hasIntrinsicApy, useIntrinsicApy } from '@/hooks/useIntrinsicApy';
 export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
   const router = useRouter();
   const { currentMarket } = useProtocolDataContext();
-  const { aprMap, isLoading: isLoadingAppleApr } = useMerklAprMap();
+  const { aprMap, isLoading } = useMerklAprMap();
   const { apyMap: intrinsicApyMap, isLoading: intrinsicApyLoading } = useIntrinsicApy();
   // const hasAppleRewards = hasMerklRewards(reserve.symbol);
   // Always show apple rewards in market list (it's always the supply tab)
@@ -34,7 +34,7 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
 
   // If asset has Merkl rewards, use the APR value from Merkl divided by 100
   const displayValue = hasRewards
-    ? (isLoadingAppleApr || intrinsicApyLoading)
+    ? (isLoading || intrinsicApyLoading)
       ? reserve.supplyAPY // Show base APY while loading
       : Number(aprMap[reserve.symbol as keyof typeof aprMap]) / 100 +
         Number(reserve.supplyAPY) +
