@@ -11,6 +11,7 @@ export const CAMPAIGN_IDS = {
   CAMPAIGN_USDC: '0x1ca28225817aef341933e9ea1e09228d5b5ca3e1c1bb8c3281a5b2c225849238',
   CAMPAIGN_USDT: '0xbebb1d216e5681060e35fc7e54dfbc6ec43bec52723e9afd1f262e187242bb94',
   // CAMPAIGN_WETH: '0xd1cc7c4f0734f461cd74b65d163d65960760e57631016bc6bf0269f13212c40f',
+  CAMPAIGN_LBTC: '0x317e5fa441f69dbc830f7f4aa9bebdd5db2119e138d3efd0b77925c88e375303',
 };
 
 export const SUPPORTED_MERKL_TOKENS = [
@@ -22,6 +23,7 @@ export const SUPPORTED_MERKL_TOKENS = [
   'USDT',
   // 'WETH',
   'XTZ',
+  'LBTC',
 ];
 
 export interface MerklRewardsResponse {
@@ -95,14 +97,15 @@ export const createMerklRewardsSlice: StateCreator<
 
       // Map tokens to their APRs
       const aprMap: Record<string, number> = {
-        mBASIS: extractApr(responses[1]),
         mTBILL: extractApr(responses[0]),
+        mBASIS: extractApr(responses[1]),
         WXTZ: extractApr(responses[2]),
         XTZ: extractApr(responses[2]),
         WBTC: extractApr(responses[3]),
         USDC: extractApr(responses[4]),
         USDT: extractApr(responses[5]),
         // WETH: extractApr(responses[6]),
+        LBTC: extractApr(responses[6]),
       };
 
       set({
