@@ -6,6 +6,10 @@ import React from 'react';
 // import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
 
 import ImageWithDefault from '@/components/ImageWithDefault';
+import { useMerklUserRewards } from '@/hooks/useMerklUserRewards';
+import { useWeb3Context } from '@/libs/hooks/useWeb3Context';
+import { BigNumber } from 'ethers';
+import { FormattedNumber } from './primitives/FormattedNumber';
 // import { useMerklUserRewards } from '@/hooks/useMerklUserRewards';
 
 const StyledCard = styled(MuiCard)(({ theme }) => ({
@@ -59,38 +63,38 @@ const TitleWrapper = styled(Box)({
   gap: '12px',
 });
 
-const RewardsText = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  color: theme.palette.mode === 'light' ? '#15803d' : '#4ade80',
-  fontWeight: 600,
-  '& svg': {
-    transition: 'transform 0.2s ease',
-  },
-  '&:hover svg': {
-    transform: 'translateX(4px)',
-  },
-}));
-
-// const RewardsInfoBox = styled(Box)({
-//   display: 'flex',
-//   // flexDirection: 'column',
-//   // alignItems: 'flex-end',
-//   gap: '8px',
-//   // marginTop: '12px',
-//   textTransform: 'capitalize',
-// });
-
-// const RewardItem = styled(Typography)(({ theme }) => ({
-//   fontSize: '0.875rem',
-//   color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+// const RewardsText = styled(Box)(({ theme }) => ({
 //   display: 'flex',
 //   alignItems: 'center',
-//   gap: '4px',
+//   gap: '8px',
+//   color: theme.palette.mode === 'light' ? '#15803d' : '#4ade80',
 //   fontWeight: 600,
-//   textTransform: 'capitalize',
+//   '& svg': {
+//     transition: 'transform 0.2s ease',
+//   },
+//   '&:hover svg': {
+//     transform: 'translateX(4px)',
+//   },
 // }));
+
+const RewardsInfoBox = styled(Box)({
+  display: 'flex',
+  // flexDirection: 'column',
+  // alignItems: 'flex-end',
+  gap: '8px',
+  // marginTop: '12px',
+  textTransform: 'capitalize',
+});
+
+const RewardItem = styled(Typography)(({ theme }) => ({
+  fontSize: '0.875rem',
+  color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '4px',
+  fontWeight: 600,
+  textTransform: 'capitalize',
+}));
 
 const StyledButton = styled('button')(({ theme }) => ({
   background: theme.palette.mode === 'light' ? 'rgba(22, 163, 74, 0.1)' : 'rgba(22, 163, 74, 0.1)',
@@ -121,13 +125,13 @@ const StyledButton = styled('button')(({ theme }) => ({
 
 export default function AppleFarmBanner() {
   const theme = useTheme();
-  // const { currentAccount: address } = useWeb3Context();
-  // const { userRewards } = useMerklUserRewards(address || '', 42793);
+  const { currentAccount: address } = useWeb3Context();
+  const { userRewards, loading } = useMerklUserRewards(address || '', 42793);
 
-  // const totalRewards = BigNumber.from(userRewards?.[0]?.rewards?.[0]?.amount ?? '0').div(
-  //   BigNumber.from(10).pow(18)
-  // );
-  // const totalRewardsNumber = parseFloat(totalRewards.toString());
+  const totalRewards = BigNumber.from(userRewards?.[0]?.rewards?.[0]?.amount ?? '0').div(
+    BigNumber.from(10).pow(18)
+  );
+  const totalRewardsNumber = parseFloat(totalRewards.toString());
 
   return (
     <div style={{ textDecoration: 'none', marginBottom: '-60px' }}>
@@ -135,7 +139,7 @@ export default function AppleFarmBanner() {
         <ContentWrapper>
           <TextContent>
             <TitleWrapper>
-              <ImageWithDefault
+              <img
                 src="/logos/apple-green.png"
                 alt="Apple Farm"
                 width={36}
@@ -159,9 +163,9 @@ export default function AppleFarmBanner() {
                     color: theme.palette.mode === 'light' ? '#166534' : '#ffffff',
                   }}
                 >
-                  Apple Farm has ended on Etherlink!
+                  Apple Farm Season 2 is live on Etherlink!
                 </Typography>
-                <a
+                {/* <a
                   href="https://x.com/etherlink/status/1944766446472745064"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -171,7 +175,7 @@ export default function AppleFarmBanner() {
                     Season Two Rewards: Coming Soon
                     <ArrowRightIcon size={16} />
                   </RewardsText>
-                </a>
+                </a> */}
               </Box>
             </TitleWrapper>
           </TextContent>
@@ -186,8 +190,8 @@ export default function AppleFarmBanner() {
               right: 24,
             }}
           >
-            {/* {loading && <RewardItem>Loading rewards...</RewardItem>} */}
-            {/* {!loading && address && totalRewardsNumber > 0 && (
+            {loading && <RewardItem>Loading rewards...</RewardItem>}
+            {!loading && address && totalRewardsNumber > 0 && (
               <RewardsInfoBox>
                 <RewardItem
                   sx={{
@@ -197,16 +201,18 @@ export default function AppleFarmBanner() {
                 >
                   Your Available Rewards:
                 </RewardItem>
-                <RewardItem>{formatRewards(totalRewardsNumber)}</RewardItem>
+                <RewardItem>
+                  <FormattedNumber value={totalRewardsNumber} visibleDecimals={2} />
+                </RewardItem>
               </RewardsInfoBox>
-            )} */}
-            {/* {!loading && address && totalRewardsNumber === 0 && (
+            )}
+            {!loading && address && totalRewardsNumber === 0 && (
               <RewardsInfoBox>
                 <RewardItem sx={{ fontWeight: 600 }}>No rewards found</RewardItem>
               </RewardsInfoBox>
-            )} */}
+            )}
             <a
-              href={'https://x.com/etherlink/status/1944766446472745064'}
+              href={'https://app.applefarm.xyz'}
               // href={
               //   totalRewardsNumber > 0 || !address
               //     ? 'https://app.applefarm.xyz/users'
@@ -217,8 +223,7 @@ export default function AppleFarmBanner() {
               style={{ textDecoration: 'none', color: '#4ade80' }}
             >
               <StyledButton>
-                {/* {totalRewardsNumber > 0 || !address ? 'Claim Rewards' : 'Supply to gain rewards'}{' '} */}
-                Learn More
+                {totalRewardsNumber > 0 || !address ? 'Claim Rewards' : 'Supply to gain rewards'}{' '}
                 <ArrowRightIcon size={16} />
               </StyledButton>
             </a>
@@ -228,15 +233,3 @@ export default function AppleFarmBanner() {
     </div>
   );
 }
-
-// function formatRewards(rewards: number) {
-//   if (rewards > 1000000) {
-//     return `${(rewards / 1000000).toFixed(2)}M`;
-//   } else if (rewards > 1000) {
-//     return `${(rewards / 1000).toFixed(2)}K`;
-//   } else if (rewards > 0 && rewards < 0.01) {
-//     return `<0.01`;
-//   } else {
-//     return rewards.toFixed(2);
-//   }
-// }

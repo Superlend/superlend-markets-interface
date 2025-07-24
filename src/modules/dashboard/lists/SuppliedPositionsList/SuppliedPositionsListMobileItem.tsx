@@ -32,7 +32,7 @@ export const SuppliedPositionsListMobileItem = ({
   const isSwapButton = isFeatureEnabled.liquiditySwap(currentMarketData);
   const { symbol, iconSymbol, name, supplyAPY, isIsolated, aIncentivesData, isFrozen, isActive } =
     reserve;
-  const { aprMap, isLoading } = useMerklAprMap();
+  const { aprMap, isLoading: isLoadingAppleApr } = useMerklAprMap();
   const { apyMap: intrinsicApyMap, isLoading: intrinsicApyLoading } = useIntrinsicApy();
   // const hasAppleRewards = hasMerklRewards(symbol);
   // const showAppleReward = hasAppleRewards;
@@ -42,7 +42,7 @@ export const SuppliedPositionsListMobileItem = ({
 
   // If asset has Merkl rewards and we're on the supply tab, use the APR value
   const displayValue = hasRewards
-    ? isLoading || intrinsicApyLoading
+    ? (isLoadingAppleApr || intrinsicApyLoading)
       ? Number(supplyAPY) // Show base supplyAPY while loading
       : aprMap[symbol as keyof typeof aprMap] / 100 + Number(supplyAPY) + intrinsicApyValue / 100
     : Number(supplyAPY);
