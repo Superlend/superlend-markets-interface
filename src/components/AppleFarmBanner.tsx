@@ -5,7 +5,6 @@ import { ArrowRightIcon } from 'lucide-react';
 import React from 'react';
 import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
 
-import ImageWithDefault from '@/components/ImageWithDefault';
 import { useMerklUserRewards } from '@/hooks/useMerklUserRewards';
 import { FormattedNumber } from './primitives/FormattedNumber';
 
@@ -136,7 +135,7 @@ export default function AppleFarmBanner() {
         <ContentWrapper>
           <TextContent>
             <TitleWrapper>
-              <ImageWithDefault
+              <img
                 src="/logos/apple-green.png"
                 alt="Apple Farm"
                 width={36}
