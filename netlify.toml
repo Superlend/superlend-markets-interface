@@ -1,0 +1,11 @@
+[build]
+  command = "git config --global url.'https://github.com/'.insteadOf 'git@github.com:' && git config --global url.'https://github.com/'.insteadOf 'ssh://git@github.com/' && npm run build"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "16"
+  YARN_VERSION = "1.22.22"
+
+# Alternative approach - set Git configuration during build
+[[build.processing]]
+  skip_processing = false 
