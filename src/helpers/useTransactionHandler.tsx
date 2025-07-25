@@ -72,6 +72,10 @@ export const useTransactionHandler = ({
   const [usePermit, setUsePermit] = useState(false);
   const mounted = useRef(false);
 
+  // Get network data for gas price handling
+  const { currentMarketData } = useRootStore();
+  const isEtherlink = currentMarketData.chainId === 42793 || currentMarketData.chainId === 128123;
+
   useEffect(() => {
     mounted.current = true; // Will set it to true on mount ...
     return () => {
@@ -193,10 +197,6 @@ export const useTransactionHandler = ({
             params.map(
               (param) =>
                 new Promise<TransactionResponse>(async (resolve, reject) => {
-                  // Get current network config to check for Etherlink
-                  const { currentMarketData } = useRootStore();
-                  const isEtherlink = currentMarketData.chainId === 42793 || currentMarketData.chainId === 128123;
-                  
                   // Only delete gasPrice for networks that properly support EIP-1559
                   if (!isEtherlink) {
                     delete param.gasPrice;
@@ -247,10 +247,6 @@ export const useTransactionHandler = ({
         setMainTxState({ ...mainTxState, loading: true });
         const txns = await handleGetPermitTxns(signatures, signatureDeadline);
         const params = await txns[0].tx();
-        // Get current network config to check for Etherlink
-        const { currentMarketData } = useRootStore();
-        const isEtherlink = currentMarketData.chainId === 42793 || currentMarketData.chainId === 128123;
-        
         // Only delete gasPrice for networks that properly support EIP-1559
         if (!isEtherlink) {
           delete params.gasPrice;
@@ -289,10 +285,6 @@ export const useTransactionHandler = ({
       try {
         setMainTxState({ ...mainTxState, loading: true });
         const params = await actionTx.tx();
-        // Get current network config to check for Etherlink
-        const { currentMarketData } = useRootStore();
-        const isEtherlink = currentMarketData.chainId === 42793 || currentMarketData.chainId === 128123;
-        
         // Only delete gasPrice for networks that properly support EIP-1559
         if (!isEtherlink) {
           delete params.gasPrice;
