@@ -31,10 +31,10 @@ export const ListAPRColumn = ({
 
   const showIntrinsicApy = hasIntrinsicApy(symbol) && isSupplyTab;
   const intrinsicApyValue = showIntrinsicApy
-    ? (intrinsicApyMap[symbol as keyof typeof intrinsicApyMap] ?? 0) / 100 || 0
+    ? Number(intrinsicApyMap[symbol as keyof typeof intrinsicApyMap] || 0) / 100
     : 0;
   const showMerklApy = isSupplyTab && hasMerklRewards(symbol);
-  const merklApyValue = showMerklApy ? (aprMap[symbol as keyof typeof aprMap] ?? 0) / 100 || 0 : 0;
+  const merklApyValue = showMerklApy ? Number(aprMap[symbol as keyof typeof aprMap] || 0) / 100 : 0;
   const hasRewards = hasMerklRewards(symbol) || hasIntrinsicApy(symbol);
 
   // If asset has Merkl rewards and we're on the supply tab, use the APR value

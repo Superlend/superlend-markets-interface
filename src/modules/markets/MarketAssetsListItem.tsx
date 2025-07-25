@@ -36,9 +36,9 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
   const displayValue = hasRewards
     ? (isLoadingAppleApr || intrinsicApyLoading)
       ? reserve.supplyAPY // Show base APY while loading
-      : Number(aprMap[reserve.symbol as keyof typeof aprMap]) / 100 +
-        Number(reserve.supplyAPY) +
-        intrinsicApyValue / 100
+      : (Number(aprMap[reserve.symbol as keyof typeof aprMap] || 0) / 100) +
+        Number(reserve.supplyAPY || 0) +
+        (Number(intrinsicApyValue) / 100)
     : reserve.supplyAPY;
 
   return (
