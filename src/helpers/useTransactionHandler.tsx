@@ -193,7 +193,14 @@ export const useTransactionHandler = ({
             params.map(
               (param) =>
                 new Promise<TransactionResponse>(async (resolve, reject) => {
-                  delete param.gasPrice;
+                  // Get current network config to check for Etherlink
+                  const { currentMarketData } = useRootStore();
+                  const isEtherlink = currentMarketData.chainId === 42793 || currentMarketData.chainId === 128123;
+                  
+                  // Only delete gasPrice for networks that properly support EIP-1559
+                  if (!isEtherlink) {
+                    delete param.gasPrice;
+                  }
                   processTx({
                     tx: () => sendTx(param),
                     successCallback: (txnResponse: TransactionResponse) => {
@@ -206,7 +213,7 @@ export const useTransactionHandler = ({
                         txHash: hash,
                         loading: false,
                       });
-                      reject();
+                      reject(error);
                     },
                     // TODO: add error callback
                     action: TxAction.APPROVAL,
@@ -240,7 +247,14 @@ export const useTransactionHandler = ({
         setMainTxState({ ...mainTxState, loading: true });
         const txns = await handleGetPermitTxns(signatures, signatureDeadline);
         const params = await txns[0].tx();
-        delete params.gasPrice;
+        // Get current network config to check for Etherlink
+        const { currentMarketData } = useRootStore();
+        const isEtherlink = currentMarketData.chainId === 42793 || currentMarketData.chainId === 128123;
+        
+        // Only delete gasPrice for networks that properly support EIP-1559
+        if (!isEtherlink) {
+          delete params.gasPrice;
+        }
         return processTx({
           tx: () => sendTx(params),
           successCallback: (txnResponse: TransactionResponse) => {
@@ -275,7 +289,14 @@ export const useTransactionHandler = ({
       try {
         setMainTxState({ ...mainTxState, loading: true });
         const params = await actionTx.tx();
-        delete params.gasPrice;
+        // Get current network config to check for Etherlink
+        const { currentMarketData } = useRootStore();
+        const isEtherlink = currentMarketData.chainId === 42793 || currentMarketData.chainId === 128123;
+        
+        // Only delete gasPrice for networks that properly support EIP-1559
+        if (!isEtherlink) {
+          delete params.gasPrice;
+        }
         return processTx({
           tx: () => sendTx(params),
           successCallback: (txnResponse: TransactionResponse) => {

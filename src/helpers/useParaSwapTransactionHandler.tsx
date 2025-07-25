@@ -176,7 +176,14 @@ export const useParaSwapTransactionHandler = ({
       try {
         setApprovalTxState({ ...approvalTxState, loading: true });
         const params = await approvalTx.tx();
-        delete params.gasPrice;
+        // Get current network config to check for Etherlink
+        const { currentMarketData } = useRootStore();
+        const isEtherlink = currentMarketData.chainId === 42793 || currentMarketData.chainId === 128123;
+        
+        // Only delete gasPrice for networks that properly support EIP-1559
+        if (!isEtherlink) {
+          delete params.gasPrice;
+        }
         await processTx({
           tx: () => sendTx(params),
           successCallback: (txnResponse: TransactionResponse) => {
@@ -218,8 +225,15 @@ export const useParaSwapTransactionHandler = ({
         const actionTx = data.find((tx) => ['DLP_ACTION'].includes(tx.txType));
         if (actionTx) {
           try {
-            const params = await actionTx.tx();
-            delete params.gasPrice;
+                    const params = await actionTx.tx();
+        // Get current network config to check for Etherlink
+        const { currentMarketData } = useRootStore();
+        const isEtherlink = currentMarketData.chainId === 42793 || currentMarketData.chainId === 128123;
+        
+        // Only delete gasPrice for networks that properly support EIP-1559
+        if (!isEtherlink) {
+          delete params.gasPrice;
+        }
             return processTx({
               tx: () => sendTx(params),
               successCallback: (txnResponse: TransactionResponse) => {
