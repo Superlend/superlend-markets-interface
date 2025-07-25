@@ -65,7 +65,10 @@ export const useParaSwapTransactionHandler = ({
   const { sendTx, getTxError, signTxData } = useWeb3Context();
   const { refetchWalletBalances, refetchPoolData, refetchIncentiveData } =
     useBackgroundDataProvider();
-  const { walletApprovalMethodPreference, generateSignatureRequst } = useRootStore();
+  const { walletApprovalMethodPreference, generateSignatureRequst, currentMarketData } = useRootStore();
+
+  // Get network data for gas price handling
+  const isEtherlink = currentMarketData.chainId === 42793 || currentMarketData.chainId === 128123;
 
   const [approvalTx, setApprovalTx] = useState<EthereumTransactionTypeExtended | undefined>();
   const [actionTx, setActionTx] = useState<EthereumTransactionTypeExtended | undefined>();
@@ -176,7 +179,10 @@ export const useParaSwapTransactionHandler = ({
       try {
         setApprovalTxState({ ...approvalTxState, loading: true });
         const params = await approvalTx.tx();
-        delete params.gasPrice;
+        // Only delete gasPrice for networks that properly support EIP-1559
+        if (!isEtherlink) {
+          delete params.gasPrice;
+        }
         await processTx({
           tx: () => sendTx(params),
           successCallback: (txnResponse: TransactionResponse) => {
@@ -218,8 +224,11 @@ export const useParaSwapTransactionHandler = ({
         const actionTx = data.find((tx) => ['DLP_ACTION'].includes(tx.txType));
         if (actionTx) {
           try {
-            const params = await actionTx.tx();
-            delete params.gasPrice;
+                    const params = await actionTx.tx();
+        // Only delete gasPrice for networks that properly support EIP-1559
+        if (!isEtherlink) {
+          delete params.gasPrice;
+        }
             return processTx({
               tx: () => sendTx(params),
               successCallback: (txnResponse: TransactionResponse) => {

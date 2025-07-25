@@ -15,8 +15,8 @@ export const ParaswapErrorDisplay: React.FC<ErrorProps> = ({ txError }) => {
   return (
     <Box>
       <GasEstimationError txError={txError} />
-      {txError.rawError.message !== USER_DENIED_SIGNATURE &&
-        txError.rawError.message !== USER_DENIED_TRANSACTION && (
+      {txError.rawError?.message !== USER_DENIED_SIGNATURE &&
+        txError.rawError?.message !== USER_DENIED_TRANSACTION && (
           <Box sx={{ pt: 4 }}>
             <Warning severity="info">
               <Typography variant="description">
