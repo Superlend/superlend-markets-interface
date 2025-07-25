@@ -53,7 +53,7 @@ export const SupplyAssetsListMobileItem = ({
   const displayValue = hasRewards
     ? (isLoadingAppleApr || intrinsicApyLoading)
       ? Number(supplyAPY) // Show base value while loading
-      : aprMap[symbol as keyof typeof aprMap] / 100 + Number(supplyAPY) + intrinsicApyValue / 100
+      : Number(aprMap[symbol as keyof typeof aprMap] || 0) / 100 + Number(supplyAPY) + intrinsicApyValue / 100
     : Number(supplyAPY);
 
   // Hide the asset to prevent it from being supplied if supply cap has been reached

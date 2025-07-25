@@ -29,7 +29,7 @@ export const MerklRewardsIndicator = ({
     ? intrinsicApyMap[symbol as keyof typeof intrinsicApyMap] || 0
     : 0;
   const shouldIncludeIntrinsicApy = Boolean(
-    (symbol === 'mBASIS' || symbol === 'mTBILL') && intrinsicApyValue && intrinsicApyValue > 0
+    showIntrinsicApy && intrinsicApyValue && (intrinsicApyValue > 0)
   );
 
   const tooltipItems = [
@@ -71,7 +71,7 @@ export const MerklRewardsIndicator = ({
 
   tooltipItems.push({
     label: 'Net APY',
-    value: merklApr + baseValue * 100 + (shouldIncludeIntrinsicApy ? intrinsicApyValue : 0),
+    value: merklApr + (baseValue * 100) + (shouldIncludeIntrinsicApy ? intrinsicApyValue : 0),
     icon: (
       <TrendingUpIcon
         sx={{

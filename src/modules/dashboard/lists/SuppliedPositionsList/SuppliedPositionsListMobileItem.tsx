@@ -37,14 +37,15 @@ export const SuppliedPositionsListMobileItem = ({
   // const hasAppleRewards = hasMerklRewards(symbol);
   // const showAppleReward = hasAppleRewards;
   const showIntrinsicApy = hasIntrinsicApy(symbol);
-  const intrinsicApyValue = showIntrinsicApy ? intrinsicApyMap[symbol as keyof typeof intrinsicApyMap] || 0 : 0;
+  const intrinsicApyValue = showIntrinsicApy ? Number(intrinsicApyMap[symbol as keyof typeof intrinsicApyMap] || 0) / 100 : 0;
   const hasRewards = hasMerklRewards(symbol) || hasIntrinsicApy(symbol);
+  const merklApyValue = Number(aprMap[symbol as keyof typeof aprMap] || 0) / 100;
 
   // If asset has Merkl rewards and we're on the supply tab, use the APR value
   const displayValue = hasRewards
     ? (isLoadingAppleApr || intrinsicApyLoading)
       ? Number(supplyAPY) // Show base supplyAPY while loading
-      : aprMap[symbol as keyof typeof aprMap] / 100 + Number(supplyAPY) + intrinsicApyValue / 100
+      : merklApyValue + Number(supplyAPY) + intrinsicApyValue
     : Number(supplyAPY);
 
   const canBeEnabledAsCollateral =
