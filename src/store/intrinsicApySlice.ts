@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand';
 
 // Define supported tokens for intrinsic APY
-export const SUPPORTED_INTRINSIC_TOKENS = ['mBASIS', 'mTBILL'];
+export const SUPPORTED_INTRINSIC_TOKENS = ['mBASIS', 'mTBILL', 'stXTZ'];
 
 export const hasIntrinsicApy = (symbol: string) => {
   return SUPPORTED_INTRINSIC_TOKENS.includes(symbol);
@@ -62,10 +62,31 @@ export const createIntrinsicApySlice: StateCreator<
           };
         });
 
+      // Fetch stXTZ APR from Stacy endpoint (returns a numeric string)
+      const stxtzAprRaw: string = await fetch('https://supply.stacy.fi/apr/stxtz')
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          return res.text();
+        })
+        .catch((err) => {
+          console.error('Error fetching stXTZ APR:', err);
+          return '0';
+        });
+
+      // Parse Stacy APR: if value <= 1 assume decimal, otherwise percent
+      const parsedStxtzApr = (() => {
+        const n = parseFloat(stxtzAprRaw);
+        if (!isFinite(n) || isNaN(n)) return 0;
+        return n <= 1 ? n * 100 : n;
+      })();
+
       // Extract APY values from response and convert to percentage
       const intrinsicApyMap: Record<string, number> = {
         mBASIS: parseFloat(response.mBasisAPY || '0') * 100, // Convert decimal to percentage
         mTBILL: parseFloat(response.mTbillAPY || '0') * 100, // Convert decimal to percentage
+        stXTZ: parsedStxtzApr, // Stacy APR already in percent (or converted above)
       };
 
       set({

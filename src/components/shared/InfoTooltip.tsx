@@ -92,7 +92,7 @@ export const InfoTooltip = ({
                     {tooltipContent?.title}
                   </Typography>
                   {filteredTooltipContentItems.map((item, index) => {
-                    const isLastItem = index === (tooltipContent?.items?.length || 0) - 1;
+                    const isLastItem = index === (filteredTooltipContentItems?.length || 0) - 1;
                     return (
                       <>
                         {isLastItem && hasSeparatorBeforeLastItem && (
