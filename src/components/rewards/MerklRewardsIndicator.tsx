@@ -66,6 +66,8 @@ export const MerklRewardsIndicator = ({
           }}
         />
       ),
+      showPlus: true,
+      showItem: true,
     });
   }
 
@@ -80,6 +82,8 @@ export const MerklRewardsIndicator = ({
         }}
       />
     ),
+    showItem: true,
+    showPlus: false,
   });
 
   return (
