@@ -31,9 +31,9 @@ export const MarketAssetsListMobileItem = ({ ...reserve }: ComputedReserveData) 
   const displayValue = hasRewards
     ? isLoading || intrinsicApyLoading
       ? reserve.supplyAPY // Show base APY while loading
-      : Number(aprMap[reserve.symbol as keyof typeof aprMap]) / 100 +
-        Number(reserve.supplyAPY) +
-        intrinsicApyValue / 100
+      : (Number(aprMap[reserve.symbol as keyof typeof aprMap] ?? 0) / 100) +
+        Number(reserve.supplyAPY ?? 0) +
+        (Number(intrinsicApyValue ?? 0) / 100)
     : reserve.supplyAPY;
 
   return (
