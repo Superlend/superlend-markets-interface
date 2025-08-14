@@ -38,6 +38,8 @@ import { AppGlobalStyles } from 'src/layouts/AppGlobalStyles';
 import { LanguageProvider } from 'src/libs/LanguageProvider';
 import { Web3ContextProvider } from 'src/libs/web3-data-provider/Web3Provider';
 
+import TopBanner from '@/components/TopBanner';
+
 import { GA_TRACKING_ID, pageview } from '../lib/gtag';
 import createEmotionCache from '../src/createEmotionCache';
 
@@ -123,6 +125,7 @@ export default function MyApp(props: MyAppProps) {
           `,
                               }}
                             />
+                            <TopBanner />
                             {getLayout(<Component {...pageProps} />)}
                             <SupplyModal />
                             <WithdrawModal />
