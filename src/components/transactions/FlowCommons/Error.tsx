@@ -48,7 +48,7 @@ export const TxErrorView = ({ txError }: { txError: TxErrorType }) => {
 
         <Button
           variant="outlined"
-          onClick={() => navigator.clipboard.writeText(txError.rawError.message.toString())}
+          onClick={() => navigator.clipboard.writeText(txError.rawError?.message?.toString() || 'Unknown error')}
           size="small"
           sx={{ mt: 6 }}
         >

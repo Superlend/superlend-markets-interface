@@ -16,21 +16,36 @@ export type TxErrorType = {
 };
 
 export const getErrorTextFromError = (
-  error: Error,
+  error: Error | any,
   txAction: TxAction,
   blocking = true
 ): TxErrorType => {
   let errorNumber = 1;
+  
+  // Ensure we have a proper error object
+  let normalizedError: Error;
+  if (!error) {
+    normalizedError = new Error('Unknown error occurred');
+  } else if (error instanceof Error) {
+    normalizedError = error;
+  } else if (typeof error === 'string') {
+    normalizedError = new Error(error);
+  } else if (error.message) {
+    normalizedError = new Error(error.message);
+  } else {
+    normalizedError = new Error('Unknown error occurred');
+  }
 
+  // Add null/undefined check for error and error.message
   if (
-    error.message === 'MetaMask Tx Signature: User denied transaction signature.' ||
-    error.message === 'MetaMask Message Signature: User denied message signature.'
+    normalizedError?.message === 'MetaMask Tx Signature: User denied transaction signature.' ||
+    normalizedError?.message === 'MetaMask Message Signature: User denied message signature.'
   ) {
     return {
       error: errorMapping[4001],
       blocking: false,
       actionBlocked: false,
-      rawError: error,
+      rawError: normalizedError,
       txAction,
     };
   }
@@ -52,7 +67,7 @@ export const getErrorTextFromError = (
       error: errorRender,
       blocking,
       actionBlocked: true,
-      rawError: error,
+      rawError: normalizedError,
       txAction,
     };
   }
@@ -61,7 +76,7 @@ export const getErrorTextFromError = (
     error: undefined,
     blocking,
     actionBlocked: true,
-    rawError: error,
+    rawError: normalizedError,
     txAction,
   };
 };
@@ -78,7 +93,7 @@ export const errorMapping: Record<number, ReactElement> = {
   9: <Trans>Address is not a contract</Trans>,
   // 10: <Trans>The caller of the function is not the pool configurator</Trans>,
   11: <Trans>The caller of the function is not an AToken</Trans>,
-  12: <Trans>The address of the pool addresses provider is invalid</Trans>,
+  12: <Trans>Address of the pool addresses provider is invalid</Trans>,
   13: <Trans>Invalid return value of the flashloan executor function</Trans>,
   // 14: <Trans>Reserve has already been added to reserve list</Trans>,
   // 15: <Trans>Maximum amount of reserves in the pool reached</Trans>,
