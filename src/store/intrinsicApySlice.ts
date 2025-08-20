@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand';
 
 // Define supported tokens for intrinsic APY
-export const SUPPORTED_INTRINSIC_TOKENS = ['mBASIS', 'mTBILL', 'stXTZ'];
+export const SUPPORTED_INTRINSIC_TOKENS = ['mBASIS', 'mTBILL', 'stXTZ', 'mMEV'];
 
 export const hasIntrinsicApy = (symbol: string) => {
   return SUPPORTED_INTRINSIC_TOKENS.includes(symbol);
@@ -87,6 +87,7 @@ export const createIntrinsicApySlice: StateCreator<
         mBASIS: parseFloat(response.mBasisAPY || '0') * 100, // Convert decimal to percentage
         mTBILL: parseFloat(response.mTbillAPY || '0') * 100, // Convert decimal to percentage
         stXTZ: parsedStxtzApr, // Stacy APR already in percent (or converted above)
+        mMEV: parseFloat(response.mMevAPY || '0') * 100, // Convert decimal to percentage
       };
 
       set({
