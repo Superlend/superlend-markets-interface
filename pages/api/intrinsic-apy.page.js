@@ -1,9 +1,7 @@
 // Next.js API route for proxying intrinsic APY data from external APIs
-// This provides better error handling, caching, and monitoring capabilities
 
 /**
  * In-memory cache with TTL (Time To Live)
- * In production, consider using Redis or similar for distributed caching
  */
 const cache = new Map();
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
