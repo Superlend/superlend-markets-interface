@@ -10,6 +10,8 @@ export const hasIntrinsicApy = (symbol: string) => {
 export interface IntrinsicApyResponse {
   mBasisAPY?: string;
   mTbillAPY?: string;
+  stXTZ?: string;
+  mMEV?: string;
   [key: string]: string | undefined;
 }
 
@@ -45,49 +47,88 @@ export const createIntrinsicApySlice: StateCreator<
     try {
       set({ intrinsicApyLoading: true });
 
-      // Fetch from the Midas API
-      const response = await fetch('https://api-prod.midas.app/api/data/kpi')
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-          }
-          return res.json();
-        })
-        .catch((err) => {
-          console.error('Error fetching intrinsic APY:', err);
-          // Return default values for development
-          return {
-            mBasisAPY: '0',
-            mTbillAPY: '0',
-          };
+      // Try to fetch from our proxy API first, with fallback to direct APIs
+      let apiResponse;
+
+      try {
+        // Use our proxy API for better performance and error handling
+        const proxyResponse = await fetch('/api/intrinsic-apy/', {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+          },
         });
 
-      // Fetch stXTZ APR from Stacy endpoint (returns a numeric string)
-      const stxtzAprRaw: string = await fetch('https://supply.stacy.fi/apr/stxtz')
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-          }
-          return res.text();
-        })
-        .catch((err) => {
-          console.error('Error fetching stXTZ APR:', err);
-          return '0';
-        });
+        if (!proxyResponse.ok) {
+          throw new Error(`Proxy API error: ${proxyResponse.status}`);
+        }
+
+        const proxyData = await proxyResponse.json();
+
+        if (proxyData.success) {
+          console.log('Using proxy API data', {
+            cached: proxyData.metadata?.cached,
+            responseTime: proxyData.metadata?.responseTimeMs,
+          });
+          apiResponse = proxyData.data;
+        } else {
+          throw new Error(`Proxy API returned error: ${proxyData.error}`);
+        }
+      } catch (proxyError) {
+        console.warn('Proxy API failed, falling back to direct API calls:', proxyError);
+
+        // Fallback to direct API calls if proxy fails
+        const [midasApiResponse, stxtzAprRaw] = await Promise.all([
+          fetch('https://api-prod.midas.app/api/data/kpi')
+            .then((res) => {
+              if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+              }
+              return res.json();
+            })
+            .catch((err) => {
+              console.error('Error fetching intrinsic APY:', err);
+              return {
+                mBasisAPY: '0',
+                mTbillAPY: '0',
+                mMevAPY: '0',
+              };
+            }),
+
+          fetch('https://supply.stacy.fi/apr/stxtz')
+            .then((res) => {
+              if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+              }
+              return res.text();
+            })
+            .catch((err) => {
+              console.error('Error fetching stXTZ APR:', err);
+              return '0';
+            }),
+        ]);
+
+        apiResponse = {
+          mBasisAPY: midasApiResponse.mBasisAPY || '0',
+          mTbillAPY: midasApiResponse.mTbillAPY || '0',
+          stXTZ: stxtzAprRaw,
+          mMEV: midasApiResponse.mMevAPY || '0',
+        };
+      }
 
       // Parse Stacy APR: if value <= 1 assume decimal, otherwise percent
       const parsedStxtzApr = (() => {
-        const n = parseFloat(stxtzAprRaw);
+        const n = parseFloat(apiResponse.stXTZ || '0');
         if (!isFinite(n) || isNaN(n)) return 0;
         return n <= 1 ? n * 100 : n;
       })();
 
-      // Extract APY values from response and convert to percentage
+      // Extract APY values and convert to percentage
       const intrinsicApyMap: Record<string, number> = {
-        mBASIS: parseFloat(response.mBasisAPY || '0') * 100, // Convert decimal to percentage
-        mTBILL: parseFloat(response.mTbillAPY || '0') * 100, // Convert decimal to percentage
+        mBASIS: parseFloat(apiResponse.mBasisAPY || '0') * 100, // Convert decimal to percentage
+        mTBILL: parseFloat(apiResponse.mTbillAPY || '0') * 100, // Convert decimal to percentage
         stXTZ: parsedStxtzApr, // Stacy APR already in percent (or converted above)
-        mMEV: parseFloat(response.mMevAPY || '0') * 100, // Convert decimal to percentage
+        mMEV: parseFloat(apiResponse.mMEV || '0') * 100, // Convert decimal to percentage
       };
 
       set({

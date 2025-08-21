@@ -138,5 +138,4 @@ useRootStore.subscribe(
 // Initialize Merkl rewards data
 useRootStore.getState().fetchMerklRewards();
 
-// Initialize Intrinsic APY data
-useRootStore.getState().fetchIntrinsicApy();
+// Note: Intrinsic APY data is initialized by the useIntrinsicApy hook to prevent multiple calls

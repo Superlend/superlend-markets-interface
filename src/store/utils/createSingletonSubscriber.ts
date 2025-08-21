@@ -15,9 +15,15 @@ export function createSingletonSubscriber<T extends () => Promise<void>>(
 ): () => T {
   let id: NodeJS.Timer | null;
   let listeners = 0;
+  let hasInitialCall = false;
+  
   function subscribe() {
-    implementation();
     listeners++;
+    // Only call implementation immediately on the first subscription
+    if (!hasInitialCall) {
+      implementation();
+      hasInitialCall = true;
+    }
     if (!id) {
       id = setInterval(implementation, interval);
     }
@@ -27,6 +33,7 @@ export function createSingletonSubscriber<T extends () => Promise<void>>(
     if (id && listeners === 0) {
       clearInterval(id);
       id = null;
+      hasInitialCall = false; // Reset for next subscription cycle
     }
   }
   return () => {
