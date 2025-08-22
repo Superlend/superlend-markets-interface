@@ -64,7 +64,9 @@ export const InfoTooltip = ({
   };
 
   const filteredTooltipContentItems =
-    tooltipContent?.items?.filter((item) => item.showItem ?? true) ?? [];
+    tooltipContent?.items
+      ?.filter((item) => item.showItem ?? true)
+      .sort((a, b) => (a.isFooter ?? false ? 1 : b.isFooter ?? false ? -1 : 0)) ?? [];
 
   return (
     <ClickAwayListener onClickAway={handleTooltipClose}>

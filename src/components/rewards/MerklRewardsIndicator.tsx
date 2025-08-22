@@ -63,15 +63,15 @@ export const MerklRewardsIndicator = ({
       showPlus: true,
       showItem: merklApr > 0,
     },
-    // {
-    //   label: 'LBTC',
-    //   text: 'Lux Points',
-    //   value: undefined,
-    //   icon: <img src="/logos/lombard.png" alt="LBTC Token Logo" width={16} height={16} />,
-    //   showPlus: false,
-    //   showItem: isLBTC,
-    //   isFooter: true,
-    // },
+    {
+      label: 'LBTC',
+      text: 'Lux Points',
+      value: undefined,
+      icon: <img src="/logos/lombard.png" alt="LBTC Token Logo" width={16} height={16} />,
+      showPlus: false,
+      showItem: isLBTC,
+      isFooter: true,
+    },
   ];
 
   if (shouldIncludeIntrinsicApy) {
