@@ -67,7 +67,13 @@ export const MerklRewardsIndicator = ({
       label: 'LBTC',
       text: 'Lux Points',
       value: undefined,
-      icon: <img src="/logos/lombard.png" alt="LBTC Token Logo" width={16} height={16} />,
+      icon: (
+        <Avatar
+          src="/logos/lombard.png"
+          alt="LBTC Token Logo"
+          sx={{ width: 16, height: 16 }}
+        />
+      ),
       showPlus: false,
       showItem: isLBTC,
       isFooter: true,
