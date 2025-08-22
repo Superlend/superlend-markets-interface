@@ -154,19 +154,6 @@ export const MerklRewardsIndicator = ({
                       sx={{ fontSize: 14, fontWeight: 400, color: 'text.primary' }}
                     >
                       Earn 3x LUX by supplying LBTC
-                      {/* <Link
-                      href="https://x.com/etherlink/status/1945151432224862441?t=h3ADH9AyuHivPaQeSwbMvA&s=19"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      sx={{
-                        fontSize: 14,
-                        fontWeight: 400,
-                        color: 'text.primary',
-                        textDecoration: 'underline',
-                        ml: 1,
-                      }}
-                    >
-                      Learn more
                     </Box>
                   }
                 >
