@@ -1,4 +1,4 @@
-import { Box, CircularProgress } from '@mui/material';
+import { Avatar, Box, CircularProgress } from '@mui/material';
 import { ReactNode } from 'react';
 import PercentIcon from '@mui/icons-material/Percent';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
@@ -6,6 +6,16 @@ import DiamondIcon from '@mui/icons-material/Diamond';
 import { hasMerklRewards, useMerklAprMap } from '../../hooks/useMerklAprMap';
 import { hasIntrinsicApy, useIntrinsicApy } from '../../hooks/useIntrinsicApy';
 import { InfoTooltip } from '../shared/InfoTooltip';
+
+interface ITooltipItem {
+  label: string;
+  value: number | undefined;
+  text?: string;
+  icon?: ReactNode;
+  showPlus?: boolean;
+  showItem?: boolean;
+  isFooter?: boolean;
+}
 
 interface MerklRewardsIndicatorProps {
   symbol: string;
@@ -31,8 +41,9 @@ export const MerklRewardsIndicator = ({
   const shouldIncludeIntrinsicApy = Boolean(
     hasIntrinsicApy(symbol) && intrinsicApyValue && intrinsicApyValue > 0
   );
+  const isLBTC = symbol === 'LBTC';
 
-  const tooltipItems = [
+  const tooltipItems: ITooltipItem[] = [
     {
       label: 'Base Rate',
       value: baseValue * 100,
@@ -51,6 +62,21 @@ export const MerklRewardsIndicator = ({
       icon: <img src="/logos/apple-green.png" alt="APR" width={16} height={16} />,
       showPlus: true,
       showItem: merklApr > 0,
+    },
+    {
+      label: 'Lombard',
+      text: '3x LUX',
+      value: undefined,
+      icon: (
+        <Avatar
+          src="/logos/lombard.png"
+          alt="Lombard Logo"
+          sx={{ width: 16, height: 16 }}
+        />
+      ),
+      showPlus: false,
+      showItem: isLBTC,
+      isFooter: true,
     },
   ];
 
@@ -73,7 +99,10 @@ export const MerklRewardsIndicator = ({
 
   tooltipItems.push({
     label: 'Net APY',
-    value: Number(merklApr ?? 0) + (baseValue * 100) + (shouldIncludeIntrinsicApy ? Number(intrinsicApyValue ?? 0) : 0),
+    value:
+      Number(merklApr ?? 0) +
+      baseValue * 100 +
+      (shouldIncludeIntrinsicApy ? Number(intrinsicApyValue ?? 0) : 0),
     icon: (
       <TrendingUpIcon
         sx={{
@@ -91,27 +120,47 @@ export const MerklRewardsIndicator = ({
       {children}
       {(showIntrinsicApy || showRewards) && (
         <>
-          {(isLoadingAppleApr || isLoadingIntrinsicApy) ? (
+          {isLoadingAppleApr || isLoadingIntrinsicApy ? (
             <CircularProgress size={18} />
           ) : (
-            <InfoTooltip
-              title="Rate & Rewards"
-              tooltipContent={{
-                title: 'Rate & Rewards',
-                items: tooltipItems,
-              }}
-            >
-              {merklApr > 0 &&
-                <img src="/logos/apple-green.png" alt="Green Apple" width={18} height={18} />
-              }
-              {(!merklApr && showIntrinsicApy) &&
-                <DiamondIcon
-                  sx={{
-                    fontSize: 16,
-                    color: (theme) => (theme.palette.mode === 'light' ? '#8B5CF6' : '#A78BFA'),
-                  }}
-                />}
-            </InfoTooltip>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <InfoTooltip
+                title="Rate & Rewards"
+                tooltipContent={{
+                  title: 'Rate & Rewards',
+                  items: tooltipItems,
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  {merklApr > 0 && (
+                    <img src="/logos/apple-green.png" alt="Green Apple" width={18} height={18} />
+                  )}
+                  {!merklApr && showIntrinsicApy && (
+                    <DiamondIcon
+                      sx={{
+                        fontSize: 16,
+                        color: (theme) => (theme.palette.mode === 'light' ? '#8B5CF6' : '#A78BFA'),
+                      }}
+                    />
+                  )}
+                </Box>
+              </InfoTooltip>
+              {isLBTC && (
+                <InfoTooltip
+                  title="Lux Points"
+                  tooltipContentNode={
+                    <Box
+                      component="p"
+                      sx={{ fontSize: 14, fontWeight: 400, color: 'text.primary' }}
+                    >
+                      Earn 3x LUX by supplying LBTC
+                    </Box>
+                  }
+                >
+                  <Avatar src="/logos/lombard.png" sx={{ width: 18, height: 18 }} />
+                </InfoTooltip>
+              )}
+            </Box>
           )}
         </>
       )}

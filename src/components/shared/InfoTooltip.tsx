@@ -17,10 +17,12 @@ interface InfoTooltipProps {
     title: string;
     items?: Array<{
       label: string;
-      value: number;
+      value: number | undefined;
+      text?: string;
       icon?: ReactNode;
       showPlus?: boolean;
       showItem?: boolean;
+      isFooter?: boolean;
     }>;
   };
   tooltipContentNode?: ReactNode;
@@ -61,7 +63,10 @@ export const InfoTooltip = ({
     }
   };
 
-  const filteredTooltipContentItems = tooltipContent?.items?.filter((item) => item.showItem ?? true) ?? [];
+  const filteredTooltipContentItems =
+    tooltipContent?.items
+      ?.filter((item) => item.showItem ?? true)
+      .sort((a, b) => (a.isFooter ?? false ? 1 : b.isFooter ?? false ? -1 : 0)) ?? [];
 
   return (
     <ClickAwayListener onClickAway={handleTooltipClose}>
@@ -122,26 +127,45 @@ export const InfoTooltip = ({
                             <Typography
                               sx={(theme) => ({
                                 color:
-                                  theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
+                                  theme.palette.mode === 'light'
+                                    ? 'rgba(0, 0, 0, 0.8)'
+                                    : 'text.primary',
                               })}
                             >
                               {item.label}
                             </Typography>
                           </Box>
-                          <Typography
-                            sx={(theme) => ({
-                              color: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'text.primary',
-                            })}
-                          >
-                            {item.showPlus && '+'}
-                            <FormattedNumber
-                              compact
-                              value={item.value}
-                              visibleDecimals={2}
-                              symbolsColor="text.white"
-                            />
-                            %
-                          </Typography>
+                          {item.value && (
+                            <Typography
+                              sx={(theme) => ({
+                                color:
+                                  theme.palette.mode === 'light'
+                                    ? 'rgba(0, 0, 0, 0.8)'
+                                    : 'text.primary',
+                              })}
+                            >
+                              {item.showPlus && '+'}
+                              <FormattedNumber
+                                compact
+                                value={item.value}
+                                visibleDecimals={2}
+                                symbolsColor="text.white"
+                              />
+                              %
+                            </Typography>
+                          )}
+                          {item.text && (
+                            <Typography
+                              sx={(theme) => ({
+                                color:
+                                  theme.palette.mode === 'light'
+                                    ? 'rgba(0, 0, 0, 0.8)'
+                                    : 'text.primary',
+                              })}
+                            >
+                              {item.text}
+                            </Typography>
+                          )}
                         </Box>
                       </>
                     );
@@ -149,7 +173,13 @@ export const InfoTooltip = ({
                 </Box>
               )}
               {tooltipContentNode && (
-                <Box sx={{ p: 2, backgroundColor: theme.palette.mode === 'light' ? '#ffffff' : 'inherit', borderRadius: 1 }}>
+                <Box
+                  sx={{
+                    p: 2,
+                    backgroundColor: theme.palette.mode === 'light' ? '#ffffff' : 'inherit',
+                    borderRadius: 1,
+                  }}
+                >
                   {tooltipContentNode}
                 </Box>
               )}
