@@ -33,7 +33,6 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
     ? intrinsicApyMap[reserve.symbol as keyof typeof intrinsicApyMap] || 0
     : 0;
   const hasRewards = hasMerklRewards(reserve.symbol) || hasIntrinsicApy(reserve.symbol);
-  // const isLBTC = reserve.underlyingAsset === '0xecac9c5f704e954931349da37f60e39f515c11c1';
 
   // If asset has Merkl rewards, use the APR value from Merkl divided by 100
   const displayValue = hasRewards
