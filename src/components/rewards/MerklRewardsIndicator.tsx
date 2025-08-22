@@ -167,7 +167,6 @@ export const MerklRewardsIndicator = ({
                       }}
                     >
                       Learn more
-                    </Link> */}
                     </Box>
                   }
                 >
