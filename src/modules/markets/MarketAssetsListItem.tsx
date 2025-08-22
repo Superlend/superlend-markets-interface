@@ -29,16 +29,19 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
   // Always show apple rewards in market list (it's always the supply tab)
   // const showAppleReward = hasAppleRewards;
   const showIntrinsicApy = hasIntrinsicApy(reserve.symbol);
-  const intrinsicApyValue = showIntrinsicApy ? intrinsicApyMap[reserve.symbol as keyof typeof intrinsicApyMap] || 0 : 0;
+  const intrinsicApyValue = showIntrinsicApy
+    ? intrinsicApyMap[reserve.symbol as keyof typeof intrinsicApyMap] || 0
+    : 0;
   const hasRewards = hasMerklRewards(reserve.symbol) || hasIntrinsicApy(reserve.symbol);
+  // const isLBTC = reserve.underlyingAsset === '0xecac9c5f704e954931349da37f60e39f515c11c1';
 
   // If asset has Merkl rewards, use the APR value from Merkl divided by 100
   const displayValue = hasRewards
-    ? (isLoadingAppleApr || intrinsicApyLoading)
+    ? isLoadingAppleApr || intrinsicApyLoading
       ? reserve.supplyAPY // Show base APY while loading
-      : (Number(aprMap[reserve.symbol as keyof typeof aprMap] ?? 0) / 100) +
+      : Number(aprMap[reserve.symbol as keyof typeof aprMap] ?? 0) / 100 +
         Number(reserve.supplyAPY ?? 0) +
-        (Number(intrinsicApyValue ?? 0) / 100)
+        Number(intrinsicApyValue ?? 0) / 100
     : reserve.supplyAPY;
 
   return (
@@ -96,6 +99,7 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
             symbolsVariant="secondary16"
           />
         </MerklRewardsIndicator>
+        {/* {isLBTC && <Chip label="LUX POINTS" variant="outlined" size="small" />} */}
         {(reserve.symbol === 'ETH' || reserve.symbol === 'WETH') && (
           <SpkAirdropNoteInline tokenAmount={6} />
         )}
