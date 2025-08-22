@@ -64,13 +64,13 @@ export const MerklRewardsIndicator = ({
       showItem: merklApr > 0,
     },
     {
-      label: 'LBTC',
-      text: 'Lux Points',
+      label: 'Lombard',
+      text: '3x LUX',
       value: undefined,
       icon: (
         <Avatar
           src="/logos/lombard.png"
-          alt="LBTC Token Logo"
+          alt="Lombard Logo"
           sx={{ width: 16, height: 16 }}
         />
       ),
@@ -153,7 +153,7 @@ export const MerklRewardsIndicator = ({
                       component="p"
                       sx={{ fontSize: 14, fontWeight: 400, color: 'text.primary' }}
                     >
-                      Earn retroactive rewards by supplying LBTC
+                      Earn 3x LUX by supplying LBTC
                       {/* <Link
                       href="https://x.com/etherlink/status/1945151432224862441?t=h3ADH9AyuHivPaQeSwbMvA&s=19"
                       target="_blank"
@@ -171,12 +171,6 @@ export const MerklRewardsIndicator = ({
                     </Box>
                   }
                 >
-                  {/* <Chip
-                    label="LUX"
-                    variant="outlined"
-                    size="small"
-                    avatar={<Avatar src="/logos/lombard.png" />}
-                  /> */}
                   <Avatar src="/logos/lombard.png" sx={{ width: 18, height: 18 }} />
                 </InfoTooltip>
               )}
