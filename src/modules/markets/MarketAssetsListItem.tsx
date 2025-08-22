@@ -99,7 +99,6 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
             symbolsVariant="secondary16"
           />
         </MerklRewardsIndicator>
-        {/* {isLBTC && <Chip label="LUX POINTS" variant="outlined" size="small" />} */}
         {(reserve.symbol === 'ETH' || reserve.symbol === 'WETH') && (
           <SpkAirdropNoteInline tokenAmount={6} />
         )}
