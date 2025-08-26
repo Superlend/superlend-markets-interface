@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand';
 
 // Define supported tokens for intrinsic APY
-export const SUPPORTED_INTRINSIC_TOKENS = ['mBASIS', 'mTBILL', 'stXTZ', 'mMEV'];
+export const SUPPORTED_INTRINSIC_TOKENS = ['mBASIS', 'mTBILL', 'stXTZ', 'mMEV', 'LBTC'];
 
 export const hasIntrinsicApy = (symbol: string) => {
   return SUPPORTED_INTRINSIC_TOKENS.includes(symbol);
@@ -12,6 +12,7 @@ export interface IntrinsicApyResponse {
   mTbillAPY?: string;
   stXTZ?: string;
   mMEV?: string;
+  LBTC?: string;
   [key: string]: string | undefined;
 }
 
@@ -78,7 +79,7 @@ export const createIntrinsicApySlice: StateCreator<
         console.warn('Proxy API failed, falling back to direct API calls:', proxyError);
 
         // Fallback to direct API calls if proxy fails
-        const [midasApiResponse, stxtzAprRaw] = await Promise.all([
+        const [midasApiResponse, stxtzAprRaw, lbtcApiResponse] = await Promise.all([
           fetch('https://api-prod.midas.app/api/data/kpi')
             .then((res) => {
               if (!res.ok) {
@@ -106,6 +107,20 @@ export const createIntrinsicApySlice: StateCreator<
               console.error('Error fetching stXTZ APR:', err);
               return '0';
             }),
+
+          fetch('https://mainnet.prod.lombard.finance/api/v1/analytics/estimated-apy')
+            .then((res) => {
+              if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+              }
+              return res.json();
+            })
+            .catch((err) => {
+              console.error('Error fetching LBTC APY:', err);
+              return {
+                lbtc_estimated_apy: 0,
+              };
+            }),
         ]);
 
         apiResponse = {
@@ -113,6 +128,7 @@ export const createIntrinsicApySlice: StateCreator<
           mTbillAPY: midasApiResponse.mTbillAPY || '0',
           stXTZ: stxtzAprRaw,
           mMEV: midasApiResponse.mMevAPY || '0',
+          LBTC: (lbtcApiResponse.lbtc_estimated_apy || 0).toString(),
         };
       }
 
@@ -129,6 +145,7 @@ export const createIntrinsicApySlice: StateCreator<
         mTBILL: parseFloat(apiResponse.mTbillAPY || '0') * 100, // Convert decimal to percentage
         stXTZ: parsedStxtzApr, // Stacy APR already in percent (or converted above)
         mMEV: parseFloat(apiResponse.mMEV || '0') * 100, // Convert decimal to percentage
+        LBTC: parseFloat(apiResponse.LBTC || '0') * 100, // Convert decimal to percentage
       };
 
       set({

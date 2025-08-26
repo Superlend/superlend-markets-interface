@@ -79,9 +79,9 @@ const fetchMidasData = async () => {
       if (response.status === 429) {
         console.log('Midas API rate limited, using fallback data');
         const fallbackData = {
-          mBasisAPY: '0.095', // Use reasonable fallback values
-          mTbillAPY: '0.041',
-          mMevAPY: '0.16',
+          mBasisAPY: '0',
+          mTbillAPY: '0',
+          mMevAPY: '0',
           _error: `Midas API error: ${response.status} ${response.statusText}`,
           _rateLimited: true,
         };
@@ -154,7 +154,7 @@ const fetchStacyData = async () => {
       if (response.status === 429) {
         console.log('Stacy API rate limited, using fallback data');
         const fallbackData = {
-          stXTZ: '8.5', // Use reasonable fallback value for staking rewards
+          stXTZ: '0',
           _error: `Stacy API error: ${response.status} ${response.statusText}`,
           _rateLimited: true,
         };
@@ -200,6 +200,81 @@ const fetchStacyData = async () => {
 };
 
 /**
+ * Fetch data from Lombard Finance API with error handling
+ */
+const fetchLombardData = async () => {
+  const cacheKey = 'lombard-apy';
+  
+  // Try to get cached data with fallback for errors
+  const cached = getCachedDataWithFallback(cacheKey);
+  if (cached) {
+    console.log('Returning cached Lombard data');
+    return cached;
+  }
+
+  try {
+    console.log('Fetching fresh data from Lombard Finance API');
+    const response = await fetch('https://mainnet.prod.lombard.finance/api/v1/analytics/estimated-apy', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'SuperLend-Markets/1.0',
+        'Cache-Control': 'no-cache',
+      },
+      // 10 second timeout
+      signal: AbortSignal.timeout(10000),
+    });
+
+    if (!response.ok) {
+      if (response.status === 429) {
+        console.log('Lombard API rate limited, using fallback data');
+        const fallbackData = {
+          LBTC: '0',
+          _error: `Lombard API error: ${response.status} ${response.statusText}`,
+          _rateLimited: true,
+        };
+        
+        // Cache the fallback data for longer period during rate limiting
+        setCachedData(cacheKey, fallbackData, RATE_LIMIT_CACHE_TTL);
+        return fallbackData;
+      }
+      
+      throw new Error(`Lombard API error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    
+    // Validate and parse the response
+    const lbtcApy = data.lbtc_estimated_apy || 0;
+    if (typeof lbtcApy !== 'number' || isNaN(lbtcApy)) {
+      throw new Error(`Invalid numeric response from Lombard API: ${lbtcApy}`);
+    }
+
+    const lombardData = {
+      LBTC: lbtcApy.toString(),
+      _rawValue: lbtcApy,
+    };
+
+    // Cache successful response with normal TTL
+    setCachedData(cacheKey, lombardData, CACHE_TTL);
+    return lombardData;
+
+  } catch (error) {
+    console.error('Error fetching Lombard data:', error);
+    
+    // Return fallback data on error
+    const fallbackData = {
+      LBTC: '0',
+      _error: error.message,
+    };
+    
+    // Cache error responses for shorter period, but still cache to avoid repeated failures
+    setCachedData(cacheKey, fallbackData, ERROR_CACHE_TTL);
+    return fallbackData;
+  }
+};
+
+/**
  * API handler for intrinsic APY data
  */
 export default async function handler(req, res) {
@@ -233,10 +308,11 @@ export default async function handler(req, res) {
   try {
     const startTime = Date.now();
 
-    // Fetch data from both APIs concurrently
-    const [midasData, stacyData] = await Promise.all([
+    // Fetch data from all APIs concurrently
+    const [midasData, stacyData, lombardData] = await Promise.all([
       fetchMidasData(),
       fetchStacyData(),
+      fetchLombardData(),
     ]);
 
     const endTime = Date.now();
@@ -250,6 +326,7 @@ export default async function handler(req, res) {
         mTbillAPY: midasData.mTbillAPY,
         stXTZ: stacyData.stXTZ,
         mMEV: midasData.mMevAPY,
+        LBTC: lombardData.LBTC,
       },
       metadata: {
         timestamp: new Date().toISOString(),
@@ -257,18 +334,22 @@ export default async function handler(req, res) {
         cached: {
           midas: !!getCachedDataWithFallback('midas-apy'),
           stacy: !!getCachedDataWithFallback('stacy-apr'),
+          lombard: !!getCachedDataWithFallback('lombard-apy'),
         },
         rateLimited: {
           midas: !!midasData._rateLimited,
           stacy: !!stacyData._rateLimited,
+          lombard: !!lombardData._rateLimited,
         },
         errors: {
           midas: midasData._error || null,
           stacy: stacyData._error || null,
+          lombard: lombardData._error || null,
         },
         cacheInfo: {
           midasCacheTTL: midasData._rateLimited ? '15 minutes' : '5 minutes',
           stacyCacheTTL: stacyData._rateLimited ? '15 minutes' : '5 minutes',
+          lombardCacheTTL: lombardData._rateLimited ? '15 minutes' : '5 minutes',
         },
       },
     };
@@ -276,7 +357,7 @@ export default async function handler(req, res) {
     // Log performance metrics
     console.log(`Intrinsic APY API response time: ${responseTime}ms`, {
       cached: combinedData.metadata.cached,
-      hasErrors: !!(midasData._error || stacyData._error),
+      hasErrors: !!(midasData._error || stacyData._error || lombardData._error),
     });
 
     // Return success response
@@ -295,11 +376,12 @@ export default async function handler(req, res) {
         mTbillAPY: '0',
         stXTZ: '0',
         mMEV: '0',
+        LBTC: '0',
       },
       metadata: {
         timestamp: new Date().toISOString(),
         responseTimeMs: 0,
-        cached: { midas: false, stacy: false },
+        cached: { midas: false, stacy: false, lombard: false },
         errors: { api: error.message },
       },
     });
