@@ -159,7 +159,7 @@ export const MerklRewardsIndicator = ({
             label={
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.primary', px: 0 }}>
                 3x LUX
-                <Avatar src="/logos/lombard.png" sx={{ width: 18, height: 18 }} />
+                <Avatar src="/logos/lombard.png" sx={{ width: 14, height: 14 }} />
               </Box>
             }
             sx={{
