@@ -54,7 +54,7 @@ export const ListItemWrapper = ({
         <Link
           href={ROUTES.reserveOverview(detailsAddress, currentMarket)}
           noWrap
-          sx={{ display: 'inline-flex', alignItems: 'center' }}
+          sx={{ display: 'inline-flex', alignItems: 'center', flexShrink: 0 }}
         >
           <TokenIcon symbol={iconSymbol} fontSize="large" />
           <Tooltip title={`${name} (${symbol})`} arrow placement="top">
