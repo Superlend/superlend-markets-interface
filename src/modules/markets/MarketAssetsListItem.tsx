@@ -56,9 +56,7 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
         <TokenIcon symbol={reserve.iconSymbol} fontSize="large" />
         <Box sx={{ pl: 3.5, overflow: 'hidden' }}>
           <Typography variant="h4" noWrap>
-            {reserve.name?.toLowerCase()?.includes('stxtz') ?? false
-              ? 'Stacy Staked XTZ'
-              : reserve.name}
+            {reserve.symbol}
           </Typography>
           <Box
             sx={{
@@ -66,7 +64,9 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
             }}
           >
             <Typography variant="subheader2" color="text.muted" noWrap>
-              {reserve.symbol}
+              {reserve.name?.toLowerCase()?.includes('stxtz') ?? false
+                ? 'Stacy Staked XTZ'
+                : reserve.name}
             </Typography>
           </Box>
         </Box>
