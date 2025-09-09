@@ -1,0 +1,12 @@
+diff --git a/node_modules/chalk/source/index.js b/node_modules/chalk/source/index.js
+index 1234567..abcdefg 100644
+--- a/node_modules/chalk/source/index.js
++++ b/node_modules/chalk/source/index.js
+@@ -50,6 +50,7 @@ const chalk = {
+ 	dim: createStyler(ansiStyles.dim, ansiStyles.dim.close),
+ 	hidden: createStyler(ansiStyles.hidden, ansiStyles.hidden.close),
+ 	strikethrough: createStyler(ansiStyles.strikethrough, ansiStyles.strikethrough.close),
++	blue: createStyler(ansiStyles.blue, ansiStyles.blue.close),
+ 	red: createStyler(ansiStyles.red, ansiStyles.red.close),
+ 	green: createStyler(ansiStyles.green, ansiStyles.green.close),
+ 	yellow: createStyler(ansiStyles.yellow, ansiStyles.yellow.close),

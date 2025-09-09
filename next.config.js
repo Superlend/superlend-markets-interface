@@ -13,6 +13,9 @@ pageExtensions.push('page.js');
 
 /** @type {import('next').NextConfig} */
 module.exports = withBundleAnalyzer({
+  experimental: {
+    esmExternals: 'loose',
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/i,
@@ -33,6 +36,17 @@ module.exports = withBundleAnalyzer({
       topLevelAwait: true,
       layers: true,
     };
+    
+    // Configure module resolution for Yarn v4
+    config.resolve = {
+      ...config.resolve,
+      alias: {
+        ...config.resolve.alias,
+        '@types/react': require.resolve('@types/react'),
+        '@types/react-dom': require.resolve('@types/react-dom'),
+      },
+    };
+    
     return config;
   },
   reactStrictMode: true,
