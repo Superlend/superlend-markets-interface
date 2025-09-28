@@ -97,7 +97,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     name: 'Etherlink',
     publicJsonRPCUrl: [
       'https://rpc.ankr.com/etherlink_mainnet/09626efacfe4bc28b2e8afdce0824a7f5bd97b1a44db240a3b818bbc0c3e5ab6',
-      'https://plend-etherlink-mainnet-djs2w.zeeve.net/TuychDxGCScIED1nCk0m/rpc',
+      // 'https://plend-etherlink-mainnet-djs2w.zeeve.net/TuychDxGCScIED1nCk0m/rpc',
       'https://node.mainnet.etherlink.com',
     ],
     baseUniswapAdapter: '0x0',
