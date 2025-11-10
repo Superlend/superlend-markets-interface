@@ -54,6 +54,7 @@ export type MarketDataType = {
 export enum CustomMarket {
   etherlink_testnet = 'etherlink_testnet',
   etherlink = 'etherlink',
+  horizon_rwa_market = 'horizon_rwa_market',
 }
 
 export const marketsData: {
@@ -96,6 +97,26 @@ export const marketsData: {
       UI_INCENTIVE_DATA_PROVIDER: '0x6015b528b6B062C5d1E2b6B678BCaF5331b46A2e',
       WETH_GATEWAY: '0x65fe928c5D04a2DA42347bA9D4d1C3f4952851F5',
       COLLECTOR: '0x669bd328f6C494949Ed9fB2dc8021557A6Dd005f',
+    },
+    faucetUrl: 'https://faucet.etherlink.com',
+  },
+  [CustomMarket.horizon_rwa_market]: {
+    marketTitle: 'Horizon RWA Market',
+    chainId: 42793, //ChainId.horizon_rwa_market,
+    v3: true,
+    enabledFeatures: {
+      liquiditySwap: false,
+      collateralRepay: false,
+      faucet: false,
+    },
+    addresses: {
+      LENDING_POOL_ADDRESS_PROVIDER: '0xc5F5791CBf71Bfb9132282b5D271deB2E03B7B17'.toLowerCase(),
+      LENDING_POOL: '0x853b27808e1B7B6a5096Bb67C3B6DAAb7979002D',
+      WALLET_BALANCE_PROVIDER: '0x6D3F807d3305A82F2ce46C2803B268286Eb8E6D4',
+      UI_POOL_DATA_PROVIDER: '0xAEea9D55bB41f413CdC2D40e0AF1316E14826265',
+      UI_INCENTIVE_DATA_PROVIDER: '0x543Ac38f8f6c1A70C44bF4288F73EEB14861754c',
+      WETH_GATEWAY: '0xf1A8805Ba893c2eC165cD8cfEBB36aDc1e825B5a',
+      COLLECTOR: '0x7B0611e34791b6eCaB39f1B467b438B0e4eAaB52',
     },
     faucetUrl: 'https://faucet.etherlink.com',
   },
