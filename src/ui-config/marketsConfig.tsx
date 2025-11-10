@@ -101,7 +101,7 @@ export const marketsData: {
     faucetUrl: 'https://faucet.etherlink.com',
   },
   [CustomMarket.horizon_rwa_market]: {
-    marketTitle: 'Horizon RWA',
+    marketTitle: 'Etherlink RWA',
     chainId: 42793, //ChainId.horizon_rwa_market,
     v3: true,
     enabledFeatures: {
