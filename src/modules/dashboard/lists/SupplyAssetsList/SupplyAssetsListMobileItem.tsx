@@ -6,7 +6,7 @@ import { useProtocolDataContext } from 'src/hooks/useProtocolDataContext';
 import { DashboardReserve } from 'src/utils/dashboardSortUtils';
 
 import { MerklRewardsIndicator } from '@/components/rewards/MerklRewardsIndicator';
-import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
+import { useHasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
 
 import { CapsHint } from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
@@ -46,14 +46,18 @@ export const SupplyAssetsListMobileItem = ({
   // const hasAppleRewards = hasMerklRewards(symbol);
   // const showAppleReward = hasAppleRewards;
   const showIntrinsicApy = hasIntrinsicApy(symbol);
-  const intrinsicApyValue = showIntrinsicApy ? intrinsicApyMap[symbol as keyof typeof intrinsicApyMap] || 0 : 0;
-  const hasRewards = hasMerklRewards(symbol) || hasIntrinsicApy(symbol);
+  const intrinsicApyValue = showIntrinsicApy
+    ? intrinsicApyMap[symbol as keyof typeof intrinsicApyMap] || 0
+    : 0;
+  const hasRewards = useHasMerklRewards(symbol) || hasIntrinsicApy(symbol);
 
   // If asset has Merkl rewards and we're on the supply tab, use the APR value
   const displayValue = hasRewards
-    ? (isLoadingAppleApr || intrinsicApyLoading)
+    ? isLoadingAppleApr || intrinsicApyLoading
       ? Number(supplyAPY) // Show base value while loading
-      : (Number(aprMap[symbol as keyof typeof aprMap] ?? 0) / 100) + Number(supplyAPY) + (Number(intrinsicApyValue ?? 0) / 100)
+      : Number(aprMap[symbol as keyof typeof aprMap] ?? 0) / 100 +
+        Number(supplyAPY) +
+        Number(intrinsicApyValue ?? 0) / 100
     : Number(supplyAPY);
 
   // Hide the asset to prevent it from being supplied if supply cap has been reached

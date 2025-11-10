@@ -15,7 +15,7 @@ import { Link, ROUTES } from '../../components/primitives/Link';
 import { TokenIcon } from '../../components/primitives/TokenIcon';
 import { MerklRewardsIndicator } from '../../components/rewards/MerklRewardsIndicator';
 import { ComputedReserveData } from '../../hooks/app-data-provider/useAppDataProvider';
-import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
+import { useHasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
 import { SpkAirdropNoteInline } from '../dashboard/lists/BorrowAssetsList/BorrowAssetsListItem';
 import { ListAPRColumn } from '../dashboard/lists/ListAPRColumn';
 import { hasIntrinsicApy, useIntrinsicApy } from '@/hooks/useIntrinsicApy';
@@ -32,7 +32,7 @@ export const MarketAssetsListItem = ({ ...reserve }: ComputedReserveData) => {
   const intrinsicApyValue = showIntrinsicApy
     ? intrinsicApyMap[reserve.symbol as keyof typeof intrinsicApyMap] || 0
     : 0;
-  const hasRewards = hasMerklRewards(reserve.symbol) || hasIntrinsicApy(reserve.symbol);
+  const hasRewards = useHasMerklRewards(reserve.symbol) || hasIntrinsicApy(reserve.symbol);
 
   // If asset has Merkl rewards, use the APR value from Merkl divided by 100
   const displayValue = hasRewards

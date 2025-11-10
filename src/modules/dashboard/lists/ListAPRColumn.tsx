@@ -2,7 +2,7 @@ import { ReserveIncentiveResponse } from '@aave/math-utils/dist/esm/formatters/i
 import { Box, Tooltip } from '@mui/material';
 import { ReactNode } from 'react';
 
-import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
+import { useHasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
 
 import { IncentivesCard } from '../../../components/incentives/IncentivesCard';
 import { ListColumn } from '../../../components/lists/ListColumn';
@@ -33,9 +33,9 @@ export const ListAPRColumn = ({
   const intrinsicApyValue = showIntrinsicApy
     ? (intrinsicApyMap[symbol as keyof typeof intrinsicApyMap] ?? 0) / 100 || 0
     : 0;
-  const showMerklApy = isSupplyTab && hasMerklRewards(symbol);
+  const showMerklApy = useHasMerklRewards(symbol) && isSupplyTab;
   const merklApyValue = showMerklApy ? (aprMap[symbol as keyof typeof aprMap] ?? 0) / 100 || 0 : 0;
-  const hasRewards = hasMerklRewards(symbol) || hasIntrinsicApy(symbol);
+  const hasRewards = useHasMerklRewards(symbol) || hasIntrinsicApy(symbol);
 
   // If asset has Merkl rewards and we're on the supply tab, use the APR value
   const displayValue = hasRewards
