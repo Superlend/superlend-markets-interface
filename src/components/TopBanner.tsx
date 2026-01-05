@@ -121,7 +121,7 @@ export default function TopBanner() {
               />
 
               <a
-                href="https://app.superlend.xyz"
+                href="https://app.superlend.xyz/markets?tab=markets"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
