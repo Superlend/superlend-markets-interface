@@ -97,14 +97,8 @@ export default function TopBanner() {
                 zIndex: 100,
               }}
             >
-              <Box
-                sx={{
-                  textAlign: 'center',
-                  fontSize: '16px',
-                  fontWeight: 500,
-                }}
-              >
-                🌟
+              <Box>
+                <img src="/banner/noto-star.svg" alt="Star" width={16} height={16} />
               </Box>
 
               <Box
@@ -121,7 +115,6 @@ export default function TopBanner() {
                 sx={{
                   width: 4,
                   height: 4,
-
                   backgroundColor: '#8DE7FF',
                   borderRadius: '50%',
                 }}
@@ -139,14 +132,8 @@ export default function TopBanner() {
                 Try Out the New UI
               </a>
 
-              <Box
-                sx={{
-                  textAlign: 'center',
-                  fontSize: '16px',
-                  fontWeight: 500,
-                }}
-              >
-                🌟
+              <Box>
+                <img src="/banner/noto-star.svg" alt="Star" width={16} height={16} />
               </Box>
             </Box>
           </Box>
