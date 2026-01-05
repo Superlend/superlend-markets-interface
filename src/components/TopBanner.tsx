@@ -1,8 +1,7 @@
 'use client';
 
-import { Box, Button } from '@mui/material';
-import { ArrowRight } from 'lucide-react';
-import Link from 'next/link';
+import { Box } from '@mui/material';
+
 import React, { useEffect, useState } from 'react';
 
 export default function TopBanner() {
