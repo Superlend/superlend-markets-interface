@@ -2,10 +2,27 @@ import { useEffect } from 'react';
 
 import { SUPPORTED_MERKL_TOKENS } from '../store/merklRewardsSlice';
 import { useMerklRewardsSubscription, useRootStore } from '../store/root';
+import { CustomMarket } from '../utils/marketsAndNetworksConfig';
+import { useProtocolDataContext } from './useProtocolDataContext';
 
 export { SUPPORTED_MERKL_TOKENS } from '../store/merklRewardsSlice';
 
 export const hasMerklRewards = (symbol: string) => {
+  return SUPPORTED_MERKL_TOKENS.includes(symbol);
+};
+
+/**
+ * Market-aware hook to check if a token has Merkl rewards
+ * Considers the current market context to disable rewards for specific markets
+ */
+export const useHasMerklRewards = (symbol: string) => {
+  const { currentMarket } = useProtocolDataContext();
+
+  // Disable Apple rewards for RWA market
+  if (currentMarket === CustomMarket.horizon_rwa_market) {
+    return false;
+  }
+
   return SUPPORTED_MERKL_TOKENS.includes(symbol);
 };
 

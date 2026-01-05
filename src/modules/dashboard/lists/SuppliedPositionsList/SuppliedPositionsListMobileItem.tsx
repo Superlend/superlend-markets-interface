@@ -5,7 +5,7 @@ import { useAssetCaps } from 'src/hooks/useAssetCaps';
 import { DashboardReserve } from 'src/utils/dashboardSortUtils';
 
 import { MerklRewardsIndicator } from '@/components/rewards/MerklRewardsIndicator';
-import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
+import { useHasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
 
 import { IncentivesCard } from '../../../../components/incentives/IncentivesCard';
 import { Row } from '../../../../components/primitives/Row';
@@ -37,14 +37,18 @@ export const SuppliedPositionsListMobileItem = ({
   // const hasAppleRewards = hasMerklRewards(symbol);
   // const showAppleReward = hasAppleRewards;
   const showIntrinsicApy = hasIntrinsicApy(symbol);
-  const intrinsicApyValue = showIntrinsicApy ? intrinsicApyMap[symbol as keyof typeof intrinsicApyMap] || 0 : 0;
-  const hasRewards = hasMerklRewards(symbol) || hasIntrinsicApy(symbol);
+  const intrinsicApyValue = showIntrinsicApy
+    ? intrinsicApyMap[symbol as keyof typeof intrinsicApyMap] || 0
+    : 0;
+  const hasRewards = useHasMerklRewards(symbol) || hasIntrinsicApy(symbol);
 
   // If asset has Merkl rewards and we're on the supply tab, use the APR value
   const displayValue = hasRewards
-    ? (isLoadingAppleApr || intrinsicApyLoading)
+    ? isLoadingAppleApr || intrinsicApyLoading
       ? Number(supplyAPY) // Show base supplyAPY while loading
-      : (Number(aprMap[symbol as keyof typeof aprMap] ?? 0) / 100) + Number(supplyAPY) + (Number(intrinsicApyValue ?? 0) / 100)
+      : Number(aprMap[symbol as keyof typeof aprMap] ?? 0) / 100 +
+        Number(supplyAPY) +
+        Number(intrinsicApyValue ?? 0) / 100
     : Number(supplyAPY);
 
   const canBeEnabledAsCollateral =

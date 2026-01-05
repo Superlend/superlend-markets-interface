@@ -19,7 +19,7 @@ import { AssetCapHookData } from 'src/hooks/useAssetCaps';
 import { MarketDataType } from 'src/utils/marketsAndNetworksConfig';
 
 import { MerklRewardsIndicator } from '@/components/rewards/MerklRewardsIndicator';
-import { hasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
+import { useHasMerklRewards, useMerklAprMap } from '@/hooks/useMerklAprMap';
 
 import { ApyGraphContainer } from './graphs/ApyGraphContainer';
 import { PanelItem } from './ReservePanels';
@@ -48,13 +48,15 @@ export const SupplyInfo = ({
   // const hasAppleRewards = hasMerklRewards(reserve.symbol);
   // const showAppleReward = hasAppleRewards;
   const showIntrinsicApy = hasIntrinsicApy(reserve.symbol);
-  const intrinsicApyValue = showIntrinsicApy ? intrinsicApyMap[reserve.symbol as keyof typeof intrinsicApyMap] || 0 : 0;
-  const hasRewards = hasMerklRewards(reserve.symbol) || hasIntrinsicApy(reserve.symbol);
+  const intrinsicApyValue = showIntrinsicApy
+    ? intrinsicApyMap[reserve.symbol as keyof typeof intrinsicApyMap] || 0
+    : 0;
+  const hasRewards = useHasMerklRewards(reserve.symbol) || hasIntrinsicApy(reserve.symbol);
 
   const displayValue = hasRewards
-    ? (isLoadingAppleApr || intrinsicApyLoading)
+    ? isLoadingAppleApr || intrinsicApyLoading
       ? reserve.supplyAPY // Show base value while loading
-      : (Number(aprMap[reserve.symbol as keyof typeof aprMap] ?? 0) / 100) +
+      : Number(aprMap[reserve.symbol as keyof typeof aprMap] ?? 0) / 100 +
         Number(reserve.supplyAPY ?? 0) +
         Number(intrinsicApyValue ?? 0) / 100
     : reserve.supplyAPY;

@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import PercentIcon from '@mui/icons-material/Percent';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import DiamondIcon from '@mui/icons-material/Diamond';
-import { hasMerklRewards, useMerklAprMap } from '../../hooks/useMerklAprMap';
+import { useHasMerklRewards, useMerklAprMap } from '../../hooks/useMerklAprMap';
 import { hasIntrinsicApy, useIntrinsicApy } from '../../hooks/useIntrinsicApy';
 import { InfoTooltip } from '../shared/InfoTooltip';
 
@@ -32,7 +32,7 @@ export const MerklRewardsIndicator = ({
 }: MerklRewardsIndicatorProps) => {
   const { aprMap, isLoading: isLoadingAppleApr } = useMerklAprMap();
   const { apyMap: intrinsicApyMap, isLoading: isLoadingIntrinsicApy } = useIntrinsicApy();
-  const showRewards = hasMerklRewards(symbol) && isSupplyTab;
+  const showRewards = useHasMerklRewards(symbol) && isSupplyTab;
   const merklApr = showRewards ? aprMap[symbol as keyof typeof aprMap] || 0 : 0;
   const showIntrinsicApy = hasIntrinsicApy(symbol) && isSupplyTab;
   const intrinsicApyValue = showIntrinsicApy
@@ -157,7 +157,9 @@ export const MerklRewardsIndicator = ({
         >
           <Chip
             label={
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.primary', px: 0 }}>
+              <Box
+                sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.primary', px: 0 }}
+              >
                 3x LUX
                 <Avatar src="/logos/lombard.png" sx={{ width: 14, height: 14 }} />
               </Box>
