@@ -18,7 +18,7 @@ const V2LiveToast = ({ id, onDismiss }: V2LiveToastProps) => {
 
   const handleExplore = () => {
     // handleDismiss();
-    window.location.href = 'https://beta.superlend.xyz/markets';
+    window.open('https://app.superlend.xyz/markets?tab=markets', '_blank');
   };
 
   return (
