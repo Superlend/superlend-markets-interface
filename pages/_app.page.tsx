@@ -15,8 +15,10 @@ import { useRouter } from 'next/router';
 import Script from 'next/script';
 import * as React from 'react';
 import { useEffect } from 'react';
+import { Toaster } from 'sonner';
 import { BlockVPN } from 'src/components/BlockVPN';
 import { Meta } from 'src/components/Meta';
+import { V2LiveTrigger } from 'src/components/toasts/v2-live-trigger';
 import { BorrowModal } from 'src/components/transactions/Borrow/BorrowModal';
 import { ClaimRewardsModal } from 'src/components/transactions/ClaimRewards/ClaimRewardsModal';
 import { CollateralChangeModal } from 'src/components/transactions/CollateralChange/CollateralChangeModal';
@@ -126,6 +128,8 @@ export default function MyApp(props: MyAppProps) {
                               }}
                             />
                             <TopBanner />
+                            <Toaster position="bottom-right" />
+                            <V2LiveTrigger />
                             {getLayout(<Component {...pageProps} />)}
                             <SupplyModal />
                             <WithdrawModal />
