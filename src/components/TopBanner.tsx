@@ -104,6 +104,16 @@ export default function TopBanner() {
                   fontWeight: 500,
                 }}
               >
+                🌟
+              </Box>
+
+              <Box
+                sx={{
+                  textAlign: 'center',
+                  fontSize: '16px',
+                  fontWeight: 500,
+                }}
+              >
                 Superlend V2 is Live!
               </Box>
 
@@ -128,6 +138,16 @@ export default function TopBanner() {
               >
                 Try Out the New UI
               </a>
+
+              <Box
+                sx={{
+                  textAlign: 'center',
+                  fontSize: '16px',
+                  fontWeight: 500,
+                }}
+              >
+                🌟
+              </Box>
             </Box>
           </Box>
         </>
